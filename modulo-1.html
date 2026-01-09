@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Módulo 1: A Base do Oráculo | Escola do Oráculo</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --color-cream: #f5f5f0;
+        --color-dark-purple: #4b0082;
+        --color-gold: #c5a059;
+        --color-text: #2c2c2c;
+        --color-text-light: #6b6b6b;
+        --color-white: #ffffff;
+        --color-accent: #e8dcc8;
+        --font-serif: "Georgia", "Playfair Display", serif;
+        --font-sans: "Segoe UI", "Lato", sans-serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background: linear-gradient(to bottom, var(--color-cream), #fafaf8);
+        color: var(--color-text);
+        line-height: 1.6;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(245, 245, 240, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--color-dark-purple);
+        font-family: var(--font-serif);
+        letter-spacing: 2px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .logo-small {
+        font-size: 0.7rem;
+        color: var(--color-gold);
+        display: block;
+        margin-top: -0.3rem;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--color-text);
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: color 0.3s;
+        border-bottom: 2px solid transparent;
+      }
+
+      nav a:hover {
+        color: var(--color-dark-purple);
+        border-bottom: 2px solid var(--color-gold);
+      }
+
+      .hero {
+        margin-top: 80px;
+        padding: 6rem 2rem;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          var(--color-cream) 0%,
+          var(--color-accent) 100%
+        );
+        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .hero h1 {
+        font-family: var(--font-serif);
+        font-size: 3rem;
+        color: var(--color-dark-purple);
+        margin-bottom: 1rem;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        color: var(--color-text-light);
+        max-width: 600px;
+      }
+
+      .section {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        color: var(--color-dark-purple);
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: var(--color-gold);
+        margin: 1rem auto 0;
+      }
+
+      .card {
+        background: var(--color-white);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(75, 0, 130, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .card h3 {
+        font-family: var(--font-serif);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--color-dark-purple);
+      }
+
+      .card p {
+        color: var(--color-text-light);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+
+      .cta-button {
+        background: var(--color-dark-purple);
+        color: var(--color-white);
+        padding: 1rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 10px 30px rgba(75, 0, 130, 0.2);
+      }
+
+      .cta-button:hover {
+        background: var(--color-gold);
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px rgba(75, 0, 130, 0.3);
+        color: var(--color-text);
+      }
+
+      .back-button {
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--color-dark-purple);
+        padding: 0.75rem 1.5rem;
+        border: 2px solid var(--color-gold);
+        border-radius: 50px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 2rem;
+      }
+
+      .back-button:hover {
+        background: var(--color-gold);
+        color: var(--color-text);
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      footer {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: rgba(75, 0, 130, 0.05);
+        margin-top: 4rem;
+        border-top: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      footer a {
+        color: var(--color-gold);
+        text-decoration: none;
+        margin: 0 1rem;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        nav ul {
+          gap: 1rem;
+          font-size: 0.85rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVIGATION -->
+    <nav>
+      <a href="index.html" class="logo">
+        ORÁCULO
+        <span class="logo-small">por Rafaella Kally</span>
+      </a>
+      <ul>
+        <li><a href="index.html#cursos">Cursos</a></li>
+        <li><a href="index.html#sobre">Sobre</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+        <li><a href="index.html#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <h1>📚 Módulo 1: A Base do Oráculo</h1>
+      <p>
+        Domine os 22 Arcanos Maiores e os 4 Naipes com História e Significado
+      </p>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <a href="index.html" class="back-button">← Voltar ao Site</a>
+
+      <div class="card">
+        <h3>O que vai aprender neste módulo?</h3>
+        <p>
+          O Módulo 1 é a fundação completa para qualquer leitor de tarot. Você
+          não apenas aprenderá as 22 cartas dos Arcanos Maiores, mas também
+          compreenderá o sistema dos 4 Naipes (Copas, Ouros, Espadas, Paus) e
+          como eles se interligam.
+        </p>
+      </div>
+
+      <div class="content-grid">
+        <div class="card">
+          <h3>📖 Conteúdo do Módulo</h3>
+          <p>
+            <strong>Arcanos Maiores (22 cartas):</strong> História, simbolismo e
+            significado de cada uma.
+          </p>
+          <p>
+            <strong>Os 4 Naipes (56 cartas):</strong> Compreender a estrutura
+            dos Arcanos Menores.
+          </p>
+          <p>
+            <strong>Leitura Básica:</strong> Como interpretar uma tirada simples
+            de 3 cartas.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>⏱️ Formato & Duração</h3>
+          <p><strong>8-10 horas</strong> de conteúdo em vídeo pré-gravado.</p>
+          <p>Estude ao seu ritmo, sem prazos. Acesso vitalício ao material.</p>
+          <p>Dicionário Kally exclusivo incluído em PDF.</p>
+        </div>
+
+        <div class="card">
+          <h3>🎯 Para Quem é Este Módulo?</h3>
+          <p><strong>✓ Iniciantes</strong> que querem começar do zero.</p>
+          <p>
+            <strong>✓ Praticantes</strong> que desejam aprofundar o conhecimento
+            teórico.
+          </p>
+          <p>
+            <strong>✓ Curiosos</strong> que desejam explorar o tarot de forma
+            estruturada.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Preço & Inscrição</h3>
+        <p
+          style="
+            font-size: 1.5rem;
+            color: var(--color-gold);
+            font-weight: bold;
+            margin: 1rem 0;
+          "
+        >
+          <span
+            style="
+              text-decoration: line-through;
+              color: var(--color-text-light);
+              font-size: 1rem;
+            "
+            >€49</span
+          >
+          <br />
+          €29
+        </p>
+        <p style="color: var(--color-text-light); margin-bottom: 2rem">
+          Certificado digital incluído. Acesso vitalício.
+        </p>
+        <button
+          class="cta-button"
+          onclick="window.location.href='mailto:contacto@rafaellakally.com?subject=Inscrição%20-%20Módulo%201:%20A%20Base%20do%20Oráculo&body=Olá!%0A%0AGostaria%20de%20me%20inscrever%20no%20Módulo%201.%0A%0ANome:%0ACidade/País:%0AExperiência%20com%20tarot:%0A%0AObrigado!'"
+        >
+          Inscrever Agora
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>Dúvidas? Contacta-nos</h3>
+        <p>
+          Email:
+          <a href="mailto:contacto@rafaellakally.com"
+            >contacto@rafaellakally.com</a
+          >
+        </p>
+        <p>Responderemos dentro de 24 horas.</p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <h3>Escola do Oráculo</h3>
+      <p>Cursos de Tarot Online • Portugal + Brasil</p>
+      <div>
+        <a href="index.html#politica">Política de Privacidade</a>
+        <a href="index.html#termos">Termos e Condições</a>
+      </div>
+      <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8">
+        © 2026 Escola do Oráculo por Rafaella Kally. Todos os direitos
+        reservados.
+      </p>
+    </footer>
+  </body>
+</html>

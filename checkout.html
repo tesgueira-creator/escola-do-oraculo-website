@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bundle Completo | Checkout</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --color-cream: #f5f5f0;
+        --color-dark-purple: #4b0082;
+        --color-gold: #c5a059;
+        --color-text: #2c2c2c;
+        --color-text-light: #6b6b6b;
+        --color-white: #ffffff;
+        --color-accent: #e8dcc8;
+        --font-serif: "Georgia", "Playfair Display", serif;
+        --font-sans: "Segoe UI", "Lato", sans-serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background: linear-gradient(to bottom, var(--color-cream), #fafaf8);
+        color: var(--color-text);
+        line-height: 1.6;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(245, 245, 240, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--color-dark-purple);
+        font-family: var(--font-serif);
+        letter-spacing: 2px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .logo-small {
+        font-size: 0.7rem;
+        color: var(--color-gold);
+        display: block;
+        margin-top: -0.3rem;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--color-text);
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: color 0.3s;
+        border-bottom: 2px solid transparent;
+      }
+
+      nav a:hover {
+        color: var(--color-dark-purple);
+        border-bottom: 2px solid var(--color-gold);
+      }
+
+      .hero {
+        margin-top: 80px;
+        padding: 4rem 2rem;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          rgba(75, 0, 130, 0.05),
+          var(--color-accent)
+        );
+      }
+
+      .hero h1 {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        color: var(--color-dark-purple);
+        margin-bottom: 1rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+        color: var(--color-text-light);
+      }
+
+      .section {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .back-button {
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--color-dark-purple);
+        padding: 0.75rem 1.5rem;
+        border: 2px solid var(--color-gold);
+        border-radius: 50px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 2rem;
+      }
+
+      .back-button:hover {
+        background: var(--color-gold);
+        color: var(--color-text);
+      }
+
+      .checkout-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 3rem;
+        margin: 2rem 0;
+      }
+
+      .card {
+        background: var(--color-white);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      .card h3 {
+        font-family: var(--font-serif);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--color-dark-purple);
+      }
+
+      .card p {
+        color: var(--color-text-light);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        font-weight: 600;
+        color: var(--color-dark-purple);
+        margin-bottom: 0.5rem;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid rgba(75, 0, 130, 0.2);
+        border-radius: 8px;
+        font-family: var(--font-sans);
+        font-size: 1rem;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--color-gold);
+        box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.1);
+      }
+
+      .cta-button {
+        background: var(--color-dark-purple);
+        color: var(--color-white);
+        padding: 1rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        width: 100%;
+        box-shadow: 0 10px 30px rgba(75, 0, 130, 0.2);
+      }
+
+      .cta-button:hover {
+        background: var(--color-gold);
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px rgba(75, 0, 130, 0.3);
+        color: var(--color-text);
+      }
+
+      .order-summary {
+        background: rgba(75, 0, 130, 0.05);
+        padding: 1.5rem;
+        border-radius: 8px;
+        border-left: 4px solid var(--color-gold);
+        margin-bottom: 2rem;
+      }
+
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      .summary-total {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: var(--color-gold);
+      }
+
+      .bundle-content {
+        margin: 2rem 0;
+      }
+
+      .bundle-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      .bundle-item:last-child {
+        border-bottom: none;
+      }
+
+      .bundle-icon {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+      }
+
+      .bundle-text strong {
+        color: var(--color-dark-purple);
+      }
+
+      footer {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: rgba(75, 0, 130, 0.05);
+        margin-top: 4rem;
+        border-top: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      footer a {
+        color: var(--color-gold);
+        text-decoration: none;
+        margin: 0 1rem;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .checkout-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero h1 {
+          font-size: 1.8rem;
+        }
+
+        nav ul {
+          gap: 1rem;
+          font-size: 0.85rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVIGATION -->
+    <nav>
+      <a href="index.html" class="logo">
+        ORÁCULO
+        <span class="logo-small">por Rafaella Kally</span>
+      </a>
+      <ul>
+        <li><a href="index.html#cursos">Cursos</a></li>
+        <li><a href="index.html#sobre">Sobre</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+        <li><a href="index.html#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <h1>🌟 Bundle Completo - Inscrição</h1>
+      <p>Todos os 3 Módulos + Comunidade + Certificado Digital</p>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <a href="index.html" class="back-button">← Voltar ao Site</a>
+
+      <div class="checkout-grid">
+        <!-- FORM -->
+        <div class="card">
+          <h3>Seus Dados</h3>
+          <form onsubmit="handleSubmit(event)">
+            <div class="form-group">
+              <label for="name">Nome Completo *</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Telemóvel</label>
+              <input type="tel" id="phone" name="phone" />
+            </div>
+
+            <div class="form-group">
+              <label for="city">Cidade/País *</label>
+              <input type="text" id="city" name="city" required />
+            </div>
+
+            <div class="form-group">
+              <label for="experience">Experiência com Tarot *</label>
+              <select
+                name="experience"
+                id="experience"
+                style="
+                  width: 100%;
+                  padding: 0.75rem;
+                  border: 1px solid rgba(75, 0, 130, 0.2);
+                  border-radius: 8px;
+                  font-family: var(--font-sans);
+                  font-size: 1rem;
+                "
+                required
+              >
+                <option value="">-- Selecione --</option>
+                <option value="nenhuma">Nenhuma (iniciante)</option>
+                <option value="pouca">Pouca (amador)</option>
+                <option value="media">Média (hobbyist)</option>
+                <option value="muita">Muita (experiente)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Mensagem (Opcional)</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                placeholder="Diga-nos o que o atrai neste bundle..."
+              ></textarea>
+            </div>
+
+            <button type="submit" class="cta-button">
+              Continuar para Pagamento
+            </button>
+          </form>
+
+          <p
+            style="
+              margin-top: 2rem;
+              font-size: 0.9rem;
+              color: var(--color-text-light);
+              text-align: center;
+            "
+          >
+            Garantia de 7 dias: Se não estiver satisfeito, devolvemos 100% do
+            seu dinheiro.
+          </p>
+        </div>
+
+        <!-- ORDER SUMMARY -->
+        <div class="card">
+          <h3>Resumo da Encomenda</h3>
+
+          <div class="order-summary">
+            <div class="summary-item">
+              <span>Módulo 1: A Base do Oráculo</span>
+              <span>€29</span>
+            </div>
+            <div class="summary-item">
+              <span>Módulo 2: O Método Kally</span>
+              <span>€49</span>
+            </div>
+            <div class="summary-item">
+              <span>Módulo 3: Profissionalização</span>
+              <span>€69</span>
+            </div>
+            <div class="summary-item">
+              <span>Acesso Círculo do Oráculo (3 meses)</span>
+              <span>€45</span>
+            </div>
+            <div class="summary-item">
+              <span style="color: var(--color-gold)">Desconto Bundle</span>
+              <span style="color: var(--color-gold)">-€63</span>
+            </div>
+            <div class="summary-total">
+              <span>Total</span>
+              <span>€129</span>
+            </div>
+          </div>
+
+          <p
+            style="
+              color: var(--color-gold);
+              font-weight: 600;
+              text-align: center;
+              margin-bottom: 1.5rem;
+            "
+          >
+            Você economiza €98!
+          </p>
+
+          <div class="bundle-content">
+            <h4
+              style="
+                color: var(--color-dark-purple);
+                margin-bottom: 1rem;
+                font-size: 1.1rem;
+              "
+            >
+              Inclui:
+            </h4>
+
+            <div class="bundle-item">
+              <div class="bundle-icon">📚</div>
+              <div class="bundle-text">
+                <strong>3 Módulos Completos</strong><br />
+                <small>30-36 horas de conteúdo em vídeo</small>
+              </div>
+            </div>
+
+            <div class="bundle-item">
+              <div class="bundle-icon">📖</div>
+              <div class="bundle-text">
+                <strong>Dicionários Kally</strong><br />
+                <small>Em PDF, inclusos em cada módulo</small>
+              </div>
+            </div>
+
+            <div class="bundle-item">
+              <div class="bundle-icon">📱</div>
+              <div class="bundle-text">
+                <strong>Templates & Ferramentas</strong><br />
+                <small>Prontos para usar no seu negócio</small>
+              </div>
+            </div>
+
+            <div class="bundle-item">
+              <div class="bundle-icon">👥</div>
+              <div class="bundle-text">
+                <strong>Círculo do Oráculo (3 meses)</strong><br />
+                <small>Mentorias, networking, comunidade</small>
+              </div>
+            </div>
+
+            <div class="bundle-item">
+              <div class="bundle-icon">🎓</div>
+              <div class="bundle-text">
+                <strong>Certificado Digital</strong><br />
+                <small>Reconhecimento oficial de conclusão</small>
+              </div>
+            </div>
+
+            <div class="bundle-item">
+              <div class="bundle-icon">♾️</div>
+              <div class="bundle-text">
+                <strong>Acesso Vitalício</strong><br />
+                <small>Estude para sempre, sem expirações</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Como Funciona?</h3>
+        <p>
+          1. Preencha o formulário ao lado com seus dados.<br />
+          2. Clique em "Continuar para Pagamento".<br />
+          3. Será redirecionado para processar o pagamento seguro.<br />
+          4. Após confirmação, receberá um email com acesso imediato a todos os
+          cursos.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Dúvidas?</h3>
+        <p>
+          Email:
+          <a href="mailto:contacto@rafaellakally.com"
+            >contacto@rafaellakally.com</a
+          >
+        </p>
+        <p>
+          Disponível para esclarecer qualquer questão antes de se inscrever.
+        </p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <h3>Escola do Oráculo</h3>
+      <p>Cursos de Tarot Online • Portugal + Brasil</p>
+      <div>
+        <a href="index.html#politica">Política de Privacidade</a>
+        <a href="index.html#termos">Termos e Condições</a>
+      </div>
+      <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8">
+        © 2026 Escola do Oráculo por Rafaella Kally. Todos os direitos
+        reservados.
+      </p>
+    </footer>
+
+    <script>
+      function handleSubmit(event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const phone =
+          document.getElementById("phone").value || "(não fornecido)";
+        const city = document.getElementById("city").value;
+        const experience = document.getElementById("experience").value;
+        const message =
+          document.getElementById("message").value || "(sem mensagem)";
+
+        const subject = encodeURIComponent("Inscrição - Bundle Completo");
+        const body = encodeURIComponent(
+          `Olá Rafaella!\n\nGostaria de me inscrever no Bundle Completo.\n\n` +
+            `DADOS:\n` +
+            `Nome: ${name}\n` +
+            `Email: ${email}\n` +
+            `Telemóvel: ${phone}\n` +
+            `Cidade/País: ${city}\n` +
+            `Experiência com Tarot: ${experience}\n\n` +
+            `MENSAGEM:\n${message}\n\n` +
+            `Pronto para processar o pagamento!\n` +
+            `Obrigado!`
+        );
+
+        window.location.href = `mailto:contacto@rafaellakally.com?subject=${subject}&body=${body}`;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Escola do Oráculo | Leitor de Tarot com Cartas Reais</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --color-cream: #f5f5f0;
+        --color-dark-purple: #4b0082;
+        --color-gold: #c5a059;
+        --color-text: #2c2c2c;
+        --color-text-light: #6b6b6b;
+        --color-white: #ffffff;
+        --color-accent: #e8dcc8;
+        --font-serif: "Georgia", "Playfair Display", serif;
+        --font-sans: "Segoe UI", "Lato", sans-serif;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background: linear-gradient(to bottom, var(--color-cream), #fafaf8);
+        color: var(--color-text);
+        line-height: 1.6;
+        padding: 2rem;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        font-family: var(--font-serif);
+        text-align: center;
+        color: var(--color-dark-purple);
+        margin-bottom: 1rem;
+        font-size: 2.5rem;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: var(--color-text-light);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+
+      /* ===== READING SELECTOR ===== */
+      .reading-selector {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+
+      .reading-btn {
+        background: rgba(197, 160, 89, 0.1);
+        border: 2px solid var(--color-gold);
+        color: var(--color-text);
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s;
+        font-size: 0.95rem;
+      }
+
+      .reading-btn:hover {
+        background: rgba(197, 160, 89, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .reading-btn.active {
+        background: var(--color-gold);
+        color: var(--color-text);
+        font-weight: 600;
+      }
+
+      /* ===== CARD DISPLAY ===== */
+      .card-container {
+        background: var(--color-white);
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .card-image {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        margin: 0 auto 1.5rem;
+        display: block;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(75, 0, 130, 0.2);
+        transition: transform 0.3s;
+      }
+
+      .card-image:hover {
+        transform: scale(1.05);
+      }
+
+      .card-info {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .card-name {
+        font-family: var(--font-serif);
+        font-size: 2rem;
+        color: var(--color-dark-purple);
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+      }
+
+      .card-number {
+        color: var(--color-gold);
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .card-element {
+        color: var(--color-text-light);
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+      }
+
+      .card-orientation {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: rgba(75, 0, 130, 0.1);
+        border-radius: 20px;
+        color: var(--color-dark-purple);
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      /* ===== MEANINGS ===== */
+      .meanings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .meaning-box {
+        background: rgba(75, 0, 130, 0.05);
+        padding: 1.5rem;
+        border-radius: 10px;
+        border-left: 4px solid var(--color-gold);
+      }
+
+      .meaning-label {
+        font-weight: 600;
+        color: var(--color-dark-purple);
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+      }
+
+      .meaning-text {
+        color: var(--color-text);
+        line-height: 1.6;
+        font-size: 0.95rem;
+      }
+
+      .meaning-box.reversed {
+        background: rgba(197, 160, 89, 0.05);
+        border-left-color: var(--color-gold);
+      }
+
+      /* ===== SPREAD DISPLAY ===== */
+      .spread-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .spread-card {
+        background: var(--color-white);
+        border: 2px solid var(--color-gold);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s;
+      }
+
+      .spread-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(75, 0, 130, 0.15);
+      }
+
+      .spread-position {
+        font-weight: 600;
+        color: var(--color-dark-purple);
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      .spread-position-meaning {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        margin-bottom: 1rem;
+        font-style: italic;
+      }
+
+      .spread-card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin: 1rem 0;
+      }
+
+      .spread-card-name {
+        font-family: var(--font-serif);
+        font-size: 1.3rem;
+        color: var(--color-dark-purple);
+        margin: 1rem 0 0.5rem;
+        font-weight: bold;
+      }
+
+      .spread-orientation {
+        font-size: 0.8rem;
+        color: var(--color-gold);
+        font-weight: 600;
+      }
+
+      /* ===== BUTTONS ===== */
+      .btn {
+        background: var(--color-dark-purple);
+        color: var(--color-white);
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: inline-block;
+        margin: 0.5rem;
+      }
+
+      .btn:hover {
+        background: var(--color-gold);
+        color: var(--color-text);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(75, 0, 130, 0.2);
+      }
+
+      .btn-primary {
+        width: 100%;
+        margin: 1rem 0;
+      }
+
+      /* ===== CELTIC CROSS ===== */
+      .celtic-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .celtic-card {
+        background: linear-gradient(
+          135deg,
+          rgba(75, 0, 130, 0.05),
+          rgba(197, 160, 89, 0.05)
+        );
+        border: 2px solid var(--color-gold);
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .celtic-position-num {
+        background: var(--color-gold);
+        color: var(--color-text);
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin: 0 auto 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .celtic-position-title {
+        font-weight: 600;
+        color: var(--color-dark-purple);
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .celtic-card-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin: 0.75rem 0;
+      }
+
+      .celtic-card-name {
+        font-size: 0.9rem;
+        color: var(--color-text);
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+      }
+
+      .celtic-meaning {
+        font-size: 0.8rem;
+        color: var(--color-text-light);
+        font-style: italic;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        .card-name {
+          font-size: 1.5rem;
+        }
+
+        .spread-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .celtic-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+        }
+
+        .card-container {
+          padding: 1.5rem;
+        }
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .history-list {
+        display: grid;
+        gap: 0.75rem;
+        margin-top: 1rem;
+      }
+
+      .history-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.9rem 1rem;
+        border-radius: 12px;
+        border: 1px solid rgba(75, 0, 130, 0.12);
+        background: linear-gradient(
+          135deg,
+          rgba(75, 0, 130, 0.03),
+          rgba(197, 160, 89, 0.04)
+        );
+      }
+
+      .history-meta {
+        display: grid;
+        gap: 0.15rem;
+      }
+
+      .history-title {
+        font-weight: 700;
+        color: var(--color-dark-purple);
+      }
+
+      .history-subtitle {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+      }
+
+      .history-actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .btn-secondary {
+        background: rgba(75, 0, 130, 0.08);
+        color: var(--color-dark-purple);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(75, 0, 130, 0.12);
+        color: var(--color-dark-purple);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>✨ Leitor de Tarot ✨</h1>
+      <p class="subtitle">
+        Escola do Oráculo por Rafaella Kally | Cartas Reais do Tarot Rider-Waite
+      </p>
+
+      <!-- Reading Type Selector -->
+      <div class="reading-selector">
+        <button
+          class="reading-btn active"
+          data-reading="daily"
+          onclick="switchReading('daily', this)"
+        >
+          📍 Mensagem do Dia
+        </button>
+        <button
+          class="reading-btn"
+          data-reading="three"
+          onclick="switchReading('three', this)"
+        >
+          ⌛ Passado, Presente, Futuro
+        </button>
+        <button
+          class="reading-btn"
+          data-reading="celtic"
+          onclick="switchReading('celtic', this)"
+        >
+          ✚ Cruz Celta (10 Cartas)
+        </button>
+        <button
+          class="reading-btn"
+          data-reading="love"
+          onclick="switchReading('love', this)"
+        >
+          💕 Relacionamento (3 Cartas)
+        </button>
+        <button
+          class="reading-btn"
+          data-reading="five"
+          onclick="switchReading('five', this)"
+        >
+          ⭐ Leitura 5 Cartas
+        </button>
+        <button
+          class="reading-btn"
+          data-reading="horseshoe"
+          onclick="switchReading('horseshoe', this)"
+        >
+          🧲 Ferradura (7 Cartas)
+        </button>
+      </div>
+
+      <!-- Daily Reading -->
+      <div id="daily-section" class="card-container">
+        <h2
+          style="
+            text-align: center;
+            color: var(--color-dark-purple);
+            margin-bottom: 1.5rem;
+          "
+        >
+          Sua Carta do Dia
+        </h2>
+        <div id="daily-content"></div>
+        <button class="btn btn-primary" onclick="drawDailyCard()">
+          Tirar Carta do Dia
+        </button>
+      </div>
+
+      <!-- Three Card Reading -->
+      <div id="three-section" class="hidden">
+        <h2
+          style="
+            text-align: center;
+            color: var(--color-dark-purple);
+            margin-bottom: 1.5rem;
+          "
+        >
+          Leitura de Três Cartas
+        </h2>
+        <div class="spread-grid" id="three-content"></div>
+        <button class="btn btn-primary" onclick="drawThreeCards()">
+          Fazer Leitura
+        </button>
+      </div>
+
+      <!-- Celtic Cross -->
+      <div id="celtic-section" class="hidden">
+        <h2
+          style="
+            text-align: center;
+            color: var(--color-dark-purple);
+            margin-bottom: 1.5rem;
+          "
+        >
+          Cruz Celta: 10 Posições
+        </h2>
+        <div class="celtic-grid" id="celtic-content"></div>
+        <button class="btn btn-primary" onclick="drawCelticCross()">
+          Fazer Cruz Celta
+        </button>
+      </div>
+
+      <!-- Love Reading -->
+      <div id="love-section" class="hidden">
+        <h2
+          style="
+            text-align: center;
+            color: var(--color-dark-purple);
+            margin-bottom: 1.5rem;
+          "
+        >
+          Leitura de Relacionamento
+        </h2>
+        <div class="spread-grid" id="love-content"></div>
+        <button class="btn btn-primary" onclick="drawLoveReading()">
+          Fazer Leitura de Amor
+        </button>
+      </div>
+
+      <!-- Five Card Reading -->
+      <div id="five-section" class="hidden">
+        <h2
+          style="
+            text-align: center;
+            color: var(--color-dark-purple);
+            margin-bottom: 1.5rem;
+          "
+        >
+          Leitura de 5 Cartas
+        </h2>
+        <div class="spread-grid" id="five-content"></div>
+        <button class="btn btn-primary" onclick="drawFiveCardReading()">
+          Fazer Leitura
+        </button>
+      </div>
+
+      <!-- Horseshoe Reading -->
+      <div id="horseshoe-section" class="hidden">
+        <h2
+          style="
+            text-align: center;
+            color: var(--color-dark-purple);
+            margin-bottom: 1.5rem;
+          "
+        >
+          Leitura da Ferradura (7 Cartas)
+        </h2>
+        <div class="spread-grid" id="horseshoe-content"></div>
+        <button class="btn btn-primary" onclick="drawHorseshoeReading()">
+          Fazer Leitura
+        </button>
+      </div>
+
+      <!-- Reading History -->
+      <div id="history-section" class="card-container">
+        <h2
+          style="
+            text-align: center;
+            color: var(--color-dark-purple);
+            margin-bottom: 0.5rem;
+          "
+        >
+          Histórico
+        </h2>
+        <p style="text-align: center; color: var(--color-text-light)">
+          Leituras guardadas neste navegador
+        </p>
+        <div id="history-content" class="history-list"></div>
+        <div style="display: flex; justify-content: center; margin-top: 1rem">
+          <button class="btn btn-secondary" onclick="clearHistory()">
+            Limpar Histórico
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Uses Rider–Waite–Smith imagery hosted on Wikimedia Commons.
+      // For commercial use, confirm the license for your jurisdiction.
+
+      const HISTORY_KEY = "oracle.tarot.history.v1";
+      const DEFAULT_IMAGE_WIDTH = 360;
+
+      function rwsImageUrl(fileName, width = DEFAULT_IMAGE_WIDTH) {
+        // Avoid hard-coded Wikimedia hash paths by using Special:FilePath.
+        return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(
+          fileName
+        )}?width=${width}`;
+      }
+
+      function pad2(n) {
+        return String(n).padStart(2, "0");
+      }
+
+      function mulberry32(seed) {
+        let a = seed >>> 0;
+        return function () {
+          a += 0x6d2b79f5;
+          let t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t ^= t + Math.imul(t ^ (t >>> 7), 61 | t);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function seedFromString(str) {
+        let h = 2166136261;
+        for (let i = 0; i < str.length; i++) {
+          h ^= str.charCodeAt(i);
+          h = Math.imul(h, 16777619);
+        }
+        return h >>> 0;
+      }
+
+      function shuffle(array, randomFn) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(randomFn() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      const MAJOR_ARCANA = [
+        {
+          id: "major-00",
+          number: "0",
+          name: "O Louco",
+          element: "Ar",
+          file: "RWS_Tarot_00_Fool.jpg",
+          meanings: {
+            upright: "Novos começos, inocência, espontaneidade, aventura",
+            reversed: "Impulsividade, descuido, precipitação",
+          },
+          interpretation:
+            "Um novo ciclo pede coragem e abertura. Confie no caminho, mas mantenha o bom senso.",
+          keywords: ["Começo", "Liberdade", "Risco", "Potencial"],
+        },
+        {
+          id: "major-01",
+          number: "I",
+          name: "O Mago",
+          element: "Mercúrio",
+          file: "RWS_Tarot_01_Magician.jpg",
+          meanings: {
+            upright: "Poder pessoal, recursos, ação, manifestação",
+            reversed: "Manipulação, insegurança, energia dispersa",
+          },
+          interpretation:
+            "Você tem os recursos necessários. Direcione sua vontade e aja com foco.",
+          keywords: ["Ação", "Foco", "Manifestação", "Talento"],
+        },
+        {
+          id: "major-02",
+          number: "II",
+          name: "A Sacerdotisa",
+          element: "Lua",
+          file: "RWS_Tarot_02_Priestess.jpg",
+          meanings: {
+            upright: "Intuição, mistério, silêncio, sabedoria interior",
+            reversed: "Dúvida, superficialidade, ignorar sinais",
+          },
+          interpretation:
+            "Respostas vêm de dentro. Observe sinais e não force conclusões.",
+          keywords: ["Intuição", "Mistério", "Silêncio", "Percepção"],
+        },
+        {
+          id: "major-03",
+          number: "III",
+          name: "A Imperatriz",
+          element: "Vénus",
+          file: "RWS_Tarot_03_Empress.jpg",
+          meanings: {
+            upright: "Abundância, criatividade, cuidado, fertilidade",
+            reversed: "Excesso, negligência, bloqueio criativo",
+          },
+          interpretation:
+            "Nutra o que quer ver crescer. Criação e prazer caminham juntos.",
+          keywords: ["Abundância", "Criação", "Cuidado", "Crescimento"],
+        },
+        {
+          id: "major-04",
+          number: "IV",
+          name: "O Imperador",
+          element: "Áries",
+          file: "RWS_Tarot_04_Emperor.jpg",
+          meanings: {
+            upright: "Estrutura, autoridade, limites, liderança",
+            reversed: "Rigidez, controle excessivo, instabilidade",
+          },
+          interpretation:
+            "Organize, planeje e estabeleça limites claros. A firmeza dá segurança.",
+          keywords: ["Estrutura", "Liderança", "Ordem", "Limites"],
+        },
+        {
+          id: "major-05",
+          number: "V",
+          name: "O Papa",
+          element: "Touro",
+          file: "RWS_Tarot_05_Hierophant.jpg",
+          meanings: {
+            upright: "Tradição, ensino, ética, mentoria",
+            reversed: "Dogma, rebeldia sem propósito, conflito de valores",
+          },
+          interpretation:
+            "Procure orientação confiável. Aprendizado estruturado trará clareza.",
+          keywords: ["Mentoria", "Tradição", "Valores", "Aprender"],
+        },
+        {
+          id: "major-06",
+          number: "VI",
+          name: "Os Apaixonados",
+          element: "Gémeos",
+          file: "RWS_Tarot_06_Lovers.jpg",
+          meanings: {
+            upright: "Amor, união, escolhas alinhadas a valores",
+            reversed: "Desalinhamento, indecisão, tentação",
+          },
+          interpretation:
+            "Escolhas importam. Decida pelo que está alinhado aos seus valores.",
+          keywords: ["Escolha", "Amor", "Valores", "União"],
+        },
+        {
+          id: "major-07",
+          number: "VII",
+          name: "O Carro",
+          element: "Caranguejo",
+          file: "RWS_Tarot_07_Chariot.jpg",
+          meanings: {
+            upright: "Determinação, avanço, vitória, direção",
+            reversed: "Falta de direção, pressa, conflito interno",
+          },
+          interpretation:
+            "Avance com disciplina. Direção clara vence resistências.",
+          keywords: ["Vitória", "Direção", "Controle", "Avanço"],
+        },
+        {
+          id: "major-08",
+          number: "VIII",
+          name: "A Força",
+          element: "Leão",
+          file: "RWS_Tarot_08_Strength.jpg",
+          meanings: {
+            upright: "Coragem, autocontrole, gentileza, resiliência",
+            reversed: "Insegurança, reatividade, fraqueza",
+          },
+          interpretation:
+            "A força verdadeira é calma. Confie em você e vá com consistência.",
+          keywords: ["Coragem", "Resiliência", "Calma", "Confiança"],
+        },
+        {
+          id: "major-09",
+          number: "IX",
+          name: "O Eremita",
+          element: "Virgem",
+          file: "RWS_Tarot_09_Hermit.jpg",
+          meanings: {
+            upright: "Introspecção, sabedoria, recolhimento, busca",
+            reversed: "Isolamento excessivo, medo, evasão",
+          },
+          interpretation: "Dê um passo atrás. O silêncio traz entendimento.",
+          keywords: ["Busca", "Sabedoria", "Pausa", "Reflexão"],
+        },
+        {
+          id: "major-10",
+          number: "X",
+          name: "A Roda da Fortuna",
+          element: "Júpiter",
+          file: "RWS_Tarot_10_Wheel_of_Fortune.jpg",
+          meanings: {
+            upright: "Ciclos, virada, destino, oportunidade",
+            reversed: "Resistência à mudança, repetição de padrão",
+          },
+          interpretation:
+            "Mudanças chegam. Aproveite a oportunidade e adapte-se.",
+          keywords: ["Ciclos", "Mudança", "Sorte", "Virada"],
+        },
+        {
+          id: "major-11",
+          number: "XI",
+          name: "A Justiça",
+          element: "Libra",
+          file: "RWS_Tarot_11_Justice.jpg",
+          meanings: {
+            upright: "Verdade, equilíbrio, responsabilidade",
+            reversed: "Injustiça, parcialidade, consequências",
+          },
+          interpretation:
+            "Aja com honestidade. O que foi semeado será colhido.",
+          keywords: ["Verdade", "Equilíbrio", "Lei", "Responsabilidade"],
+        },
+        {
+          id: "major-12",
+          number: "XII",
+          name: "O Enforcado",
+          element: "Neptuno",
+          file: "RWS_Tarot_12_Hanged_Man.jpg",
+          meanings: {
+            upright: "Pausa, nova perspectiva, rendição",
+            reversed: "Teimosia, estagnação, apego",
+          },
+          interpretation:
+            "Veja por outro ângulo. Um recuo pode ser estratégico.",
+          keywords: ["Perspectiva", "Pausa", "Rendição", "Revisão"],
+        },
+        {
+          id: "major-13",
+          number: "XIII",
+          name: "A Morte",
+          element: "Escorpião",
+          file: "RWS_Tarot_13_Death.jpg",
+          meanings: {
+            upright: "Fim, transição, transformação",
+            reversed: "Resistência, medo, atraso",
+          },
+          interpretation:
+            "Um ciclo encerra para outro começar. Solte o que já passou.",
+          keywords: ["Transformação", "Fim", "Renovação", "Transição"],
+        },
+        {
+          id: "major-14",
+          number: "XIV",
+          name: "A Temperança",
+          element: "Sagitário",
+          file: "RWS_Tarot_14_Temperance.jpg",
+          meanings: {
+            upright: "Moderação, harmonia, equilíbrio",
+            reversed: "Excesso, descompasso, impaciência",
+          },
+          interpretation:
+            "Ajuste o ritmo. A mistura certa traz cura e fluidez.",
+          keywords: ["Equilíbrio", "Cura", "Moderação", "Harmonia"],
+        },
+        {
+          id: "major-15",
+          number: "XV",
+          name: "O Diabo",
+          element: "Capricórnio",
+          file: "RWS_Tarot_15_Devil.jpg",
+          meanings: {
+            upright: "Apego, excessos, dependências, sombras",
+            reversed: "Libertação, consciência, limites",
+          },
+          interpretation:
+            "Observe o que prende você. A liberdade começa com consciência.",
+          keywords: ["Apego", "Sombras", "Limites", "Libertação"],
+        },
+        {
+          id: "major-16",
+          number: "XVI",
+          name: "A Torre",
+          element: "Marte",
+          file: "RWS_Tarot_16_Tower.jpg",
+          meanings: {
+            upright: "Ruptura, revelação, queda de ilusões",
+            reversed: "Mudança evitada, crise prolongada",
+          },
+          interpretation:
+            "O que era frágil cai. Verdades emergem para recomeçar melhor.",
+          keywords: ["Ruptura", "Verdade", "Revelação", "Recomeço"],
+        },
+        {
+          id: "major-17",
+          number: "XVII",
+          name: "A Estrela",
+          element: "Aquário",
+          file: "RWS_Tarot_17_Star.jpg",
+          meanings: {
+            upright: "Esperança, inspiração, cura",
+            reversed: "Desânimo, falta de fé",
+          },
+          interpretation:
+            "Confie na recuperação. Há luz e direção para seguir.",
+          keywords: ["Esperança", "Cura", "Inspiração", "Fé"],
+        },
+        {
+          id: "major-18",
+          number: "XVIII",
+          name: "A Lua",
+          element: "Peixes",
+          file: "RWS_Tarot_18_Moon.jpg",
+          meanings: {
+            upright: "Inconsciente, intuição, confusão, ilusões",
+            reversed: "Clareza, verdade emergindo",
+          },
+          interpretation:
+            "Nem tudo está claro. Caminhe devagar e confie nos sinais.",
+          keywords: ["Intuição", "Sonhos", "Sombras", "Mistério"],
+        },
+        {
+          id: "major-19",
+          number: "XIX",
+          name: "O Sol",
+          element: "Sol",
+          file: "RWS_Tarot_19_Sun.jpg",
+          meanings: {
+            upright: "Alegria, sucesso, clareza, vitalidade",
+            reversed: "Atrasos, insegurança, falta de brilho",
+          },
+          interpretation: "Clareza e alegria. Mostre-se e siga com confiança.",
+          keywords: ["Sucesso", "Alegria", "Clareza", "Vitalidade"],
+        },
+        {
+          id: "major-20",
+          number: "XX",
+          name: "O Julgamento",
+          element: "Plutão",
+          file: "RWS_Tarot_20_Judgement.jpg",
+          meanings: {
+            upright: "Despertar, chamado, avaliação, renascimento",
+            reversed: "Autojulgamento, adiamento, dúvida",
+          },
+          interpretation:
+            "Um chamado pede decisão. Assuma a responsabilidade e renasça.",
+          keywords: ["Chamado", "Renascimento", "Decisão", "Consciência"],
+        },
+        {
+          id: "major-21",
+          number: "XXI",
+          name: "O Mundo",
+          element: "Saturno",
+          file: "RWS_Tarot_21_World.jpg",
+          meanings: {
+            upright: "Conclusão, realização, ciclo completo",
+            reversed: "Pendências, atraso, sensação de incompletude",
+          },
+          interpretation:
+            "Fechamento positivo. Celebre e prepare o próximo ciclo.",
+          keywords: ["Conclusão", "Realização", "Ciclo", "Integração"],
+        },
+      ];
+
+      const SUITS = [
+        { key: "wands", pt: "Paus", en: "Wands", element: "Fogo", base: 22 },
+        { key: "cups", pt: "Copas", en: "Cups", element: "Água", base: 36 },
+        { key: "swords", pt: "Espadas", en: "Swords", element: "Ar", base: 50 },
+        {
+          key: "pentacles",
+          pt: "Ouros",
+          en: "Pentacles",
+          element: "Terra",
+          base: 64,
+        },
+      ];
+
+      const RANKS = [
+        { key: "ace", pt: "Ás", en: "Ace", value: 1 },
+        { key: "two", pt: "Dois", en: "Two", value: 2 },
+        { key: "three", pt: "Três", en: "Three", value: 3 },
+        { key: "four", pt: "Quatro", en: "Four", value: 4 },
+        { key: "five", pt: "Cinco", en: "Five", value: 5 },
+        { key: "six", pt: "Seis", en: "Six", value: 6 },
+        { key: "seven", pt: "Sete", en: "Seven", value: 7 },
+        { key: "eight", pt: "Oito", en: "Eight", value: 8 },
+        { key: "nine", pt: "Nove", en: "Nine", value: 9 },
+        { key: "ten", pt: "Dez", en: "Ten", value: 10 },
+        { key: "page", pt: "Pajem", en: "Page" },
+        { key: "knight", pt: "Cavaleiro", en: "Knight" },
+        { key: "queen", pt: "Rainha", en: "Queen" },
+        { key: "king", pt: "Rei", en: "King" },
+      ];
+
+      // Compact, suit-specific meanings (upright + reversed) for Minor Arcana.
+      // These are short descriptors to keep UX clean.
+      const MINOR_MEANINGS = {
+        wands: [
+          {
+            u: "Início criativo, impulso, coragem",
+            r: "Bloqueio, falta de energia, atraso",
+            k: ["Começo", "Criatividade", "Ação"],
+          },
+          {
+            u: "Planejamento, escolhas, expansão",
+            r: "Medo de avançar, indecisão",
+            k: ["Plano", "Escolha", "Visão"],
+          },
+          {
+            u: "Crescimento, progresso, horizonte",
+            r: "Atrasos, frustração, falta de direção",
+            k: ["Expansão", "Progresso", "Horizonte"],
+          },
+          {
+            u: "Celebração, harmonia, conquista",
+            r: "Tensão no lar, instabilidade",
+            k: ["Festa", "Lar", "União"],
+          },
+          {
+            u: "Competição, desafios, atrito",
+            r: "Evitar conflito, desunião",
+            k: ["Desafio", "Disputa", "Energia"],
+          },
+          {
+            u: "Vitória, reconhecimento, confiança",
+            r: "Ego ferido, falta de apoio",
+            k: ["Vitória", "Reconhecimento", "Orgulho"],
+          },
+          {
+            u: "Defesa, coragem, posição firme",
+            r: "Cansaço, desistência, vulnerabilidade",
+            k: ["Defesa", "Coragem", "Limites"],
+          },
+          {
+            u: "Rapidez, notícias, movimento",
+            r: "Imprevistos, atraso, confusão",
+            k: ["Movimento", "Notícias", "Velocidade"],
+          },
+          {
+            u: "Persistência, resistência, foco",
+            r: "Exaustão, paranoia, falta de energia",
+            k: ["Persistir", "Resistir", "Foco"],
+          },
+          {
+            u: "Sobrecarga, responsabilidade, pressão",
+            r: "Alívio, delegar, reorganizar",
+            k: ["Carga", "Dever", "Limites"],
+          },
+          {
+            u: "Curiosidade, entusiasmo, início de jornada",
+            r: "Imaturidade, pressa, falta de direção",
+            k: ["Entusiasmo", "Explorar", "Começar"],
+          },
+          {
+            u: "Ação rápida, coragem, aventura",
+            r: "Impulsividade, instabilidade",
+            k: ["Ação", "Coragem", "Impulso"],
+          },
+          {
+            u: "Confiança, magnetismo, criatividade",
+            r: "Insegurança, ciúmes, desânimo",
+            k: ["Confiança", "Criação", "Carisma"],
+          },
+          {
+            u: "Liderança, visão, empreendedorismo",
+            r: "Autoritarismo, impaciência, rigidez",
+            k: ["Liderar", "Visão", "Criar"],
+          },
+        ],
+        cups: [
+          {
+            u: "Novo sentimento, abertura do coração",
+            r: "Bloqueio emocional, vazio",
+            k: ["Amor", "Abertura", "Emoção"],
+          },
+          {
+            u: "Parceria, união, reciprocidade",
+            r: "Ruptura, desalinho, tensão",
+            k: ["União", "Acordo", "Reciprocidade"],
+          },
+          {
+            u: "Amizade, celebração, comunidade",
+            r: "Excessos, fofoca, isolamento",
+            k: ["Festa", "Amigos", "Comunidade"],
+          },
+          {
+            u: "Apatia, contemplação, reavaliar",
+            r: "Novas chances, aceitação",
+            k: ["Reavaliar", "Pausa", "Convite"],
+          },
+          {
+            u: "Perda, tristeza, luto",
+            r: "Recuperação, esperança, perdão",
+            k: ["Luto", "Perda", "Cura"],
+          },
+          {
+            u: "Nostalgia, ternura, passado",
+            r: "Preso ao passado, idealização",
+            k: ["Memória", "Doçura", "Infância"],
+          },
+          {
+            u: "Fantasias, escolhas, ilusões",
+            r: "Clareza, decisão, foco",
+            k: ["Escolhas", "Ilusão", "Imaginar"],
+          },
+          {
+            u: "Partida, busca, desapego",
+            r: "Medo de sair, voltar atrás",
+            k: ["Busca", "Desapego", "Transição"],
+          },
+          {
+            u: "Satisfação, desejo realizado",
+            r: "Excesso, vazio após conquista",
+            k: ["Satisfação", "Desejo", "Prazer"],
+          },
+          {
+            u: "Harmonia, família, plenitude",
+            r: "Conflitos no lar, desalinho",
+            k: ["Família", "Harmonia", "Amor"],
+          },
+          {
+            u: "Sensibilidade, mensagens, romance",
+            r: "Imaturidade emocional, ilusão",
+            k: ["Romance", "Mensagem", "Sensível"],
+          },
+          {
+            u: "Charme, proposta, movimento afetivo",
+            r: "Volatilidade, promessas vazias",
+            k: ["Convite", "Charme", "Afeto"],
+          },
+          {
+            u: "Empatia, intuição, acolhimento",
+            r: "Codependência, instabilidade",
+            k: ["Empatia", "Intuição", "Cuidar"],
+          },
+          {
+            u: "Maturidade emocional, equilíbrio",
+            r: "Frieza, repressão, oscilação",
+            k: ["Maturidade", "Equilíbrio", "Coração"],
+          },
+        ],
+        swords: [
+          {
+            u: "Clareza, verdade, decisão",
+            r: "Confusão, mentiras, falta de foco",
+            k: ["Verdade", "Corte", "Clareza"],
+          },
+          {
+            u: "Impasse, indecisão, bloqueio",
+            r: "Escolha feita, desbloqueio",
+            k: ["Impasse", "Escolha", "Silêncio"],
+          },
+          {
+            u: "Dor, separação, coração partido",
+            r: "Cura, superação, perdão",
+            k: ["Dor", "Cura", "Verdade"],
+          },
+          {
+            u: "Descanso, pausa, recuperação",
+            r: "Agitação, ansiedade, exaustão",
+            k: ["Pausa", "Recuperar", "Silêncio"],
+          },
+          {
+            u: "Conflito, vitória amarga",
+            r: "Reconciliação, ceder, aprender",
+            k: ["Conflito", "Ego", "Consequência"],
+          },
+          {
+            u: "Transição, travessia, alívio",
+            r: "Resistência, bagagem emocional",
+            k: ["Transição", "Mudança", "Alívio"],
+          },
+          {
+            u: "Estratégia, discrição, segredo",
+            r: "Exposição, culpa, verdade",
+            k: ["Estratégia", "Segredo", "Cautela"],
+          },
+          {
+            u: "Restrição, medo, auto-sabotagem",
+            r: "Libertação, clareza, coragem",
+            k: ["Medo", "Limite", "Libertar"],
+          },
+          {
+            u: "Ansiedade, preocupação, pesadelos",
+            r: "Melhora, apoio, descanso",
+            k: ["Ansiedade", "Medo", "Dormir"],
+          },
+          {
+            u: "Fim, colapso, esgotamento",
+            r: "Recuperação, recomeço, alívio",
+            k: ["Fim", "Recomeço", "Esgoto"],
+          },
+          {
+            u: "Curiosidade, mente ativa, verdade",
+            r: "Fofoca, imaturidade, impulsos",
+            k: ["Curioso", "Verdade", "Agilidade"],
+          },
+          {
+            u: "Ação direta, impulso mental",
+            r: "Agressividade, precipitação",
+            k: ["Ação", "Direto", "Coragem"],
+          },
+          {
+            u: "Clareza, independência, honestidade",
+            r: "Dureza, amargura, crítica",
+            k: ["Clareza", "Independente", "Honesto"],
+          },
+          {
+            u: "Autoridade, lógica, justiça",
+            r: "Tirania, frieza, abuso",
+            k: ["Lógica", "Autoridade", "Justiça"],
+          },
+        ],
+        pentacles: [
+          {
+            u: "Oportunidade material, prosperidade",
+            r: "Perda, má gestão, atraso",
+            k: ["Oportunidade", "Dinheiro", "Começo"],
+          },
+          {
+            u: "Equilíbrio, adaptação, múltiplas tarefas",
+            r: "Desequilíbrio, sobrecarga",
+            k: ["Equilíbrio", "Rotina", "Ajuste"],
+          },
+          {
+            u: "Trabalho em equipe, mestria",
+            r: "Falta de colaboração, amadorismo",
+            k: ["Equipe", "Mestria", "Construir"],
+          },
+          {
+            u: "Segurança, conservar, poupar",
+            r: "Apego, medo de perder",
+            k: ["Segurança", "Poupar", "Apego"],
+          },
+          {
+            u: "Dificuldade, escassez, preocupação",
+            r: "Recuperação, ajuda, esperança",
+            k: ["Escassez", "Apoio", "Recuperar"],
+          },
+          {
+            u: "Generosidade, troca, equilíbrio",
+            r: "Dívida, dependência, injustiça",
+            k: ["Dar", "Receber", "Equidade"],
+          },
+          {
+            u: "Paciência, investimento, colheita",
+            r: "Impaciência, atraso, frustração",
+            k: ["Paciência", "Investir", "Colher"],
+          },
+          {
+            u: "Aprendizado, disciplina, trabalho",
+            r: "Falta de foco, desleixo",
+            k: ["Trabalho", "Disciplina", "Aprender"],
+          },
+          {
+            u: "Independência, conforto, bem-estar",
+            r: "Excesso, isolamento, dependência",
+            k: ["Conforto", "Independente", "Valor"],
+          },
+          {
+            u: "Legado, família, estabilidade",
+            r: "Conflitos familiares, instabilidade",
+            k: ["Legado", "Família", "Estável"],
+          },
+          {
+            u: "Estudo, oportunidade, prática",
+            r: "Procrastinação, falta de compromisso",
+            k: ["Estudar", "Prática", "Potencial"],
+          },
+          {
+            u: "Constância, responsabilidade, ritmo",
+            r: "Lentidão, teimosia, estagnação",
+            k: ["Constância", "Ritmo", "Dever"],
+          },
+          {
+            u: "Praticidade, cuidado, abundância",
+            r: "Insegurança, desequilíbrio",
+            k: ["Prático", "Cuidar", "Abundância"],
+          },
+          {
+            u: "Realização, liderança, recursos",
+            r: "Ganância, rigidez, teimosia",
+            k: ["Liderar", "Recursos", "Realizar"],
+          },
+        ],
+      };
+
+      function buildMinorArcana() {
+        const cards = [];
+        for (const suit of SUITS) {
+          for (let i = 0; i < RANKS.length; i++) {
+            const rank = RANKS[i];
+            const num = suit.base + i;
+            const file = `RWS_Tarot_${pad2(num)}_${rank.en}_of_${suit.en}.jpg`;
+            const name = `${rank.pt} de ${suit.pt}`;
+            const m = MINOR_MEANINGS[suit.key][i];
+            cards.push({
+              id: `minor-${suit.key}-${rank.key}`,
+              arcana: "minor",
+              suitKey: suit.key,
+              suitPt: suit.pt,
+              element: suit.element,
+              rankKey: rank.key,
+              rankValue: rank.value ?? null,
+              number: String(num),
+              name,
+              file,
+              meanings: { upright: m.u, reversed: m.r },
+              interpretation:
+                "Considere o contexto da pergunta e a posição no jogo para aprofundar o significado.",
+              keywords: m.k,
+            });
+          }
+        }
+        return cards;
+      }
+
+      const DECK = [
+        ...MAJOR_ARCANA.map((c) => ({
+          ...c,
+          arcana: "major",
+          image: rwsImageUrl(c.file),
+        })),
+        ...buildMinorArcana().map((c) => ({
+          ...c,
+          image: rwsImageUrl(c.file),
+        })),
+      ];
+
+      const CARD_BY_ID = new Map(DECK.map((c) => [c.id, c]));
+
+      const spreads = {
+        three: [
+          { position: "Passado", meaning: "O que o trouxe até aqui" },
+          { position: "Presente", meaning: "Sua situação atual" },
+          { position: "Futuro", meaning: "Para onde você vai" },
+        ],
+        celtic: [
+          { num: 1, position: "Significação", meaning: "O núcleo da questão" },
+          { num: 2, position: "Obstáculos", meaning: "O que vai contra" },
+          { num: 3, position: "Coroa", meaning: "Aspirações ocultas" },
+          { num: 4, position: "Raiz", meaning: "Influência oculta" },
+          { num: 5, position: "Passado Próximo", meaning: "Contexto recente" },
+          {
+            num: 6,
+            position: "Futuro Próximo",
+            meaning: "Desenvolvimento esperado",
+          },
+          { num: 7, position: "Atitude", meaning: "Sua posição" },
+          { num: 8, position: "Ambiente", meaning: "Influências externas" },
+          { num: 9, position: "Esperança/Medo", meaning: "O que move você" },
+          { num: 10, position: "Resultado", meaning: "Desfecho provável" },
+        ],
+        love: [
+          { position: "Você", meaning: "Como você se sente" },
+          { position: "Parceiro", meaning: "Como o outro se sente" },
+          { position: "Futuro", meaning: "Tendência da relação" },
+        ],
+        five: [
+          { position: "Tema", meaning: "O que está em jogo" },
+          { position: "Desafio", meaning: "O principal obstáculo" },
+          { position: "Conselho", meaning: "A melhor atitude" },
+          { position: "Ambiente", meaning: "Influências externas" },
+          { position: "Resultado", meaning: "Tendência / desfecho" },
+        ],
+        horseshoe: [
+          { position: "Passado", meaning: "A origem da situação" },
+          { position: "Presente", meaning: "O cenário atual" },
+          { position: "Influência Oculta", meaning: "O que está por trás" },
+          { position: "Obstáculos", meaning: "O que desafia" },
+          { position: "Ambiente", meaning: "Forças ao redor" },
+          { position: "Ação", meaning: "O que fazer" },
+          { position: "Resultado", meaning: "Tendência" },
+        ],
+      };
+
+      function getTodayKey() {
+        const d = new Date();
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      function drawFromDeck(count, randomFn) {
+        const deck = [...DECK];
+        shuffle(deck, randomFn);
+        const drawn = deck.slice(0, count).map((card) => ({
+          cardId: card.id,
+          reversed: randomFn() > 0.5,
+        }));
+        return drawn;
+      }
+
+      function formatCard(card, reversed = false) {
+        const orientation = reversed ? "(Invertida)" : "(Direita)";
+        const meaning = reversed
+          ? card.meanings.reversed
+          : card.meanings.upright;
+
+        const badge =
+          card.arcana === "major"
+            ? `Arcano Maior ${card.number}`
+            : `Arcano Menor • ${card.suitPt}`;
+
+        const extra =
+          card.arcana === "major"
+            ? `Elemento: ${card.element}`
+            : `Elemento: ${card.element}`;
+
+        return `
+          <img
+            src="${card.image}"
+            alt="${card.name}"
+            class="card-image"
+            onerror="this.src='https://via.placeholder.com/300x450?text=${encodeURIComponent(
+              card.name
+            )}'"
+          >
+          <div class="card-info">
+            <div class="card-number">${badge}</div>
+            <div class="card-name">${card.name}</div>
+            <div class="card-element">${extra}</div>
+            <div class="card-orientation">${orientation}</div>
+          </div>
+          <div class="meanings-grid">
+            <div class="meaning-box">
+              <div class="meaning-label">📖 Significado</div>
+              <div class="meaning-text">${meaning}</div>
+            </div>
+            <div class="meaning-box">
+              <div class="meaning-label">💡 Interpretação</div>
+              <div class="meaning-text">${card.interpretation}</div>
+            </div>
+            <div class="meaning-box">
+              <div class="meaning-label">🔑 Palavras‑chave</div>
+              <div class="meaning-text">${card.keywords.join(" • ")}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      function switchReading(type, btn) {
+        // Keep history visible; only toggle reading sections.
+        document
+          .querySelectorAll('[id$="-section"]:not(#history-section)')
+          .forEach((el) => el.classList.add("hidden"));
+        document.getElementById(type + "-section").classList.remove("hidden");
+
+        const buttons = document.querySelectorAll(".reading-btn");
+        buttons.forEach((b) => b.classList.remove("active"));
+        const activeBtn =
+          btn || document.querySelector(`.reading-btn[data-reading="${type}"]`);
+        activeBtn?.classList.add("active");
+      }
+
+      function saveReading(type, drawn, meta = {}) {
+        const now = new Date();
+        const entry = {
+          id: `${now.getTime()}-${Math.random().toString(16).slice(2)}`,
+          createdAt: now.toISOString(),
+          type,
+          drawn,
+          meta,
+        };
+
+        let current = loadHistory();
+        if (type === "daily" && meta.day) {
+          current = current.filter(
+            (h) => !(h.type === "daily" && h.meta && h.meta.day === meta.day)
+          );
+        }
+
+        current.unshift(entry);
+        const capped = current.slice(0, 20);
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(capped));
+        renderHistory();
+      }
+
+      function loadHistory() {
+        try {
+          const raw = localStorage.getItem(HISTORY_KEY);
+          const parsed = raw ? JSON.parse(raw) : [];
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function clearHistory() {
+        localStorage.removeItem(HISTORY_KEY);
+        renderHistory();
+      }
+
+      function typeLabel(type) {
+        switch (type) {
+          case "daily":
+            return "Mensagem do Dia";
+          case "three":
+            return "3 Cartas";
+          case "celtic":
+            return "Cruz Celta";
+          case "love":
+            return "Relacionamento";
+          case "five":
+            return "5 Cartas";
+          case "horseshoe":
+            return "Ferradura";
+          default:
+            return type;
+        }
+      }
+
+      function renderHistory() {
+        const root = document.getElementById("history-content");
+        if (!root) return;
+
+        const history = loadHistory();
+        if (history.length === 0) {
+          root.innerHTML = `<div style="text-align:center;color:var(--color-text-light);padding:1rem;">Nenhuma leitura guardada ainda.</div>`;
+          return;
+        }
+
+        root.innerHTML = history
+          .map((h) => {
+            const d = new Date(h.createdAt);
+            const when = d.toLocaleString();
+            return `
+              <div class="history-item">
+                <div class="history-meta">
+                  <div class="history-title">${typeLabel(h.type)}</div>
+                  <div class="history-subtitle">${when}</div>
+                </div>
+                <div class="history-actions">
+                  <button class="btn btn-secondary" onclick="openHistory('${
+                    h.id
+                  }')">Abrir</button>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function openHistory(id) {
+        const history = loadHistory();
+        const entry = history.find((h) => h.id === id);
+        if (!entry) return;
+
+        switchReading(entry.type);
+        renderReading(entry.type, entry.drawn, { fromHistory: true });
+      }
+
+      function renderSpreadCards(containerId, positions, drawn) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        let html = "";
+        for (let i = 0; i < positions.length; i++) {
+          const p = positions[i];
+          const draw = drawn[i];
+          const card = CARD_BY_ID.get(draw.cardId);
+          const reversed = draw.reversed;
+          html += `
+            <div class="spread-card">
+              <div class="spread-position">${p.num ? `#${p.num} ` : ""}${
+            p.position
+          }</div>
+              <div class="spread-position-meaning">${p.meaning}</div>
+              <img
+                src="${card.image}"
+                alt="${card.name}"
+                class="spread-card-image"
+                onerror="this.src='https://via.placeholder.com/250x350?text=${encodeURIComponent(
+                  card.name
+                )}'"
+              >
+              <div class="spread-card-name">${card.name}</div>
+              <div class="spread-orientation">${
+                reversed ? "Invertida" : "Direita"
+              }</div>
+              <div style="font-size: 0.9rem; color: var(--color-text-light); margin-top: 0.75rem;">
+                ${reversed ? card.meanings.reversed : card.meanings.upright}
+              </div>
+            </div>
+          `;
+        }
+        container.innerHTML = html;
+      }
+
+      function renderCelticGrid(drawn) {
+        const container = document.getElementById("celtic-content");
+        if (!container) return;
+        let html = "";
+        for (let i = 0; i < spreads.celtic.length; i++) {
+          const p = spreads.celtic[i];
+          const draw = drawn[i];
+          const card = CARD_BY_ID.get(draw.cardId);
+          html += `
+            <div class="celtic-card">
+              <div class="celtic-position-num">${p.num}</div>
+              <div class="celtic-position-title">${p.position}</div>
+              <div class="celtic-meaning">${p.meaning}</div>
+              <img
+                src="${card.image}"
+                alt="${card.name}"
+                class="celtic-card-image"
+                onerror="this.src='https://via.placeholder.com/200x280?text=${encodeURIComponent(
+                  card.name
+                )}'"
+              >
+              <div class="celtic-card-name">${card.name}</div>
+              <div class="spread-orientation">${
+                draw.reversed ? "Invertida" : "Direita"
+              }</div>
+            </div>
+          `;
+        }
+        container.innerHTML = html;
+      }
+
+      function renderReading(type, drawn, meta = {}) {
+        if (type === "daily") {
+          const { cardId, reversed } = drawn[0];
+          const card = CARD_BY_ID.get(cardId);
+          document.getElementById("daily-content").innerHTML = formatCard(
+            card,
+            reversed
+          );
+          return;
+        }
+
+        if (type === "three") {
+          renderSpreadCards("three-content", spreads.three, drawn);
+          return;
+        }
+
+        if (type === "love") {
+          renderSpreadCards("love-content", spreads.love, drawn);
+          return;
+        }
+
+        if (type === "five") {
+          renderSpreadCards("five-content", spreads.five, drawn);
+          return;
+        }
+
+        if (type === "horseshoe") {
+          renderSpreadCards("horseshoe-content", spreads.horseshoe, drawn);
+          return;
+        }
+
+        if (type === "celtic") {
+          renderCelticGrid(drawn);
+        }
+      }
+
+      function drawDailyCard() {
+        const seed = seedFromString(getTodayKey());
+        const rng = mulberry32(seed);
+        const drawn = drawFromDeck(1, rng);
+        renderReading("daily", drawn);
+        saveReading("daily", drawn, { day: getTodayKey() });
+      }
+
+      function drawThreeCards() {
+        const drawn = drawFromDeck(3, Math.random);
+        renderReading("three", drawn);
+        saveReading("three", drawn);
+      }
+
+      function drawLoveReading() {
+        const drawn = drawFromDeck(3, Math.random);
+        renderReading("love", drawn);
+        saveReading("love", drawn);
+      }
+
+      function drawFiveCardReading() {
+        const drawn = drawFromDeck(5, Math.random);
+        renderReading("five", drawn);
+        saveReading("five", drawn);
+      }
+
+      function drawHorseshoeReading() {
+        const drawn = drawFromDeck(7, Math.random);
+        renderReading("horseshoe", drawn);
+        saveReading("horseshoe", drawn);
+      }
+
+      function drawCelticCross() {
+        const drawn = drawFromDeck(10, Math.random);
+        renderReading("celtic", drawn);
+        saveReading("celtic", drawn);
+      }
+
+      window.addEventListener("load", () => {
+        renderHistory();
+        drawDailyCard();
+      });
+    </script>
+  </body>
+</html>

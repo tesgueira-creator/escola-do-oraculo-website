@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Escola do Oráculo | Cursos de Tarot Online - Rafaella Kally</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --color-cream: #f5f5f0;
+        --color-dark-purple: #4b0082;
+        --color-gold: #c5a059;
+        --color-text: #2c2c2c;
+        --color-text-light: #6b6b6b;
+        --color-white: #ffffff;
+        --color-accent: #e8dcc8;
+        --font-serif: "Georgia", "Playfair Display", serif;
+        --font-sans: "Segoe UI", "Lato", sans-serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background: linear-gradient(to bottom, var(--color-cream), #fafaf8);
+        color: var(--color-text);
+        line-height: 1.6;
+      }
+
+      /* ===== NAVIGATION ===== */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(245, 245, 240, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--color-dark-purple);
+        font-family: var(--font-serif);
+        letter-spacing: 2px;
+      }
+
+      .logo-small {
+        font-size: 0.7rem;
+        color: var(--color-gold);
+        display: block;
+        margin-top: -0.3rem;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--color-text);
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: color 0.3s;
+        border-bottom: 2px solid transparent;
+      }
+
+      nav a:hover {
+        color: var(--color-dark-purple);
+        border-bottom: 2px solid var(--color-gold);
+      }
+
+      @media (max-width: 768px) {
+        nav ul {
+          gap: 1rem;
+          font-size: 0.85rem;
+        }
+      }
+
+      /* ===== HERO SECTION ===== */
+      .hero {
+        margin-top: 80px;
+        padding: 6rem 2rem;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          var(--color-cream) 0%,
+          var(--color-accent) 100%
+        );
+        min-height: 600px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .hero h1 {
+        font-family: var(--font-serif);
+        font-size: 3.5rem;
+        color: var(--color-dark-purple);
+        margin-bottom: 1rem;
+        letter-spacing: -1px;
+      }
+
+      .hero .tagline {
+        font-size: 1.4rem;
+        color: var(--color-text-light);
+        margin-bottom: 2rem;
+        font-weight: 300;
+      }
+
+      .hero .subtext {
+        font-size: 1.1rem;
+        color: var(--color-text);
+        max-width: 600px;
+        margin: 0 auto 3rem;
+        line-height: 1.8;
+      }
+
+      .cta-button {
+        background: var(--color-dark-purple);
+        color: var(--color-white);
+        padding: 1rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 10px 30px rgba(75, 0, 130, 0.2);
+      }
+
+      .cta-button:hover {
+        background: var(--color-gold);
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px rgba(75, 0, 130, 0.3);
+        color: var(--color-text);
+      }
+
+      /* ===== CARD SECTION ===== */
+      .section {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        color: var(--color-dark-purple);
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: var(--color-gold);
+        margin: 1rem auto 0;
+      }
+
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .card {
+        background: var(--color-white);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s;
+        border: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(75, 0, 130, 0.15);
+        border-color: var(--color-gold);
+      }
+
+      .card-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .card h3 {
+        font-family: var(--font-serif);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--color-dark-purple);
+      }
+
+      .card p {
+        color: var(--color-text-light);
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-price {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--color-gold);
+        margin-bottom: 1rem;
+      }
+
+      .card-price-old {
+        font-size: 1rem;
+        color: var(--color-text-light);
+        text-decoration: line-through;
+        margin-right: 0.5rem;
+      }
+
+      /* ===== TESTIMONIALS ===== */
+      .testimonial {
+        background: var(--color-white);
+        padding: 2rem;
+        border-radius: 12px;
+        border-left: 4px solid var(--color-gold);
+        margin-bottom: 2rem;
+      }
+
+      .testimonial-text {
+        font-style: italic;
+        color: var(--color-text-light);
+        margin-bottom: 1rem;
+        font-size: 1.05rem;
+      }
+
+      .testimonial-author {
+        font-weight: 600;
+        color: var(--color-dark-purple);
+      }
+
+      .testimonial-role {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+      }
+
+      .stars {
+        color: var(--color-gold);
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      /* ===== ABOUT SECTION ===== */
+      .about {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+      }
+
+      .about-text h2 {
+        font-family: var(--font-serif);
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: var(--color-dark-purple);
+      }
+
+      .about-text p {
+        color: var(--color-text-light);
+        margin-bottom: 1rem;
+        line-height: 1.8;
+      }
+
+      .about-image {
+        background: linear-gradient(
+          135deg,
+          var(--color-dark-purple),
+          var(--color-gold)
+        );
+        border-radius: 12px;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-white);
+        font-size: 4rem;
+      }
+
+      @media (max-width: 768px) {
+        .about {
+          grid-template-columns: 1fr;
+        }
+
+        .about-image {
+          height: 250px;
+        }
+      }
+
+      /* ===== INTERACTIVE CARD DRAW ===== */
+      .card-draw-container {
+        background: linear-gradient(
+          135deg,
+          rgba(75, 0, 130, 0.05),
+          rgba(197, 160, 89, 0.05)
+        );
+        padding: 3rem;
+        border-radius: 12px;
+        text-align: center;
+        margin: 3rem 0;
+      }
+
+      .card-draw-container h3 {
+        font-family: var(--font-serif);
+        font-size: 1.8rem;
+        color: var(--color-dark-purple);
+        margin-bottom: 1rem;
+      }
+
+      .card-draw-box {
+        display: inline-block;
+        background: var(--color-white);
+        border: 2px solid var(--color-gold);
+        padding: 2rem;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin: 1rem 0;
+      }
+
+      .card-draw-box:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(75, 0, 130, 0.2);
+      }
+
+      .card-draw-box.three-card {
+        flex: 1;
+        min-width: 120px;
+        max-width: 180px;
+        padding: 1.5rem 1rem;
+        margin: 0;
+      }
+
+      .card-result {
+        font-size: 3rem;
+        margin: 1rem 0;
+        animation: flip 0.6s ease-in-out;
+      }
+
+      @keyframes flip {
+        0%,
+        100% {
+          transform: rotateY(0deg);
+        }
+        50% {
+          transform: rotateY(90deg);
+        }
+      }
+
+      /* Reading Type Buttons */
+      .reading-type-btn {
+        background: rgba(197, 160, 89, 0.1);
+        border: 2px solid var(--color-gold);
+        color: var(--color-text);
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s;
+        font-size: 0.95rem;
+      }
+
+      .reading-type-btn:hover {
+        background: rgba(197, 160, 89, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .reading-type-btn.active {
+        background: var(--color-gold);
+        color: var(--color-text);
+        font-weight: 600;
+      }
+
+      /* Card Display */
+      .card-display,
+      .card-display-three,
+      .card-display-celtic {
+        background: var(--color-white);
+        border: 1px solid rgba(75, 0, 130, 0.1);
+        border-radius: 12px;
+        padding: 2rem;
+        animation: slideInUp 0.5s ease;
+      }
+
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card-info {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-emoji {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+      }
+
+      .card-name {
+        font-family: var(--font-serif);
+        font-size: 1.8rem;
+        color: var(--color-dark-purple);
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+      }
+
+      .card-suit {
+        color: var(--color-gold);
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .card-element {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        margin-bottom: 1.5rem;
+      }
+
+      .card-meaning {
+        background: rgba(75, 0, 130, 0.05);
+        padding: 1.5rem;
+        border-radius: 8px;
+        border-left: 4px solid var(--color-gold);
+        margin-bottom: 1rem;
+      }
+
+      .card-meaning-label {
+        font-weight: 600;
+        color: var(--color-dark-purple);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .card-meaning-text {
+        color: var(--color-text-light);
+        line-height: 1.6;
+        font-size: 0.95rem;
+      }
+
+      .card-reversed {
+        background: rgba(197, 160, 89, 0.05);
+        border-left-color: rgba(197, 160, 89, 0.5);
+      }
+
+      /* Three Card Display */
+      .three-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .three-card-item {
+        background: rgba(75, 0, 130, 0.05);
+        padding: 1.5rem;
+        border-radius: 8px;
+        border-top: 3px solid var(--color-gold);
+      }
+
+      .three-card-position {
+        font-weight: 600;
+        color: var(--color-dark-purple);
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      /* Celtic Cross Display */
+      .celtic-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .celtic-position {
+        background: rgba(75, 0, 130, 0.05);
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 2px solid var(--color-gold);
+        text-align: center;
+      }
+
+      .celtic-position-number {
+        font-weight: 700;
+        color: var(--color-gold);
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .celtic-position-name {
+        font-weight: 600;
+        color: var(--color-dark-purple);
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .celtic-position-emoji {
+        font-size: 2.5rem;
+        margin: 0.5rem 0;
+      }
+
+      .celtic-position-card {
+        font-weight: 600;
+        color: var(--color-text);
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+      }
+
+      @media (max-width: 768px) {
+        .card-draw-box.three-card {
+          min-width: 100px;
+          max-width: 130px;
+          padding: 1rem;
+        }
+
+        .celtic-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+        }
+
+        .celtic-position {
+          padding: 1rem;
+        }
+
+        .card-emoji {
+          font-size: 3rem;
+        }
+
+        .card-name {
+          font-size: 1.5rem;
+        }
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: var(--color-gold);
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+
+      .social-icons {
+        margin-top: 2rem;
+        font-size: 1.5rem;
+        letter-spacing: 1rem;
+      }
+
+      /* ===== FAQ ===== */
+      .faq-item {
+        background: var(--color-white);
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      .faq-question {
+        padding: 1.5rem;
+        background: var(--color-accent);
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--color-dark-purple);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s;
+      }
+
+      .faq-question:hover {
+        background: rgba(75, 0, 130, 0.1);
+      }
+
+      .faq-answer {
+        padding: 1.5rem;
+        color: var(--color-text-light);
+        display: none;
+        background: var(--color-white);
+      }
+
+      .faq-answer.active {
+        display: block;
+      }
+
+      .faq-icon {
+        transition: transform 0.3s;
+      }
+
+      .faq-icon.active {
+        transform: rotate(180deg);
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero .tagline {
+          font-size: 1.1rem;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+        }
+
+        nav ul {
+          gap: 1rem;
+        }
+
+        .cards-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVIGATION -->
+    <nav>
+      <div class="logo">
+        ORÁCULO
+        <span class="logo-small">por Rafaella Kally</span>
+      </div>
+      <ul>
+        <li><a href="#cursos">Cursos</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <h1>Tarot com Clareza</h1>
+      <p class="tagline">O teu caminho nas cartas</p>
+      <p class="subtext">
+        Aprenda a ler tarot sem decorar. Domine a ética profissional e
+        prepare-se para consultar clientes em Portugal e Brasil.
+      </p>
+      <button class="cta-button" onclick="scrollTo('#cursos')">
+        Começar Agora
+      </button>
+    </section>
+
+    <!-- INTERACTIVE CARD DRAW -->
+    <div class="section">
+      <div class="card-draw-container">
+        <h3>✨ Mensagem do Dia ✨</h3>
+        <p style="color: var(--color-text-light); margin-bottom: 1.5rem">
+          Escolha um tipo de leitura
+        </p>
+
+        <!-- Reading Type Selector -->
+        <div
+          style="
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
+        >
+          <button
+            class="reading-type-btn active"
+            onclick="setReadingType('daily', this)"
+          >
+            Mensagem do Dia
+          </button>
+          <button
+            class="reading-type-btn"
+            onclick="setReadingType('three', this)"
+          >
+            Tirada 3 Cartas
+          </button>
+          <button
+            class="reading-type-btn"
+            onclick="setReadingType('celtic', this)"
+          >
+            Cruz Celta
+          </button>
+        </div>
+
+        <!-- Daily Reading -->
+        <div
+          id="daily-reading"
+          class="reading-container"
+          style="display: block"
+        >
+          <div class="card-draw-box" onclick="drawCard('daily')">
+            <div class="card-result">🎴</div>
+            <p style="color: var(--color-text-light)">
+              Clique para tirar uma carta
+            </p>
+          </div>
+          <div
+            id="daily-result"
+            class="card-display"
+            style="display: none; margin-top: 2rem"
+          ></div>
+        </div>
+
+        <!-- Three Card Reading -->
+        <div id="three-reading" class="reading-container" style="display: none">
+          <div
+            style="
+              display: flex;
+              gap: 1rem;
+              justify-content: center;
+              flex-wrap: wrap;
+            "
+          >
+            <div class="card-draw-box three-card" onclick="drawThreeCards()">
+              <div class="card-result">🎴</div>
+              <p style="color: var(--color-text-light)">Passado</p>
+            </div>
+            <div class="card-draw-box three-card" onclick="drawThreeCards()">
+              <div class="card-result">🎴</div>
+              <p style="color: var(--color-text-light)">Presente</p>
+            </div>
+            <div class="card-draw-box three-card" onclick="drawThreeCards()">
+              <div class="card-result">🎴</div>
+              <p style="color: var(--color-text-light)">Futuro</p>
+            </div>
+          </div>
+          <button
+            class="cta-button"
+            style="margin-top: 1.5rem"
+            onclick="drawThreeCards()"
+          >
+            Tirar 3 Cartas
+          </button>
+          <div
+            id="three-result"
+            class="card-display-three"
+            style="display: none; margin-top: 2rem"
+          ></div>
+        </div>
+
+        <!-- Celtic Cross -->
+        <div
+          id="celtic-reading"
+          class="reading-container"
+          style="display: none"
+        >
+          <p style="color: var(--color-text-light); margin-bottom: 1.5rem">
+            A Cruz Celta revela 10 camadas de influência (posições 1-10)
+          </p>
+          <button
+            class="cta-button"
+            style="margin-bottom: 1.5rem"
+            onclick="drawCelticCross()"
+          >
+            Fazer Leitura da Cruz Celta
+          </button>
+          <div
+            id="celtic-result"
+            class="card-display-celtic"
+            style="display: none"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CURSOS SECTION -->
+    <section class="section" id="cursos">
+      <h2 class="section-title">Os Nossos Cursos</h2>
+
+      <div class="cards-grid">
+        <!-- MÓDULO 1 -->
+        <div class="card">
+          <div class="card-icon">📚</div>
+          <h3>Módulo 1: A Base do Oráculo</h3>
+          <p>
+            Domine os 22 Arcanos Maiores e os 4 Naipes. Aprenda a história por
+            trás de cada carta de forma memorável.
+          </p>
+          <div class="card-price">
+            <span class="card-price-old">€49</span>€29
+          </div>
+          <p
+            style="
+              font-size: 0.9rem;
+              color: var(--color-text-light);
+              margin-bottom: 1rem;
+            "
+          >
+            ⏱️ 8-10 horas de conteúdo | 📖 Dicionário Kally incluído
+          </p>
+          <a
+            href="modulo-1.html"
+            class="cta-button"
+            style="text-decoration: none; display: inline-block"
+          >
+            Saber Mais
+          </a>
+        </div>
+
+        <!-- MÓDULO 2 -->
+        <div class="card">
+          <div class="card-icon">🔮</div>
+          <h3>Módulo 2: O Método Kally</h3>
+          <p>
+            Prática intensiva. Domine as 3 tiradas principais e desenvolva sua
+            intuição com o método exclusivo de Rafaella.
+          </p>
+          <div class="card-price">
+            <span class="card-price-old">€79</span>€49
+          </div>
+          <p
+            style="
+              font-size: 0.9rem;
+              color: var(--color-text-light);
+              margin-bottom: 1rem;
+            "
+          >
+            ⏱️ 10-12 horas | 👥 Comunidade incluída
+          </p>
+          <a
+            href="modulo-2.html"
+            class="cta-button"
+            style="text-decoration: none; display: inline-block"
+          >
+            Saber Mais
+          </a>
+        </div>
+
+        <!-- MÓDULO 3 -->
+        <div class="card">
+          <div class="card-icon">💼</div>
+          <h3>Módulo 3: Profissionalização</h3>
+          <p>
+            Prepare-se para consultar clientes. Marketing, preços, ferramentas e
+            como estruturar seu negócio de tarot.
+          </p>
+          <div class="card-price">
+            <span class="card-price-old">€99</span>€69
+          </div>
+          <p
+            style="
+              font-size: 0.9rem;
+              color: var(--color-text-light);
+              margin-bottom: 1rem;
+            "
+          >
+            ⏱️ 12-14 horas | 📱 Templates prontos
+          </p>
+          <a
+            href="modulo-3.html"
+            class="cta-button"
+            style="text-decoration: none; display: inline-block"
+          >
+            Saber Mais
+          </a>
+        </div>
+
+        <!-- BUNDLE -->
+        <div
+          class="card"
+          style="
+            background: linear-gradient(
+              135deg,
+              var(--color-dark-purple),
+              rgba(75, 0, 130, 0.8)
+            );
+            color: var(--color-white);
+            grid-column: span 1;
+          "
+        >
+          <div class="card-icon">🌟</div>
+          <h3 style="color: var(--color-white)">Bundle Completo</h3>
+          <p style="color: rgba(255, 255, 255, 0.9)">
+            Todos os 3 módulos + Certificado Digital + Comunidade Exclusiva
+            "Círculo do Oráculo" + Bónus.
+          </p>
+          <div
+            style="
+              color: var(--color-gold);
+              font-size: 2rem;
+              font-weight: bold;
+              margin: 1rem 0;
+            "
+          >
+            <span
+              style="
+                text-decoration: line-through;
+                font-size: 1.3rem;
+                opacity: 0.8;
+              "
+              >€227</span
+            ><br />€129
+          </div>
+          <p
+            style="
+              font-size: 0.85rem;
+              color: rgba(255, 255, 255, 0.8);
+              margin-bottom: 1rem;
+            "
+          >
+            🎁 Save €98! | ⏱️ 30-36 horas de conteúdo
+          </p>
+          <button
+            style="
+              background: var(--color-gold);
+              color: var(--color-text);
+              border: none;
+              padding: 1rem 2.5rem;
+              border-radius: 50px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s;
+              text-decoration: none;
+            "
+            onclick="window.location.href='checkout.html'"
+          >
+            Inscrever Agora
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE SECTION -->
+    <section class="section" id="sobre">
+      <h2 class="section-title">Quem é Rafaella Kally?</h2>
+      <div class="about">
+        <div class="about-text">
+          <h2>Taróloga & Educadora Especializada</h2>
+          <p>
+            Com mais de 10 anos de experiência em leitura de tarot, Rafaella
+            desenvolveu o "Método Kally" – uma abordagem que combina
+            conhecimento tradicional com prática intuitiva moderna.
+          </p>
+          <p>
+            Sua missão é desmistificar o tarot e formar tarólogos éticos,
+            capazes de ajudar verdadeiramente seus clientes sem promessas falsas
+            ou manipulação.
+          </p>
+          <p>
+            Já formou alunos em Portugal e Brasil, muitos dos quais hoje
+            consultam com mais segurança e estrutura.
+          </p>
+        </div>
+        <div class="about-image">👩‍🏫</div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section">
+      <h2 class="section-title">O Que Dizem Nossos Alunos</h2>
+
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          "Antes eu tinha medo de começar. Depois do Módulo 1, entendi que o
+          tarot pode ser acessível e bem explicado. Me senti mais segura para
+          praticar."
+        </p>
+        <p class="testimonial-author">Sofia M.</p>
+        <p class="testimonial-role">Lisboa, PT</p>
+      </div>
+
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          "O Módulo 3 mudou a forma como eu organizo minhas leituras. Passei a
+          atender online com mais confiança e consistência. Rafaella foca em
+          ferramentas práticas e responsabilidade."
+        </p>
+        <p class="testimonial-author">Ana C.</p>
+        <p class="testimonial-role">São Paulo, BR</p>
+      </div>
+
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          "Gostei muito da qualidade do conteúdo. Os vídeos são bem produzidos,
+          objetivos e com boa didática. Dá para ver cuidado e consistência no
+          método."
+        </p>
+        <p class="testimonial-author">Miguel R.</p>
+        <p class="testimonial-role">Porto, PT</p>
+      </div>
+    </section>
+
+    <!-- CÍRCULO DO ORÁCULO -->
+    <section class="section" id="circulo">
+      <h2 class="section-title">Círculo do Oráculo</h2>
+      <div class="card" style="text-align: center">
+        <h3>Comunidade Exclusiva (€15/mês)</h3>
+        <p style="margin: 1.5rem 0; font-size: 1.1rem">
+          Acesso ao grupo privado Telegram com mentorias ao vivo, partilha de
+          cases, e networking com outros tarólogos formados pela escola.
+        </p>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+          "
+        >
+          <div>
+            <p style="font-size: 1.5rem">🎯</p>
+            <p style="font-weight: 600">Mentorias Semanais</p>
+          </div>
+          <div>
+            <p style="font-size: 1.5rem">👥</p>
+            <p style="font-weight: 600">Networking Ativo</p>
+          </div>
+          <div>
+            <p style="font-size: 1.5rem">📚</p>
+            <p style="font-weight: 600">Recursos Contínuos</p>
+          </div>
+        </div>
+        <button
+          class="cta-button"
+          onclick="window.location.href='circulo.html'"
+        >
+          Saber Mais Sobre Círculo
+        </button>
+      </div>
+    </section>
+
+    <!-- POLÍTICA / TERMOS (ÂNCORAS DO FOOTER) -->
+    <section class="section" id="politica">
+      <h2 class="section-title">Política de Privacidade</h2>
+      <div class="card">
+        <p>
+          Esta página é uma versão resumida e informativa. Os dados enviados via
+          email (ex.: pedido de informações/inscrição) são usados apenas para
+          responder ao seu contacto e dar seguimento ao seu pedido.
+        </p>
+        <p style="margin-top: 1rem">
+          Para pedir remoção/alteração de dados ou esclarecer dúvidas, contacte:
+          <a href="mailto:contacto@rafaellakally.com"
+            >contacto@rafaellakally.com</a
+          >.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="termos">
+      <h2 class="section-title">Termos e Condições</h2>
+      <div class="card">
+        <p>
+          As informações deste site têm carácter educativo. Resultados variam
+          conforme dedicação, contexto e experiência prévia.
+        </p>
+        <p style="margin-top: 1rem">
+          Para informações oficiais sobre inscrição, pagamentos e acesso, fale
+          connosco em
+          <a href="mailto:contacto@rafaellakally.com"
+            >contacto@rafaellakally.com</a
+          >.
+        </p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <h2 class="section-title">Perguntas Frequentes</h2>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Preciso ter experiência prévia com tarot?</span>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          Não! Os cursos começam do zero. Se já lê tarot, começará no Módulo 2
+          ou 3 para aprofundar. O Módulo 1 é acessível para iniciantes
+          absolutos.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Qual é o formato dos cursos?</span>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          Vídeos pré-gravados (10-15 min cada), acessíveis 24/7. Sem aulas ao
+          vivo obrigatórias. Você estuda no seu ritmo, sem prazos.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>O certificado é reconhecido oficialmente?</span>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          O certificado é privado e reconhece a conclusão do curso. Não é uma
+          qualificação estatal (DGERT), mas tem valor de mercado entre clientes
+          e é amplamente aceite no LinkedIn.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Quanto tempo leva para completar?</span>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          Cada módulo leva aproximadamente 4 semanas se estudar 1-2 horas por
+          semana. Você pode ir mais rápido ou mais lento conforme sua agenda.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Há garantia de reembolso?</span>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          Sim! Se não estiver satisfeito nos primeiros 7 dias, devolvemos 100%
+          do valor. Nenhuma pergunta feita.
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contacto">
+      <h3 style="margin-bottom: 1rem">Escola do Oráculo</h3>
+      <p>Cursos de Tarot Online • Portugal + Brasil</p>
+
+      <div class="footer-links">
+        <a href="#politica">Política de Privacidade</a>
+        <a href="#termos">Termos e Condições</a>
+        <a href="mailto:contacto@rafaellakally.com"
+          >Email: contacto@rafaellakally.com</a
+        >
+      </div>
+
+      <div class="social-icons">
+        <a
+          href="https://www.instagram.com/tarostesia?igsh=MXZjZjBpdXFmend6aA=="
+          target="_blank"
+          rel="noopener"
+          aria-label="Instagram"
+          title="Instagram"
+          >📷</a
+        >
+        <span aria-hidden="true">📱 🎥</span>
+      </div>
+
+      <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8">
+        © 2026 Escola do Oráculo por Rafaella Kally. Todos os direitos
+        reservados.
+      </p>
+    </footer>
+
+    <script>
+      // ===== COMPLETE TAROT CARD BANK =====
+      const tarotCards = {
+        majorArcana: [
+          {
+            id: 0,
+            name: "O Louco",
+            emoji: "🃏",
+            number: "0",
+            element: "Ar",
+            upright:
+              "Novos começos, inocência, espontaneidade, potencial ilimitado",
+            reversed: "Impulsividade, falta de reflexão, atos precipitados",
+            meaning:
+              "Representa o espírito aventureiro e a disposição para tomar riscos calculados.",
+          },
+          {
+            id: 1,
+            name: "O Mago",
+            emoji: "🪄",
+            number: "I",
+            element: "Mercúrio",
+            upright: "Poder, maestria, recursos, inspiração, poder pessoal",
+            reversed: "Manipulação, falta de poder, indecisão",
+            meaning:
+              "Símbolo do potencial humano e da capacidade de manifestação.",
+          },
+          {
+            id: 2,
+            name: "A Sacerdotisa",
+            emoji: "👑",
+            number: "II",
+            element: "Lua",
+            upright: "Intuição, know, divino feminino, subconsciente",
+            reversed: "Ignorância, revelação, frieza emocional",
+            meaning:
+              "Acesso aos mistérios do subconsciente e da sabedoria interior.",
+          },
+          {
+            id: 3,
+            name: "A Imperatriz",
+            emoji: "🌸",
+            number: "III",
+            element: "Vénus",
+            upright:
+              "Fertilidade, beleza, abundância, criatividade, sensualidade",
+            reversed: "Infertilidade, negligência, falta de cuidado",
+            meaning:
+              "Energia criativa e geradora, ligada à maternidade e crescimento.",
+          },
+          {
+            id: 4,
+            name: "O Imperador",
+            emoji: "👨‍⚖️",
+            number: "IV",
+            element: "Áries",
+            upright: "Autoridade, estrutura, poder, controle, paternidade",
+            reversed: "Tirania, impotência, imaturidade",
+            meaning: "Ordem, estrutura e liderança estabelecida.",
+          },
+          {
+            id: 5,
+            name: "O Papa",
+            emoji: "📿",
+            number: "V",
+            element: "Touro",
+            upright: "Tradição, conformidade, moralidade, ética, ensino",
+            reversed: "Dogmatismo, ingenuidade, resistência à mudança",
+            meaning: "Orientação espiritual e busca pelo conhecimento sagrado.",
+          },
+          {
+            id: 6,
+            name: "Os Apaixonados",
+            emoji: "💕",
+            number: "VI",
+            element: "Gémeos",
+            upright: "Amor, harmonia, relacionamentos, valores, escolhas",
+            reversed: "Desarmonia, confusão, conflito emocional",
+            meaning:
+              "Decisões importantes sobre relacionamentos e valores pessoais.",
+          },
+          {
+            id: 7,
+            name: "O Carro",
+            emoji: "🚗",
+            number: "VII",
+            element: "Caranguejo",
+            upright: "Controle, movimento, determinação, vontade, vitória",
+            reversed: "Falta de controle, agressão, frustração",
+            meaning: "Progresso através de força de vontade e determinação.",
+          },
+          {
+            id: 8,
+            name: "A Força",
+            emoji: "💪",
+            number: "VIII",
+            element: "Leão",
+            upright: "Força interior, coragem, paciência, controle",
+            reversed: "Fraqueza, insegurança, falta de confiança",
+            meaning: "Poder gentil e domínio sobre instintos primitivos.",
+          },
+          {
+            id: 9,
+            name: "O Eremita",
+            emoji: "🔦",
+            number: "IX",
+            element: "Virgem",
+            upright: "Sabedoria, introspecção, isolamento, procura interior",
+            reversed: "Solidão, isolamento, recusa de ajuda",
+            meaning: "Jornada de auto-descoberta e iluminação espiritual.",
+          },
+          {
+            id: 10,
+            name: "A Roda da Fortuna",
+            emoji: "🎡",
+            number: "X",
+            element: "Júpiter",
+            upright: "Boa sorte, ciclos, destino, viragem",
+            reversed: "Má sorte, resistência ao mudança, falta de controle",
+            meaning: "Ciclos naturais da vida e mudanças inevitáveis.",
+          },
+          {
+            id: 11,
+            name: "A Justiça",
+            emoji: "⚖️",
+            number: "XI",
+            element: "Libra",
+            upright: "Justiça, equilíbrio, verdade, causa e efeito",
+            reversed: "Injustiça, desequilíbrio, preconceito",
+            meaning: "Responsabilidade e consequências das ações.",
+          },
+          {
+            id: 12,
+            name: "O Enforcado",
+            emoji: "🔗",
+            number: "XII",
+            element: "Neptuno",
+            upright: "Suspensão, restrição, deixar ir, perspectiva",
+            reversed: "Resistência, apego, falta de perspectiva",
+            meaning: "Sacrifício temporário para ganho espiritual.",
+          },
+          {
+            id: 13,
+            name: "A Morte",
+            emoji: "💀",
+            number: "XIII",
+            element: "Escorpião",
+            upright: "Transformação, encerramento, novo começo, transição",
+            reversed: "Estagnação, resistência à mudança, medo",
+            meaning: "Transição e transformação necessária para crescimento.",
+          },
+          {
+            id: 14,
+            name: "A Temperança",
+            emoji: "⚗️",
+            number: "XIV",
+            element: "Sagitário",
+            upright: "Equilíbrio, moderação, paciência, harmonia",
+            reversed: "Desequilíbrio, excesso, falta de paciência",
+            meaning: "Busca pelo equilíbrio e moderação em todas as coisas.",
+          },
+          {
+            id: 15,
+            name: "O Diabo",
+            emoji: "😈",
+            number: "XV",
+            element: "Capricórnio",
+            upright: "Escravatura, materialismo, sexualidade, liberdade negada",
+            reversed: "Libertação, libertação, empoderamento",
+            meaning: "Confronto com limitações e desejos carnais.",
+          },
+          {
+            id: 16,
+            name: "A Torre",
+            emoji: "🏚️",
+            number: "XVI",
+            element: "Marte",
+            upright: "Destruição, colapso, revelação, epifania",
+            reversed: "Recuperação lenta, evitar desastre",
+            meaning: "Desintegração necessária para reconstrução.",
+          },
+          {
+            id: 17,
+            name: "A Estrela",
+            emoji: "⭐",
+            number: "XVII",
+            element: "Aquário",
+            upright: "Esperança, fé, renovação, espiritualidade",
+            reversed: "Desespero, perda de fé, desilusão",
+            meaning: "Guia celestial para inspiração e direção.",
+          },
+          {
+            id: 18,
+            name: "A Lua",
+            emoji: "🌙",
+            number: "XVIII",
+            element: "Peixes",
+            upright: "Ilusão, medo, intuição, inconsciente",
+            reversed: "Clareza, alerta, verdade revelada",
+            meaning: "Exploração de medos e da mente subconsciente.",
+          },
+          {
+            id: 19,
+            name: "O Sol",
+            emoji: "☀️",
+            number: "XIX",
+            element: "Sol",
+            upright: "Sucesso, alegria, vitalidade, otimismo",
+            reversed: "Sombra, atraso, incerteza",
+            meaning: "Claridade, energia positiva e iluminação.",
+          },
+          {
+            id: 20,
+            name: "O Julgamento",
+            emoji: "📯",
+            number: "XX",
+            element: "Plutão",
+            upright: "Reckoning, despertar, chamada, renovação",
+            reversed: "Auto-dúvida, falta de clareza, adiamento",
+            meaning: "Avaliação e chamado para um nível superior.",
+          },
+          {
+            id: 21,
+            name: "O Mundo",
+            emoji: "🌍",
+            number: "XXI",
+            element: "Saturno",
+            upright: "Conclusão, cumprimento, viagem, encerramento",
+            reversed: "Incompletude, busca contínua",
+            meaning: "Ciclo completo e totalidade alcançada.",
+          },
+        ],
+        minorArcana: {
+          copas: [
+            {
+              name: "Ás de Copas",
+              emoji: "🏆",
+              meaning: "Novo começo emocional, oferecimento, oportunidade",
+            },
+            {
+              name: "Dois de Copas",
+              emoji: "💑",
+              meaning: "Parceria, união, relacionamento harmonioso",
+            },
+            {
+              name: "Três de Copas",
+              emoji: "🎉",
+              meaning: "Celebração, comunidade, amizade, alegria",
+            },
+            {
+              name: "Quatro de Copas",
+              emoji: "🤔",
+              meaning: "Apatia, reflexão, reavaliação",
+            },
+            {
+              name: "Cinco de Copas",
+              emoji: "😢",
+              meaning: "Perda, tristeza, desapontamento, remorso",
+            },
+            {
+              name: "Seis de Copas",
+              emoji: "🎁",
+              meaning: "Nostalgia, generosidade, inocência",
+            },
+            {
+              name: "Sete de Copas",
+              emoji: "💭",
+              meaning: "Ilusão, fantasia, confusão de escolhas",
+            },
+            {
+              name: "Oito de Copas",
+              emoji: "🚶",
+              meaning: "Abandono, partida, busca de significado",
+            },
+            {
+              name: "Nove de Copas",
+              emoji: "😊",
+              meaning: "Desejo realizado, satisfação, contentamento",
+            },
+            {
+              name: "Dez de Copas",
+              emoji: "👨‍👩‍👧‍👦",
+              meaning: "Harmonia familiar, felicidade doméstica",
+            },
+            {
+              name: "Pajem de Copas",
+              emoji: "🧒",
+              meaning: "Juventude, inteligência emocional, sensibilidade",
+            },
+            {
+              name: "Cavaleiro de Copas",
+              emoji: "🎭",
+              meaning: "Romance, convite, sedução",
+            },
+            {
+              name: "Rainha de Copas",
+              emoji: "👸",
+              meaning: "Intuição, compaixão, empatia",
+            },
+            {
+              name: "Rei de Copas",
+              emoji: "👑",
+              meaning: "Empatia, compreensão, energia emocional",
+            },
+          ],
+          ouros: [
+            {
+              name: "Ás de Ouros",
+              emoji: "💎",
+              meaning: "Abundância, prosperidade, oportunidade financeira",
+            },
+            {
+              name: "Dois de Ouros",
+              emoji: "⚖️",
+              meaning: "Equilibrio, adaptabilidade, flexibilidade",
+            },
+            {
+              name: "Três de Ouros",
+              emoji: "🏗️",
+              meaning: "Colaboração, trabalho em equipa, mestria",
+            },
+            {
+              name: "Quatro de Ouros",
+              emoji: "🔐",
+              meaning: "Segurança, controle, conservadorismo",
+            },
+            {
+              name: "Cinco de Ouros",
+              emoji: "❄️",
+              meaning: "Penúria, pobreza, preocupação material",
+            },
+            {
+              name: "Seis de Ouros",
+              emoji: "🤝",
+              meaning: "Generosidade, caridade, auxílio",
+            },
+            {
+              name: "Sete de Ouros",
+              emoji: "🌱",
+              meaning: "Investimento, crescimento, espera",
+            },
+            {
+              name: "Oito de Ouros",
+              emoji: "🛠️",
+              meaning: "Mestria, habilidade, dedicação",
+            },
+            {
+              name: "Nove de Ouros",
+              emoji: "💰",
+              meaning: "Independência, abundância, bem-estar",
+            },
+            {
+              name: "Dez de Ouros",
+              emoji: "🏰",
+              meaning: "Riqueza, herança, segurança familiar",
+            },
+            {
+              name: "Pajem de Ouros",
+              emoji: "📚",
+              meaning: "Estudo, aprendizado, potencial",
+            },
+            {
+              name: "Cavaleiro de Ouros",
+              emoji: "🐎",
+              meaning: "Confiabilidade, produtividade, sensibilidade",
+            },
+            {
+              name: "Rainha de Ouros",
+              emoji: "👑",
+              meaning: "Practicidade, abundância, feminilidade",
+            },
+            {
+              name: "Rei de Ouros",
+              emoji: "💼",
+              meaning: "Liderança, autoridade, riqueza",
+            },
+          ],
+          espadas: [
+            {
+              name: "Ás de Espadas",
+              emoji: "⚔️",
+              meaning: "Nova verdade, clareza, poder da palavra",
+            },
+            {
+              name: "Dois de Espadas",
+              emoji: "🙈",
+              meaning: "Indecisão, confusão, impasse",
+            },
+            {
+              name: "Três de Espadas",
+              emoji: "💔",
+              meaning: "Sofrimento, perda, dor emocional",
+            },
+            {
+              name: "Quatro de Espadas",
+              emoji: "😴",
+              meaning: "Descanso, pausa, recuperação",
+            },
+            {
+              name: "Cinco de Espadas",
+              emoji: "⚡",
+              meaning: "Conflito, derrota, perda",
+            },
+            {
+              name: "Seis de Espadas",
+              emoji: "🚣",
+              meaning: "Transição, viagem, movimento",
+            },
+            {
+              name: "Sete de Espadas",
+              emoji: "🤥",
+              meaning: "Engano, furtividade, desonestidade",
+            },
+            {
+              name: "Oito de Espadas",
+              emoji: "🔗",
+              meaning: "Restrição, aprisionamento, autoengano",
+            },
+            {
+              name: "Nove de Espadas",
+              emoji: "😰",
+              meaning: "Ansiedade, pesadelo, preocupação",
+            },
+            {
+              name: "Dez de Espadas",
+              emoji: "⚰️",
+              meaning: "Fim, finalização, colapso",
+            },
+            {
+              name: "Pajem de Espadas",
+              emoji: "👦",
+              meaning: "Inteligência, curiosidade, audácia",
+            },
+            {
+              name: "Cavaleiro de Espadas",
+              emoji: "🗡️",
+              meaning: "Ação, verdade, justiça",
+            },
+            {
+              name: "Rainha de Espadas",
+              emoji: "🕊️",
+              meaning: "Independência, inteligência, clareza",
+            },
+            {
+              name: "Rei de Espadas",
+              emoji: "👨‍⚖️",
+              meaning: "Inteligência, autoridade, verdade",
+            },
+          ],
+          paus: [
+            {
+              name: "Ás de Paus",
+              emoji: "🔥",
+              meaning: "Criatividade, novo potencial, energia",
+            },
+            {
+              name: "Dois de Paus",
+              emoji: "🤝",
+              meaning: "Parcerias, planeamento, visão",
+            },
+            {
+              name: "Três de Paus",
+              emoji: "🌍",
+              meaning: "Expansão, exploração, oportunidade",
+            },
+            {
+              name: "Quatro de Paus",
+              emoji: "🎊",
+              meaning: "Celebração, comunidade, harmonia",
+            },
+            {
+              name: "Cinco de Paus",
+              emoji: "⚡",
+              meaning: "Conflito, competição, tension",
+            },
+            {
+              name: "Seis de Paus",
+              emoji: "🏅",
+              meaning: "Vitória, reconhecimento, êxito",
+            },
+            {
+              name: "Sete de Paus",
+              emoji: "🛡️",
+              meaning: "Defesa, proteção, persistência",
+            },
+            {
+              name: "Oito de Paus",
+              emoji: "💨",
+              meaning: "Movimento rápido, progresso, comunicação",
+            },
+            {
+              name: "Nove de Paus",
+              emoji: "⛰️",
+              meaning: "Resistência, força, vigilância",
+            },
+            {
+              name: "Dez de Paus",
+              emoji: "🪵",
+              meaning: "Carga, responsabilidade, família",
+            },
+            {
+              name: "Pajem de Paus",
+              emoji: "🧗",
+              meaning: "Aventura, exploração, entusiasmo",
+            },
+            {
+              name: "Cavaleiro de Paus",
+              emoji: "🐴",
+              meaning: "Energia, paixão, ação rápida",
+            },
+            {
+              name: "Rainha de Paus",
+              emoji: "🔮",
+              meaning: "Intuição criativa, confiança, independência",
+            },
+            {
+              name: "Rei de Paus",
+              emoji: "🔱",
+              meaning: "Liderança criativa, carisma, inspiração",
+            },
+          ],
+        },
+      };
+
+      let currentReadingType = "daily";
+      let drawnCards = { daily: null, three: [], celtic: [] };
+
+      // ===== READING TYPE SELECTOR =====
+      function setReadingType(type) {
+        currentReadingType = type;
+        document
+          .querySelectorAll(".reading-type-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        if (arguments.length > 1 && arguments[1]) {
+          arguments[1].classList.add("active");
+        } else {
+          const fallbackBtn = document.querySelector(
+            `.reading-type-btn[onclick^="setReadingType('${type}'"]`
+          );
+          fallbackBtn?.classList.add("active");
+        }
+
+        document.querySelectorAll(".reading-container").forEach((container) => {
+          container.style.display = "none";
+        });
+        document.getElementById(type + "-reading").style.display = "block";
+
+        // Clear previous results
+        document.getElementById(type + "-result").style.display = "none";
+      }
+
+      // ===== GET RANDOM CARD =====
+      function getRandomCard(source = "all") {
+        let cardPool = [];
+
+        if (source === "all" || source === "major") {
+          cardPool.push(...tarotCards.majorArcana);
+        }
+        if (source === "all" || source === "minor") {
+          Object.values(tarotCards.minorArcana).forEach((suit) => {
+            cardPool.push(...suit);
+          });
+        }
+
+        return cardPool[Math.floor(Math.random() * cardPool.length)];
+      }
+
+      // ===== FORMAT CARD DISPLAY =====
+      function formatCardDisplay(card, isReversed = false) {
+        const reversed = isReversed ? " (Invertida)" : "";
+        const reversedClass = isReversed ? "card-reversed" : "";
+
+        if (card.number) {
+          // Major Arcana
+          return `
+            <div class="card-info">
+              <div class="card-emoji">${card.emoji}</div>
+              <div class="card-name">${card.name}${reversed}</div>
+              <div class="card-suit">Arcano Maior • ${card.number}</div>
+              <div class="card-element">Elemento: ${card.element}</div>
+            </div>
+            <div class="card-meaning">
+              <div class="card-meaning-label">${
+                isReversed
+                  ? "🔄 Significado Invertido"
+                  : "✓ Significado Direito"
+              }</div>
+              <div class="card-meaning-text">${
+                isReversed ? card.reversed : card.upright
+              }</div>
+            </div>
+            <div class="card-meaning ${reversedClass}">
+              <div class="card-meaning-label">💡 Interpretação</div>
+              <div class="card-meaning-text">${card.meaning}</div>
+            </div>
+          `;
+        } else {
+          // Minor Arcana
+          const suit = card.suit || "Arcano Menor";
+          return `
+            <div class="card-info">
+              <div class="card-emoji">${card.emoji}</div>
+              <div class="card-name">${card.name}${reversed}</div>
+              <div class="card-suit">${suit}</div>
+            </div>
+            <div class="card-meaning">
+              <div class="card-meaning-label">${
+                isReversed ? "🔄 Significado Invertido" : "✓ Significado"
+              }</div>
+              <div class="card-meaning-text">${card.meaning}</div>
+            </div>
+          `;
+        }
+      }
+
+      // ===== DAILY CARD DRAW =====
+      function drawCard(type) {
+        const card = getRandomCard("all");
+        const isReversed = Math.random() > 0.5;
+        drawnCards.daily = { card, isReversed };
+
+        const resultDiv = document.getElementById("daily-result");
+        resultDiv.innerHTML = formatCardDisplay(card, isReversed);
+        resultDiv.style.display = "block";
+      }
+
+      // ===== THREE CARD SPREAD =====
+      function drawThreeCards() {
+        drawnCards.three = [];
+        const positions = ["Passado", "Presente", "Futuro"];
+
+        for (let i = 0; i < 3; i++) {
+          const card = getRandomCard("all");
+          const isReversed = Math.random() > 0.5;
+          drawnCards.three.push({ card, isReversed, position: positions[i] });
+        }
+
+        let html =
+          '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Tirada de 3 Cartas</h3>';
+        html += '<div class="three-cards-grid">';
+
+        drawnCards.three.forEach((item, index) => {
+          html += `
+            <div class="three-card-item">
+              <div class="three-card-position">📍 ${item.position}</div>
+              <div style="text-align: center;">
+                <div style="font-size: 2.5rem; margin: 0.5rem 0;">${
+                  item.card.emoji
+                }</div>
+                <div style="font-weight: 600; color: var(--color-dark-purple); margin: 0.5rem 0;">
+                  ${item.card.name}${item.isReversed ? " (Invertida)" : ""}
+                </div>
+                <div style="font-size: 0.85rem; color: var(--color-text-light); margin-top: 0.5rem;">
+                  ${item.card.meaning || item.card.upright}
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        html += "</div>";
+        const resultDiv = document.getElementById("three-result");
+        resultDiv.innerHTML = html;
+        resultDiv.style.display = "block";
+      }
+
+      // ===== CELTIC CROSS SPREAD =====
+      function drawCelticCross() {
+        drawnCards.celtic = [];
+        const positions = [
+          { num: "1", name: "Significação", meaning: "O núcleo da questão" },
+          { num: "2", name: "Obstáculos", meaning: "O que vai contra" },
+          { num: "3", name: "Coroa", meaning: "Aspirações ocultas" },
+          { num: "4", name: "Raiz", meaning: "Influência oculta" },
+          { num: "5", name: "Passado Próximo", meaning: "Contexto recente" },
+          {
+            num: "6",
+            name: "Futuro Próximo",
+            meaning: "Desenvolvimento esperado",
+          },
+          { num: "7", name: "Atitude", meaning: "Sua posição" },
+          { num: "8", name: "Ambiente", meaning: "Influências externas" },
+          { num: "9", name: "Esperança/Medo", meaning: "O que espera ou teme" },
+          { num: "10", name: "Resultado", meaning: "Desfecho provável" },
+        ];
+
+        for (let i = 0; i < 10; i++) {
+          const card = getRandomCard("all");
+          const isReversed = Math.random() > 0.5;
+          drawnCards.celtic.push({
+            card,
+            isReversed,
+            position: positions[i],
+          });
+        }
+
+        let html =
+          '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Cruz Celta (10 Posições)</h3>';
+        html += '<div class="celtic-grid">';
+
+        drawnCards.celtic.forEach((item) => {
+          html += `
+            <div class="celtic-position">
+              <div class="celtic-position-number">Posição ${
+                item.position.num
+              }</div>
+              <div class="celtic-position-name">${item.position.name}</div>
+              <div class="celtic-position-emoji">${item.card.emoji}</div>
+              <div class="celtic-position-card">
+                ${item.card.name}<br><small>${
+            item.isReversed ? "(Invertida)" : ""
+          }</small>
+              </div>
+              <div style="font-size: 0.8rem; color: var(--color-text-light); margin-top: 0.5rem;">
+                <em>${item.position.meaning}</em>
+              </div>
+            </div>
+          `;
+        });
+
+        html += "</div>";
+        const resultDiv = document.getElementById("celtic-result");
+        resultDiv.innerHTML = html;
+        resultDiv.style.display = "block";
+      }
+
+      // ===== EXISTING FUNCTIONS =====
+      function scrollTo(id) {
+        const element = document.querySelector(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+
+      function toggleFaq(element) {
+        const answer = element.nextElementSibling;
+        const icon = element.querySelector(".faq-icon");
+
+        document.querySelectorAll(".faq-answer").forEach((el) => {
+          if (el !== answer) el.classList.remove("active");
+        });
+        document.querySelectorAll(".faq-icon").forEach((el) => {
+          if (el !== icon) el.classList.remove("active");
+        });
+
+        answer.classList.toggle("active");
+        icon.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>

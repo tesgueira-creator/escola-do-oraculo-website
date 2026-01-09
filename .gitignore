@@ -1,0 +1,36 @@
+# Git ignore rules for Escola do Oráculo Website
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Node (if any)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build / Dist
+dist/
+build/
+*.min.js
+*.min.css
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Local environment files
+.env
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Backup files
+*.bak
+*.tmp
