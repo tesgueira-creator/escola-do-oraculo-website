@@ -830,6 +830,44 @@
         outline-offset: 2px;
       }
     </style>
+      <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+      <!-- Schema.org Course Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Escola do Oráculo - Cursos de Tarot Online",
+      "description": "Aprenda Tarot do zero com a Rafaella Kally. Curso completo online com certificado incluído.",
+      "provider": {
+        "@type": "Organization",
+        "name": "Escola do Oráculo",
+        "sameAs": "https://tesgueira-creator.github.io/escola-do-oraculo-website"
+      },
+      "courseMode": "online",
+      "educationalLevel": "Beginner to Advanced",
+      "inLanguage": "pt-PT",
+      "hasCourseInstance": [
+        {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "P8W"
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "category": "Paid",
+        "priceCurrency": "EUR",
+        "price": "49.00"
+      }
+    }
+    </script>
   </head>
   <body>
     <a href="#main-content" class="skip-to-content"
@@ -2644,14 +2682,14 @@ Acesse o painel de alunos para processar esta inscriÃ§Ã£o.
     </script>
   <!-- Formspree Floating Widget -->
 <div id="fs-widget" aria-hidden="true">
-  <button id="fs-open" class="fs-fab" aria-label="Abrir formulário de contacto">??</button>
+  <button id="fs-open" class="fs-fab" aria-label="Abrir formulário de contacto">?? Dúvidas? Fale comigo!</button>
   <aside id="fs-panel" class="fs-panel" role="dialog" aria-modal="true" aria-labelledby="fs-title" aria-hidden="true">
     <header class="fs-header">
       <h3 id="fs-title">Contacto Rápido</h3>
       <button id="fs-close" class="fs-close" aria-label="Fechar formulário">×</button>
     </header>
     <form id="fs-form" class="fs-form" action="https://formspree.io/f/2912996790062022601" method="POST">
-      <label for="fs-name">Nome</label>
+      <input type="hidden" name="_subject" value="Site Popup: Contacto Rápido">`n      <label for="fs-name">Nome</label>
       <input id="fs-name" name="name" type="text" required />
       <label for="fs-email">Email</label>
       <input id="fs-email" name="email" type="email" required />
