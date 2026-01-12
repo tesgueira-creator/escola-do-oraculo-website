@@ -2642,5 +2642,104 @@ Acesse o painel de alunos para processar esta inscriÃ§Ã£o.
         }
       }
     </script>
-  </body>
+  <!-- Formspree Floating Widget -->
+<div id="fs-widget" aria-hidden="true">
+  <button id="fs-open" class="fs-fab" aria-label="Abrir formulário de contacto">??</button>
+  <aside id="fs-panel" class="fs-panel" role="dialog" aria-modal="true" aria-labelledby="fs-title" aria-hidden="true">
+    <header class="fs-header">
+      <h3 id="fs-title">Contacto Rápido</h3>
+      <button id="fs-close" class="fs-close" aria-label="Fechar formulário">×</button>
+    </header>
+    <form id="fs-form" class="fs-form" action="https://formspree.io/f/2912996790062022601" method="POST">
+      <label for="fs-name">Nome</label>
+      <input id="fs-name" name="name" type="text" required />
+      <label for="fs-email">Email</label>
+      <input id="fs-email" name="email" type="email" required />
+      <label for="fs-message">Mensagem</label>
+      <textarea id="fs-message" name="message" rows="4" required></textarea>
+      <div class="fs-actions">
+        <button type="submit" class="btn">Enviar</button>
+        <button type="button" id="fs-cancel" class="btn ghost">Cancelar</button>
+      </div>
+    </form>
+    <div id="fs-status" class="fs-status" role="status" aria-live="polite"></div>
+  </aside>
+</div>
+
+<style>
+/* Floating Formspree widget styles */
+#fs-widget { position: fixed; z-index: 9999; right: 20px; bottom: 20px; font-family: inherit; }
+.fs-fab { width:56px; height:56px; border-radius:999px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow: 0 6px 18px rgba(0,0,0,0.2); background: linear-gradient(135deg,#6a1b9a,#8e24aa); color:#fff; }
+.fs-panel { width:340px; max-width: calc(100vw - 40px); background: var(--bg, #fff); color:var(--text,#222); box-shadow: 0 12px 36px rgba(0,0,0,0.25); border-radius:10px; padding:12px; margin-bottom:14px; transform: translateY(12px) scale(.98); opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; }
+#fs-widget.open .fs-panel { opacity:1; transform: translateY(0) scale(1); pointer-events:auto; }
+.fs-header { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+.fs-header h3 { margin:0; font-size:1rem; }
+.fs-close { background:none;border:none;font-size:20px;cursor:pointer; }
+.fs-form label { display:block;margin:6px 0 4px;font-size:.9rem; }
+.fs-form input,.fs-form textarea { width:100%; padding:8px; border:1px solid #ddd; border-radius:6px; font-size:.95rem; }
+.fs-actions { display:flex; gap:8px; margin-top:10px; }
+.fs-status { margin-top:8px; font-size:.9rem; min-height:20px; }
+@media (max-width:520px){ .fs-panel { right:10px; left:10px; bottom:80px; width:auto; } #fs-widget { right:10px; bottom:18px; } }
+</style>
+
+<script>
+(function(){
+  const widget = document.getElementById('fs-widget');
+  const openBtn = document.getElementById('fs-open');
+  const closeBtn = document.getElementById('fs-close');
+  const cancelBtn = document.getElementById('fs-cancel');
+  const panel = document.getElementById('fs-panel');
+  const form = document.getElementById('fs-form');
+  const status = document.getElementById('fs-status');
+
+  if (!widget || !openBtn || !panel || !form) return;
+
+  function openWidget(){
+    widget.classList.add('open');
+    panel.setAttribute('aria-hidden','false');
+    document.body.classList.add('fs-open');
+    const first = form.querySelector('input, textarea');
+    if(first) first.focus();
+  }
+  function closeWidget(){
+    widget.classList.remove('open');
+    panel.setAttribute('aria-hidden','true');
+    document.body.classList.remove('fs-open');
+    openBtn.focus();
+  }
+
+  openBtn.addEventListener('click', (e)=>{ e.stopPropagation(); openWidget(); });
+  closeBtn.addEventListener('click', closeWidget);
+  cancelBtn.addEventListener('click', closeWidget);
+
+  document.addEventListener('click', (e)=>{
+    if(!widget.classList.contains('open')) return;
+    if(!panel.contains(e.target) && e.target !== openBtn) closeWidget();
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && widget.classList.contains('open')) closeWidget();
+  });
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    status.textContent = 'Enviando...';
+    const fd = new FormData(form);
+    try{
+      const res = await fetch(form.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' }});
+      if(res.ok){
+        status.textContent = '? Enviado com sucesso. Obrigado!';
+        form.reset();
+        setTimeout(closeWidget, 1200);
+      } else {
+        const data = await res.json();
+        status.textContent = (data && data.errors) ? data.errors.map(x => x.message).join(', ') : 'Erro ao enviar.';
+      }
+    } catch(err){
+      status.textContent = 'Erro de rede. Tente novamente.';
+    }
+  });
+})();
+</script>
+</body>
 </html>
