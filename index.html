@@ -843,11 +843,11 @@
     {
       "@context": "https://schema.org",
       "@type": "Course",
-      "name": "Escola do Oráculo - Cursos de Tarot Online",
-      "description": "Aprenda Tarot do zero com a Rafaella Kally. Curso completo online com certificado incluído.",
+      "name": "Escola do Orï¿½culo - Cursos de Tarot Online",
+      "description": "Aprenda Tarot do zero com a Rafaella Kally. Curso completo online com certificado incluï¿½do.",
       "provider": {
         "@type": "Organization",
-        "name": "Escola do Oráculo",
+        "name": "Escola do Orï¿½culo",
         "sameAs": "https://tesgueira-creator.github.io/escola-do-oraculo-website"
       },
       "courseMode": "online",
@@ -2682,14 +2682,15 @@ Acesse o painel de alunos para processar esta inscriÃ§Ã£o.
     </script>
   <!-- Formspree Floating Widget -->
 <div id="fs-widget" aria-hidden="true">
-  <button id="fs-open" class="fs-fab" aria-label="Abrir formulário de contacto">?? Dúvidas? Fale comigo!</button>
+  <button id="fs-open" class="fs-fab" aria-label="Abrir formulï¿½rio de contacto">?? Dï¿½vidas? Fale comigo!</button>
   <aside id="fs-panel" class="fs-panel" role="dialog" aria-modal="true" aria-labelledby="fs-title" aria-hidden="true">
     <header class="fs-header">
-      <h3 id="fs-title">Contacto Rápido</h3>
-      <button id="fs-close" class="fs-close" aria-label="Fechar formulário">×</button>
+      <h3 id="fs-title">Contacto Rï¿½pido</h3>
+      <button id="fs-close" class="fs-close" aria-label="Fechar formulï¿½rio">ï¿½</button>
     </header>
     <form id="fs-form" class="fs-form" action="https://formspree.io/f/2912996790062022601" method="POST">
-      <input type="hidden" name="_subject" value="Site Popup: Contacto Rápido">`n      <label for="fs-name">Nome</label>
+      <input type="hidden" name="_subject" value="Site Popup: Contacto Rï¿½pido">
+      <label for="fs-name">Nome</label>
       <input id="fs-name" name="name" type="text" required />
       <label for="fs-email">Email</label>
       <input id="fs-email" name="email" type="email" required />
@@ -2765,15 +2766,21 @@ Acesse o painel de alunos para processar esta inscriÃ§Ã£o.
     const fd = new FormData(form);
     try{
       const res = await fetch(form.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' }});
+      console.log('Formspree response status:', res.status);
+      let data = null;
+      try { data = await res.json(); console.log('Formspree response JSON:', data); } catch(e){ console.log('No JSON response or failed to parse'); }
       if(res.ok){
-        status.textContent = '? Enviado com sucesso. Obrigado!';
+        status.textContent = 'âœ… Enviado com sucesso. Obrigado!';
         form.reset();
         setTimeout(closeWidget, 1200);
+      } else if(res.status === 404){
+        status.textContent = 'FormulÃ¡rio nÃ£o encontrado (404). Verifique o Formspree ID.';
+        console.error('Formspree 404 - confirm endpoint:', form.action);
       } else {
-        const data = await res.json();
-        status.textContent = (data && data.errors) ? data.errors.map(x => x.message).join(', ') : 'Erro ao enviar.';
+        status.textContent = (data && data.errors) ? data.errors.map(x => x.message).join(', ') : `Erro ao enviar (status ${res.status}).`;
       }
     } catch(err){
+      console.error('Formspree submit error:', err);
       status.textContent = 'Erro de rede. Tente novamente.';
     }
   });
