@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Escola do Oráculo | Cursos de Tarot Online - Rafaella Kally</title>
+    <meta name="description" content="Aprenda tarot profissional com Rafaella Kally. Cursos online de tarot em 3 módulos, comunidade exclusiva e formação de tarólogos éticos em Portugal e Brasil." />
+    <meta name="keywords" content="tarot, cursos online, aprender tarot, tarólogo, leitura de tarot, Portugal, Brasil" />
+    <meta name="author" content="Rafaella Kally" />
+    <meta property="og:title" content="Escola do Oráculo - Cursos de Tarot Online" />
+    <meta property="og:description" content="Domine o tarot sem decorar. Aprenda com Rafaella Kally e forme-se como taróloga profissional." />
+    <meta property="og:image" content="https://via.placeholder.com/1200x630?text=Escola+do+Oraculo" />
+    <meta property="og:url" content="https://tarostesia.com" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#4b0082" />
     <style>
       * {
         margin: 0;
@@ -47,6 +57,47 @@
         align-items: center;
         z-index: 1000;
         border-bottom: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      .nav-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--color-dark-purple);
+      }
+
+      .nav-toggle:hover {
+        color: var(--color-gold);
+      }
+
+      @media (max-width: 768px) {
+        .nav-toggle {
+          display: block;
+        }
+
+        nav ul {
+          position: absolute;
+          top: 60px;
+          left: 0;
+          width: 100%;
+          background: rgba(245, 245, 240, 0.98);
+          flex-direction: column;
+          gap: 0;
+          display: none;
+          padding: 1rem 0;
+          border-bottom: 1px solid rgba(75, 0, 130, 0.1);
+        }
+
+        nav ul.active {
+          display: flex;
+        }
+
+        nav li {
+          padding: 0.75rem 2rem;
+          border-bottom: 1px solid rgba(75, 0, 130, 0.05);
+        }
       }
 
       .logo {
@@ -146,11 +197,18 @@
         box-shadow: 0 10px 30px rgba(75, 0, 130, 0.2);
       }
 
-      .cta-button:hover {
+      .cta-button:hover,
+      .cta-button:focus {
         background: var(--color-gold);
         transform: translateY(-2px);
         box-shadow: 0 15px 40px rgba(75, 0, 130, 0.3);
         color: var(--color-text);
+        outline: 2px solid transparent;
+      }
+
+      .cta-button:focus-visible {
+        outline: 2px solid var(--color-dark-purple);
+        outline-offset: 2px;
       }
 
       /* ===== CARD SECTION ===== */
@@ -654,25 +712,52 @@
           grid-template-columns: 1fr;
         }
       }
+
+      /* ===== ACCESSIBILITY ===== */
+      .skip-to-content {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--color-dark-purple);
+        color: var(--color-white);
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        z-index: 100;
+      }
+
+      .skip-to-content:focus {
+        top: 0;
+      }
+
+      button:focus-visible,
+      a:focus-visible {
+        outline: 2px solid var(--color-gold);
+        outline-offset: 2px;
+      }
     </style>
   </head>
   <body>
+    <a href="#main-content" class="skip-to-content">Ir para o conteúdo principal</a>
+    
     <!-- NAVIGATION -->
     <nav>
       <div class="logo">
         ORÁCULO
         <span class="logo-small">por Rafaella Kally</span>
       </div>
-      <ul>
-        <li><a href="#cursos">Cursos</a></li>
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#contacto">Contacto</a></li>
+      <button class="nav-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menu de navegação">
+        ☰
+      </button>
+      <ul id="nav-menu">
+        <li><a href="#cursos" onclick="closeMobileMenu()">Cursos</a></li>
+        <li><a href="#sobre" onclick="closeMobileMenu()">Sobre</a></li>
+        <li><a href="#faq" onclick="closeMobileMenu()">FAQ</a></li>
+        <li><a href="#contacto" onclick="closeMobileMenu()">Contacto</a></li>
       </ul>
     </nav>
 
     <!-- HERO SECTION -->
-    <section class="hero">
+    <section class="hero" id="main-content">
       <h1>Tarot com Clareza</h1>
       <p class="tagline">O teu caminho nas cartas</p>
       <p class="subtext">
@@ -685,7 +770,7 @@
     </section>
 
     <!-- INTERACTIVE CARD DRAW -->
-    <div class="section">
+    <div class="section" role="region" aria-label="Leitor de tarot interativo">
       <div class="card-draw-container">
         <h3>✨ Mensagem do Dia ✨</h3>
         <p style="color: var(--color-text-light); margin-bottom: 1.5rem">
@@ -701,22 +786,33 @@
             justify-content: center;
             flex-wrap: wrap;
           "
+          role="tablist"
+          aria-label="Tipos de leitura"
         >
           <button
             class="reading-type-btn active"
             onclick="setReadingType('daily', this)"
+            role="tab"
+            aria-selected="true"
+            aria-controls="daily-reading"
           >
             Mensagem do Dia
           </button>
           <button
             class="reading-type-btn"
             onclick="setReadingType('three', this)"
+            role="tab"
+            aria-selected="false"
+            aria-controls="three-reading"
           >
             Tirada 3 Cartas
           </button>
           <button
             class="reading-type-btn"
             onclick="setReadingType('celtic', this)"
+            role="tab"
+            aria-selected="false"
+            aria-controls="celtic-reading"
           >
             Cruz Celta
           </button>
@@ -727,22 +823,27 @@
           id="daily-reading"
           class="reading-container"
           style="display: block"
+          role="tabpanel"
+          aria-labelledby="daily-tab"
         >
-          <div class="card-draw-box" onclick="drawCard('daily')">
+          <button class="card-draw-box" onclick="drawCard('daily')" aria-label="Clique para tirar uma carta do dia">
             <div class="card-result">🎴</div>
             <p style="color: var(--color-text-light)">
               Clique para tirar uma carta
             </p>
-          </div>
+          </button>
           <div
             id="daily-result"
             class="card-display"
             style="display: none; margin-top: 2rem"
+            role="region"
+            aria-live="polite"
+            aria-label="Resultado da carta do dia"
           ></div>
         </div>
 
         <!-- Three Card Reading -->
-        <div id="three-reading" class="reading-container" style="display: none">
+        <div id="three-reading" class="reading-container" style="display: none" role="tabpanel" aria-labelledby="three-tab">
           <div
             style="
               display: flex;
@@ -751,23 +852,24 @@
               flex-wrap: wrap;
             "
           >
-            <div class="card-draw-box three-card" onclick="drawThreeCards()">
+            <button class="card-draw-box three-card" onclick="drawThreeCards()" aria-label="Passado">
               <div class="card-result">🎴</div>
               <p style="color: var(--color-text-light)">Passado</p>
-            </div>
-            <div class="card-draw-box three-card" onclick="drawThreeCards()">
+            </button>
+            <button class="card-draw-box three-card" onclick="drawThreeCards()" aria-label="Presente">
               <div class="card-result">🎴</div>
               <p style="color: var(--color-text-light)">Presente</p>
-            </div>
-            <div class="card-draw-box three-card" onclick="drawThreeCards()">
+            </button>
+            <button class="card-draw-box three-card" onclick="drawThreeCards()" aria-label="Futuro">
               <div class="card-result">🎴</div>
               <p style="color: var(--color-text-light)">Futuro</p>
-            </div>
+            </button>
           </div>
           <button
             class="cta-button"
             style="margin-top: 1.5rem"
             onclick="drawThreeCards()"
+            aria-label="Tirar 3 cartas para leitura de Passado, Presente e Futuro"
           >
             Tirar 3 Cartas
           </button>
@@ -775,6 +877,9 @@
             id="three-result"
             class="card-display-three"
             style="display: none; margin-top: 2rem"
+            role="region"
+            aria-live="polite"
+            aria-label="Resultado da tirada de 3 cartas"
           ></div>
         </div>
 
@@ -783,6 +888,8 @@
           id="celtic-reading"
           class="reading-container"
           style="display: none"
+          role="tabpanel"
+          aria-labelledby="celtic-tab"
         >
           <p style="color: var(--color-text-light); margin-bottom: 1.5rem">
             A Cruz Celta revela 10 camadas de influência (posições 1-10)
@@ -791,6 +898,7 @@
             class="cta-button"
             style="margin-bottom: 1.5rem"
             onclick="drawCelticCross()"
+            aria-label="Fazer leitura da Cruz Celta com 10 posições"
           >
             Fazer Leitura da Cruz Celta
           </button>
@@ -798,6 +906,9 @@
             id="celtic-result"
             class="card-display-celtic"
             style="display: none"
+            role="region"
+            aria-live="polite"
+            aria-label="Resultado da Cruz Celta"
           ></div>
         </div>
       </div>
@@ -1160,28 +1271,29 @@
     </section>
 
     <!-- FOOTER -->
-    <footer id="contacto">
+    <footer id="contacto" role="contentinfo">
       <h3 style="margin-bottom: 1rem">Escola do Oráculo</h3>
       <p>Cursos de Tarot Online • Portugal + Brasil</p>
 
       <div class="footer-links">
-        <a href="#politica">Política de Privacidade</a>
-        <a href="#termos">Termos e Condições</a>
-        <a href="mailto:contacto@rafaellakally.com"
-          >Email: contacto@rafaellakally.com</a
-        >
+        <a href="#politica" rel="help">Política de Privacidade</a>
+        <a href="#termos" rel="help">Termos e Condições</a>
+        <a href="mailto:contacto@rafaellakally.com" rel="contact">
+          Email: contacto@rafaellakally.com
+        </a>
       </div>
 
-      <div class="social-icons">
+      <div class="social-icons" role="navigation" aria-label="Redes sociais">
         <a
           href="https://www.instagram.com/tarostesia?igsh=MXZjZjBpdXFmend6aA=="
           target="_blank"
-          rel="noopener"
-          aria-label="Instagram"
-          title="Instagram"
-          >📷</a
+          rel="noopener noreferrer"
+          aria-label="Siga-nos no Instagram"
+          title="Instagram - @tarostesia"
         >
-        <span aria-hidden="true">📱 🎥</span>
+          📷
+        </a>
+        <span aria-hidden="true" style="margin: 0 0.5rem">📱 🎥</span>
       </div>
 
       <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8">
@@ -1191,6 +1303,26 @@
     </footer>
 
     <script>
+      // ===== MOBILE MENU TOGGLE =====
+      function toggleMobileMenu() {
+        const menu = document.getElementById("nav-menu");
+        menu.classList.toggle("active");
+      }
+
+      function closeMobileMenu() {
+        const menu = document.getElementById("nav-menu");
+        menu.classList.remove("active");
+      }
+
+      // Close mobile menu when clicking outside
+      document.addEventListener("click", (e) => {
+        const nav = document.querySelector("nav");
+        const toggle = document.querySelector(".nav-toggle");
+        if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+          closeMobileMenu();
+        }
+      });
+
       // ===== COMPLETE TAROT CARD BANK =====
       const tarotCards = {
         majorArcana: [
@@ -1807,113 +1939,127 @@
 
       // ===== DAILY CARD DRAW =====
       function drawCard(type) {
-        const card = getRandomCard("all");
-        const isReversed = Math.random() > 0.5;
-        drawnCards.daily = { card, isReversed };
-
         const resultDiv = document.getElementById("daily-result");
-        resultDiv.innerHTML = formatCardDisplay(card, isReversed);
+        resultDiv.innerHTML = '<div style="text-align: center; padding: 2rem;"><p>✨ A tirando uma carta...</p></div>';
         resultDiv.style.display = "block";
+
+        // Simulate draw delay for better UX
+        setTimeout(() => {
+          const card = getRandomCard("all");
+          const isReversed = Math.random() > 0.5;
+          drawnCards.daily = { card, isReversed };
+
+          resultDiv.innerHTML = formatCardDisplay(card, isReversed);
+        }, 600);
       }
 
       // ===== THREE CARD SPREAD =====
       function drawThreeCards() {
-        drawnCards.three = [];
-        const positions = ["Passado", "Presente", "Futuro"];
+        const resultDiv = document.getElementById("three-result");
+        resultDiv.innerHTML = '<div style="text-align: center; padding: 2rem;"><p>✨ Tirando 3 cartas...</p></div>';
+        resultDiv.style.display = "block";
 
-        for (let i = 0; i < 3; i++) {
-          const card = getRandomCard("all");
-          const isReversed = Math.random() > 0.5;
-          drawnCards.three.push({ card, isReversed, position: positions[i] });
-        }
+        setTimeout(() => {
+          drawnCards.three = [];
+          const positions = ["Passado", "Presente", "Futuro"];
 
-        let html =
-          '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Tirada de 3 Cartas</h3>';
-        html += '<div class="three-cards-grid">';
+          for (let i = 0; i < 3; i++) {
+            const card = getRandomCard("all");
+            const isReversed = Math.random() > 0.5;
+            drawnCards.three.push({ card, isReversed, position: positions[i] });
+          }
 
-        drawnCards.three.forEach((item, index) => {
-          html += `
-            <div class="three-card-item">
-              <div class="three-card-position">📍 ${item.position}</div>
-              <div style="text-align: center;">
-                <div style="font-size: 2.5rem; margin: 0.5rem 0;">${
-                  item.card.emoji
-                }</div>
-                <div style="font-weight: 600; color: var(--color-dark-purple); margin: 0.5rem 0;">
-                  ${item.card.name}${item.isReversed ? " (Invertida)" : ""}
-                </div>
-                <div style="font-size: 0.85rem; color: var(--color-text-light); margin-top: 0.5rem;">
-                  ${item.card.meaning || item.card.upright}
+          let html = '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Tirada de 3 Cartas</h3>';
+          html += '<div class="three-cards-grid">';
+
+          drawnCards.three.forEach((item, index) => {
+            html += `
+              <div class="three-card-item">
+                <div class="three-card-position">📍 ${item.position}</div>
+                <div style="text-align: center;">
+                  <div style="font-size: 2.5rem; margin: 0.5rem 0;">${item.card.emoji}</div>
+                  <div style="font-weight: 600; color: var(--color-dark-purple); margin: 0.5rem 0;">
+                    ${item.card.name}${item.isReversed ? " (Invertida)" : ""}
+                  </div>
+                  <div style="font-size: 0.85rem; color: var(--color-text-light); margin-top: 0.5rem;">
+                    ${item.card.meaning || item.card.upright}
+                  </div>
                 </div>
               </div>
-            </div>
-          `;
-        });
+            `;
+          });
 
-        html += "</div>";
-        const resultDiv = document.getElementById("three-result");
-        resultDiv.innerHTML = html;
-        resultDiv.style.display = "block";
+          html += "</div>";
+          html += '<button class="cta-button" style="margin-top: 2rem;" onclick="saveReading(\'three\')">💾 Guardar Esta Leitura</button>';
+          resultDiv.innerHTML = html;
+          saveReadingToHistory('three', drawnCards.three);
+        }, 800);
       }
 
       // ===== CELTIC CROSS SPREAD =====
       function drawCelticCross() {
-        drawnCards.celtic = [];
-        const positions = [
-          { num: "1", name: "Significação", meaning: "O núcleo da questão" },
-          { num: "2", name: "Obstáculos", meaning: "O que vai contra" },
-          { num: "3", name: "Coroa", meaning: "Aspirações ocultas" },
-          { num: "4", name: "Raiz", meaning: "Influência oculta" },
-          { num: "5", name: "Passado Próximo", meaning: "Contexto recente" },
-          {
-            num: "6",
-            name: "Futuro Próximo",
-            meaning: "Desenvolvimento esperado",
-          },
-          { num: "7", name: "Atitude", meaning: "Sua posição" },
-          { num: "8", name: "Ambiente", meaning: "Influências externas" },
-          { num: "9", name: "Esperança/Medo", meaning: "O que espera ou teme" },
-          { num: "10", name: "Resultado", meaning: "Desfecho provável" },
-        ];
-
-        for (let i = 0; i < 10; i++) {
-          const card = getRandomCard("all");
-          const isReversed = Math.random() > 0.5;
-          drawnCards.celtic.push({
-            card,
-            isReversed,
-            position: positions[i],
-          });
-        }
-
-        let html =
-          '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Cruz Celta (10 Posições)</h3>';
-        html += '<div class="celtic-grid">';
-
-        drawnCards.celtic.forEach((item) => {
-          html += `
-            <div class="celtic-position">
-              <div class="celtic-position-number">Posição ${
-                item.position.num
-              }</div>
-              <div class="celtic-position-name">${item.position.name}</div>
-              <div class="celtic-position-emoji">${item.card.emoji}</div>
-              <div class="celtic-position-card">
-                ${item.card.name}<br><small>${
-            item.isReversed ? "(Invertida)" : ""
-          }</small>
-              </div>
-              <div style="font-size: 0.8rem; color: var(--color-text-light); margin-top: 0.5rem;">
-                <em>${item.position.meaning}</em>
-              </div>
-            </div>
-          `;
-        });
-
-        html += "</div>";
         const resultDiv = document.getElementById("celtic-result");
-        resultDiv.innerHTML = html;
+        resultDiv.innerHTML = '<div style="text-align: center; padding: 2rem;"><p>✨ Constructing Cruz Celta...</p></div>';
         resultDiv.style.display = "block";
+
+        setTimeout(() => {
+          drawnCards.celtic = [];
+          const positions = [
+            { num: "1", name: "Significação", meaning: "O núcleo da questão" },
+            { num: "2", name: "Obstáculos", meaning: "O que vai contra" },
+            { num: "3", name: "Coroa", meaning: "Aspirações ocultas" },
+            { num: "4", name: "Raiz", meaning: "Influência oculta" },
+            { num: "5", name: "Passado Próximo", meaning: "Contexto recente" },
+            {
+              num: "6",
+              name: "Futuro Próximo",
+              meaning: "Desenvolvimento esperado",
+            },
+            { num: "7", name: "Atitude", meaning: "Sua posição" },
+            { num: "8", name: "Ambiente", meaning: "Influências externas" },
+            { num: "9", name: "Esperança/Medo", meaning: "O que espera ou teme" },
+            { num: "10", name: "Resultado", meaning: "Desfecho provável" },
+          ];
+
+          for (let i = 0; i < 10; i++) {
+            const card = getRandomCard("all");
+            const isReversed = Math.random() > 0.5;
+            drawnCards.celtic.push({
+              card,
+              isReversed,
+              position: positions[i],
+            });
+          }
+
+          let html =
+            '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Cruz Celta (10 Posições)</h3>';
+          html += '<div class="celtic-grid">';
+
+          drawnCards.celtic.forEach((item) => {
+            html += `
+              <div class="celtic-position">
+                <div class="celtic-position-number">Posição ${
+                  item.position.num
+                }</div>
+                <div class="celtic-position-name">${item.position.name}</div>
+                <div class="celtic-position-emoji">${item.card.emoji}</div>
+                <div class="celtic-position-card">
+                  ${item.card.name}<br><small>${
+              item.isReversed ? "(Invertida)" : ""
+            }</small>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--color-text-light); margin-top: 0.5rem;">
+                  <em>${item.position.meaning}</em>
+                </div>
+              </div>
+            `;
+          });
+
+          html += "</div>";
+          html += '<button class="cta-button" style="margin-top: 2rem;" onclick="saveReading(\'celtic\')">💾 Guardar Esta Leitura</button>';
+          resultDiv.innerHTML = html;
+          saveReadingToHistory('celtic', drawnCards.celtic);
+        }, 1000);
       }
 
       // ===== EXISTING FUNCTIONS =====
@@ -1938,6 +2084,78 @@
         answer.classList.toggle("active");
         icon.classList.toggle("active");
       }
+
+      // ===== READING HISTORY =====
+      function saveReadingToHistory(type, cards) {
+        const history = JSON.parse(localStorage.getItem("tarotHistory") || "[]");
+        const reading = {
+          id: Date.now(),
+          type: type,
+          date: new Date().toLocaleString("pt-PT"),
+          cards: cards,
+        };
+        
+        history.unshift(reading);
+        if (history.length > 20) history.pop(); // Keep only last 20 readings
+        localStorage.setItem("tarotHistory", JSON.stringify(history));
+      }
+
+      function saveReading(type) {
+        const cards = drawnCards[type];
+        if (cards) {
+          saveReadingToHistory(type, cards);
+          alert("✓ Leitura guardada com sucesso! Pode consultá-la a qualquer momento.");
+        }
+      }
+
+      function viewReadingHistory() {
+        const history = JSON.parse(localStorage.getItem("tarotHistory") || "[]");
+        if (history.length === 0) {
+          alert("Nenhuma leitura guardada ainda. Tire uma carta para começar!");
+          return;
+        }
+
+        let html = "<h3>📖 Histórico de Leituras</h3>";
+        history.forEach((reading, index) => {
+          html += `<div style="padding: 1rem; border: 1px solid #ccc; margin: 0.5rem 0; border-radius: 8px;">
+            <strong>${index + 1}. ${reading.type.toUpperCase()}</strong> - ${
+            reading.date
+          }
+            <button onclick="deleteReading(${reading.id})" style="float: right; background: #ff6b6b; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Eliminar</button>
+          </div>`;
+        });
+        
+        const modal = document.createElement("div");
+        modal.innerHTML = `
+          <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 2000;">
+            <div style="background: white; padding: 2rem; border-radius: 12px; max-width: 500px; max-height: 600px; overflow-y: auto;">
+              ${html}
+              <button onclick="this.parentElement.parentElement.remove()" style="width: 100%; padding: 0.75rem; margin-top: 1rem; background: #4b0082; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Fechar</button>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+      }
+
+      function deleteReading(id) {
+        const history = JSON.parse(localStorage.getItem("tarotHistory") || "[]");
+        const filtered = history.filter(r => r.id !== id);
+        localStorage.setItem("tarotHistory", JSON.stringify(filtered));
+        viewReadingHistory();
+      }
+
+      // Add history button to page on load
+      window.addEventListener("load", () => {
+        const historyBtn = document.createElement("button");
+        historyBtn.className = "cta-button";
+        historyBtn.innerHTML = "📖 Histórico";
+        historyBtn.onclick = viewReadingHistory;
+        historyBtn.style.position = "fixed";
+        historyBtn.style.bottom = "20px";
+        historyBtn.style.right = "20px";
+        historyBtn.style.zIndex = "999";
+        document.body.appendChild(historyBtn);
+      });
     </script>
   </body>
 </html>
