@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Escola do Oráculo | Cursos de Tarot Online - Rafaella Kally</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="shortcut icon" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.svg" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='100%25' height='100%25' fill='%234b0082'/%3E%3Cg transform='translate(16,12)'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23d4a574'/%3E%3Cpath d='M8 24 C12 12, 20 12, 24 24' stroke='%23fff' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E"
+    />
     <meta
       name="description"
       content="Aprenda tarot profissional com Rafaella Kally. Cursos online de tarot em 3 módulos, comunidade exclusiva e formação de tarólogos éticos em Portugal e Brasil."
@@ -602,7 +609,11 @@
         margin-top: 2rem;
       }
       .chakra-card-item {
-        background: linear-gradient(135deg, var(--color-accent) 0%, rgba(212, 165, 116, 0.1) 100%);
+        background: linear-gradient(
+          135deg,
+          var(--color-accent) 0%,
+          rgba(212, 165, 116, 0.1) 100%
+        );
         border: 2px solid var(--color-gold);
         border-radius: 8px;
         padding: 1rem;
@@ -852,18 +863,42 @@
       <p class="tagline">O teu caminho nas cartas</p>
       <!-- Moon Phase Widget -->
       <div
-        style="background: rgba(212, 165, 116, 0.15); border-radius: 8px; padding: 1rem; margin: 1.5rem 0; text-align: center; border: 1px solid var(--color-gold);"
+        style="
+          background: rgba(212, 165, 116, 0.15);
+          border-radius: 8px;
+          padding: 1rem;
+          margin: 1.5rem 0;
+          text-align: center;
+          border: 1px solid var(--color-gold);
+        "
       >
-        <p style="font-size: 0.9rem; color: var(--color-text-light); margin-bottom: 0.5rem;">🌙 Fase Lunar de Hoje</p>
+        <p
+          style="
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: 0.5rem;
+          "
+        >
+          🌙 Fase Lunar de Hoje
+        </p>
         <div
           id="moon-phase-display"
-          style="font-size: 1.5rem; margin: 0.5rem 0; color: var(--color-dark-purple); font-weight: bold;"
+          style="
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+            color: var(--color-dark-purple);
+            font-weight: bold;
+          "
         >
           Carregando...
         </div>
         <p
           id="moon-date"
-          style="font-size: 0.85rem; color: var(--color-text-light); margin: 0.5rem 0;"
+          style="
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            margin: 0.5rem 0;
+          "
         ></p>
       </div>
       <p class="subtext">
@@ -932,7 +967,10 @@
           role="tabpanel"
           aria-labelledby="chakra-tab"
         >
-          <p style="color: var(--color-text-light); margin-bottom: 1.5rem">A Leitura de Chakras alinha as 7 energias do teu corpo (Root, Sacral, Solar, Heart, Throat, Third Eye, Crown)</p>
+          <p style="color: var(--color-text-light); margin-bottom: 1.5rem">
+            A Leitura de Chakras alinha as 7 energias do teu corpo (Root,
+            Sacral, Solar, Heart, Throat, Third Eye, Crown)
+          </p>
           <button
             class="cta-button"
             style="margin-top: 1.5rem"
@@ -2184,27 +2222,66 @@
 
       // ===== CHAKRA SPREAD =====
       const chakras = [
-        { name: "Muladhara", emoji: "??", element: "Terra", meaning: "Raiz - Seguran?a e Estabilidade" },
-        { name: "Swadhisthana", emoji: "??", element: "?gua", meaning: "Sagrado - Criatividade e Prazer" },
-        { name: "Manipura", emoji: "??", element: "Fogo", meaning: "Plexo Solar - Poder e Vontade" },
-        { name: "Anahata", emoji: "??", element: "Ar", meaning: "Cora??o - Amor e Compaix?o" },
-        { name: "Vishuddha", emoji: "??", element: "?ter", meaning: "Garganta - Express?o e Verdade" },
-        { name: "Ajna", emoji: "??", element: "Luz", meaning: "Terceiro Olho - Intui??o e Sabedoria" },
-        { name: "Sahasrara", emoji: "??", element: "Espiritualidade", meaning: "Coroa - Ilumina??o e Conex?o" }
+        {
+          name: "Muladhara",
+          emoji: "??",
+          element: "Terra",
+          meaning: "Raiz - Seguran?a e Estabilidade",
+        },
+        {
+          name: "Swadhisthana",
+          emoji: "??",
+          element: "?gua",
+          meaning: "Sagrado - Criatividade e Prazer",
+        },
+        {
+          name: "Manipura",
+          emoji: "??",
+          element: "Fogo",
+          meaning: "Plexo Solar - Poder e Vontade",
+        },
+        {
+          name: "Anahata",
+          emoji: "??",
+          element: "Ar",
+          meaning: "Cora??o - Amor e Compaix?o",
+        },
+        {
+          name: "Vishuddha",
+          emoji: "??",
+          element: "?ter",
+          meaning: "Garganta - Express?o e Verdade",
+        },
+        {
+          name: "Ajna",
+          emoji: "??",
+          element: "Luz",
+          meaning: "Terceiro Olho - Intui??o e Sabedoria",
+        },
+        {
+          name: "Sahasrara",
+          emoji: "??",
+          element: "Espiritualidade",
+          meaning: "Coroa - Ilumina??o e Conex?o",
+        },
       ];
       function drawChakraSpread() {
         const resultDiv = document.getElementById("chakra-result");
-        resultDiv.innerHTML = '<div style="text-align: center; padding: 2rem;"><p>? Alinhando os teus chakras...</p></div>';
+        resultDiv.innerHTML =
+          '<div style="text-align: center; padding: 2rem;"><p>? Alinhando os teus chakras...</p></div>';
         resultDiv.style.display = "block";
         setTimeout(() => {
           drawnCards.chakra = [];
-          let html = '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Leitura de Chakras - 7 Energias</h3>';
+          let html =
+            '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Leitura de Chakras - 7 Energias</h3>';
           html += '<div class="chakra-cards-grid">';
           chakras.forEach((chakra, index) => {
             const card = getRandomCard();
             const isReversed = Math.random() > 0.5;
             drawnCards.chakra.push({ card, chakra: chakra.name, isReversed });
-            const meaning = isReversed ? (card.reversedMeaning || card.meaning) : card.meaning;
+            const meaning = isReversed
+              ? card.reversedMeaning || card.meaning
+              : card.meaning;
             const direction = isReversed ? "(Invertida)" : "(Direita)";
             html += `
               <div class="chakra-card-item">
@@ -2216,8 +2293,9 @@
               </div>
             `;
           });
-          html += '</div>';
-          html += '<button class="cta-button" style="margin-top: 2rem;" onclick="saveReadingToHistory(\'Chakra\')">Guardar Leitura</button>';
+          html += "</div>";
+          html +=
+            '<button class="cta-button" style="margin-top: 2rem;" onclick="saveReadingToHistory(\'Chakra\')">Guardar Leitura</button>';
           resultDiv.innerHTML = html;
           resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }, 1000);
@@ -2232,7 +2310,9 @@
         const s = Math.floor((year - 1900) / 100);
         const a = year + Math.floor(month / 12) - Math.floor((12 - month) / 12);
         const m = (month + 9) % 12;
-        const t = Math.floor((a * 365.25) + Math.floor(30.6001 * (m + 1)) + day + 1900 - 1);
+        const t = Math.floor(
+          a * 365.25 + Math.floor(30.6001 * (m + 1)) + day + 1900 - 1
+        );
         const jd = t + 0.5;
         const d = jd - 2451550.1;
         const x = (d % 29.5306) / 29.5306;
@@ -2244,7 +2324,7 @@
           { name: "?? Lua Cheia", range: [0.5, 0.625] },
           { name: "?? Lua Minguante", range: [0.625, 0.75] },
           { name: "?? Quarto Minguante", range: [0.75, 0.875] },
-          { name: "?? Lua Minguante (Escura)", range: [0.875, 1] }
+          { name: "?? Lua Minguante (Escura)", range: [0.875, 1] },
         ];
         for (let phase of phases) {
           if (x >= phase.range[0] && x < phase.range[1]) {
@@ -2468,11 +2548,14 @@
 
         // Send via FormSubmit (free service - no backend needed)
         try {
-          const response = await fetch("https://formspree.io/f/2912996790062022601", {
-            method: "POST",
-            body: formData,
-            headers: { Accept: "application/json" },
-          });
+          const response = await fetch(
+            "https://formspree.io/f/2912996790062022601",
+            {
+              method: "POST",
+              body: formData,
+              headers: { Accept: "application/json" },
+            }
+          );
 
           if (response.ok) {
             alert("✅ Mensagem enviada com sucesso! Responderemos em breve.");
@@ -2530,11 +2613,14 @@ Acesse o painel de alunos para processar esta inscrição.
           enrollmentForm.append("phone", phone);
           enrollmentForm.append("course", course);
 
-          const response = await fetch("https://formspree.io/f/2912996790062022601", {
-            method: "POST",
-            body: enrollmentForm,
-            headers: { Accept: "application/json" },
-          });
+          const response = await fetch(
+            "https://formspree.io/f/2912996790062022601",
+            {
+              method: "POST",
+              body: enrollmentForm,
+              headers: { Accept: "application/json" },
+            }
+          );
 
           if (response.ok) {
             alert(
@@ -2558,11 +2644,3 @@ Acesse o painel de alunos para processar esta inscrição.
     </script>
   </body>
 </html>
-
-
-
-
-
-
-
-
