@@ -594,6 +594,51 @@
         font-size: 1.1rem;
       }
 
+      /* Chakra Cards Grid */
+      .chakra-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .chakra-card-item {
+        background: linear-gradient(135deg, var(--color-accent) 0%, rgba(212, 165, 116, 0.1) 100%);
+        border: 2px solid var(--color-gold);
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .chakra-card-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(75, 0, 130, 0.15);
+        border-color: var(--color-dark-purple);
+      }
+      .chakra-name {
+        font-weight: bold;
+        color: var(--color-dark-purple);
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+      }
+      .chakra-emoji {
+        font-size: 2rem;
+        margin: 0.5rem 0;
+      }
+      .chakra-card-name {
+        font-size: 0.85rem;
+        color: var(--color-text);
+        margin: 0.5rem 0;
+        font-weight: 600;
+      }
+      .chakra-card-meaning {
+        font-size: 0.75rem;
+        color: var(--color-text-light);
+        margin-top: 0.5rem;
+        font-style: italic;
+      }
       /* Celtic Cross Display */
       .celtic-grid {
         display: grid;
@@ -863,6 +908,32 @@
           </button>
         </div>
 
+        <!-- Chakra Spread -->
+        <div
+          id="chakra-reading"
+          class="reading-container"
+          style="display: none"
+          role="tabpanel"
+          aria-labelledby="chakra-tab"
+        >
+          <p style="color: var(--color-text-light); margin-bottom: 1.5rem">A Leitura de Chakras alinha as 7 energias do teu corpo (Root, Sacral, Solar, Heart, Throat, Third Eye, Crown)</p>
+          <button
+            class="cta-button"
+            style="margin-top: 1.5rem"
+            onclick="drawChakraSpread()"
+            aria-label="Tirar cartas para leitura dos 7 chakras"
+          >
+            Ativar Leitura de Chakras
+          </button>
+          <div
+            id="chakra-result"
+            class="chakra-cards-grid"
+            style="display: none; margin-top: 2rem"
+            role="region"
+            aria-live="polite"
+            aria-label="Resultado da leitura de chakras"
+          ></div>
+        </div>
         <!-- Daily Reading -->
         <div
           id="daily-reading"
@@ -2095,6 +2166,83 @@
         }, 800);
       }
 
+      // ===== CHAKRA SPREAD =====
+      const chakras = [
+        { name: "Muladhara", emoji: "??", element: "Terra", meaning: "Raiz - Seguran?a e Estabilidade" },
+        { name: "Swadhisthana", emoji: "??", element: "?gua", meaning: "Sagrado - Criatividade e Prazer" },
+        { name: "Manipura", emoji: "??", element: "Fogo", meaning: "Plexo Solar - Poder e Vontade" },
+        { name: "Anahata", emoji: "??", element: "Ar", meaning: "Cora??o - Amor e Compaix?o" },
+        { name: "Vishuddha", emoji: "??", element: "?ter", meaning: "Garganta - Express?o e Verdade" },
+        { name: "Ajna", emoji: "??", element: "Luz", meaning: "Terceiro Olho - Intui??o e Sabedoria" },
+        { name: "Sahasrara", emoji: "??", element: "Espiritualidade", meaning: "Coroa - Ilumina??o e Conex?o" }
+      ];
+      function drawChakraSpread() {
+        const resultDiv = document.getElementById("chakra-result");
+        resultDiv.innerHTML = '<div style="text-align: center; padding: 2rem;"><p>? Alinhando os teus chakras...</p></div>';
+        resultDiv.style.display = "block";
+        setTimeout(() => {
+          drawnCards.chakra = [];
+          let html = '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Leitura de Chakras - 7 Energias</h3>';
+          html += '<div class="chakra-cards-grid">';
+          chakras.forEach((chakra, index) => {
+            const card = getRandomCard();
+            const isReversed = Math.random() > 0.5;
+            drawnCards.chakra.push({ card, chakra: chakra.name, isReversed });
+            const meaning = isReversed ? (card.reversedMeaning || card.meaning) : card.meaning;
+            const direction = isReversed ? "(Invertida)" : "(Direita)";
+            html += `
+              <div class="chakra-card-item">
+                <div class="chakra-name">${chakra.emoji} ${chakra.name}</div>
+                <div class="chakra-card-name" role="heading" aria-level="4">${card.name} ${direction}</div>
+                <div class="chakra-emoji">${card.emoji}</div>
+                <div class="chakra-card-meaning">${meaning}</div>
+                <div style="font-size: 0.7rem; color: var(--color-text-light); margin-top: 0.5rem; border-top: 1px solid rgba(212, 165, 116, 0.3); padding-top: 0.5rem;">${chakra.element}</div>
+              </div>
+            `;
+          });
+          html += '</div>';
+          html += '<button class="cta-button" style="margin-top: 2rem;" onclick="saveReadingToHistory('Leitura de Chakras')">Guardar Leitura</button>';
+          resultDiv.innerHTML = html;
+          resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 1000);
+      }
+      // ===== MOON PHASE CALCULATION =====
+      function calculateMoonPhase() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth() + 1;
+        const day = now.getDate();
+        const c = Math.floor(year / 100);
+        const s = Math.floor((year - 1900) / 100);
+        const a = year + Math.floor(month / 12) - Math.floor((12 - month) / 12);
+        const m = (month + 9) % 12;
+        const t = Math.floor((a * 365.25) + Math.floor(30.6001 * (m + 1)) + day + 1900 - 1);
+        const jd = t + 0.5;
+        const d = jd - 2451550.1;
+        const x = (d % 29.5306) / 29.5306;
+        const phases = [
+          { name: "?? Lua Nova", range: [0, 0.125] },
+          { name: "?? Lua Crescente", range: [0.125, 0.25] },
+          { name: "?? Quarto Crescente", range: [0.25, 0.375] },
+          { name: "?? Lua Crescente (Iluminada)", range: [0.375, 0.5] },
+          { name: "?? Lua Cheia", range: [0.5, 0.625] },
+          { name: "?? Lua Minguante", range: [0.625, 0.75] },
+          { name: "?? Quarto Minguante", range: [0.75, 0.875] },
+          { name: "?? Lua Minguante (Escura)", range: [0.875, 1] }
+        ];
+        for (let phase of phases) {
+          if (x >= phase.range[0] && x < phase.range[1]) {
+            return phase.name;
+          }
+        }
+        return "?? Lua Nova";
+      }
+      window.addEventListener("load", () => {
+        const moonPhase = calculateMoonPhase();
+        document.getElementById("moon-phase-display").textContent = moonPhase;
+        const today = new Date().toLocaleDateString("pt-PT", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+        document.getElementById("moon-date").textContent = today;
+      });
       // ===== CELTIC CROSS SPREAD =====
       function drawCelticCross() {
         const resultDiv = document.getElementById("celtic-result");
@@ -2385,3 +2533,6 @@ Acesse o painel de alunos para processar esta inscrição.
     </script>
   </body>
 </html>
+
+
+
