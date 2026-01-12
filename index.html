@@ -850,6 +850,22 @@
     <section class="hero" id="main-content">
       <h1>Tarot com Clareza</h1>
       <p class="tagline">O teu caminho nas cartas</p>
+      <!-- Moon Phase Widget -->
+      <div
+        style="background: rgba(212, 165, 116, 0.15); border-radius: 8px; padding: 1rem; margin: 1.5rem 0; text-align: center; border: 1px solid var(--color-gold);"
+      >
+        <p style="font-size: 0.9rem; color: var(--color-text-light); margin-bottom: 0.5rem;">🌙 Fase Lunar de Hoje</p>
+        <div
+          id="moon-phase-display"
+          style="font-size: 1.5rem; margin: 0.5rem 0; color: var(--color-dark-purple); font-weight: bold;"
+        >
+          Carregando...
+        </div>
+        <p
+          id="moon-date"
+          style="font-size: 0.85rem; color: var(--color-text-light); margin: 0.5rem 0;"
+        ></p>
+      </div>
       <p class="subtext">
         Aprenda a ler tarot sem decorar. Domine a ética profissional e
         prepare-se para consultar clientes em Portugal e Brasil.
@@ -2201,7 +2217,7 @@
             `;
           });
           html += '</div>';
-          html += '<button class="cta-button" style="margin-top: 2rem;" onclick="saveReadingToHistory("Chakra")">Guardar Leitura</button>';
+          html += '<button class="cta-button" style="margin-top: 2rem;" onclick="saveReadingToHistory(\'Chakra\')">Guardar Leitura</button>';
           resultDiv.innerHTML = html;
           resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }, 1000);
@@ -2238,10 +2254,19 @@
         return "?? Lua Nova";
       }
       window.addEventListener("load", () => {
-        const moonPhase = calculateMoonPhase();
-        document.getElementById("moon-phase-display").textContent = moonPhase;
-        const today = new Date().toLocaleDateString("pt-PT", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
-        document.getElementById("moon-date").textContent = today;
+        const moonPhaseEl = document.getElementById("moon-phase-display");
+        const moonDateEl = document.getElementById("moon-date");
+        if (moonPhaseEl && moonDateEl) {
+          const moonPhase = calculateMoonPhase();
+          moonPhaseEl.textContent = moonPhase;
+          const today = new Date().toLocaleDateString("pt-PT", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+          moonDateEl.textContent = today;
+        }
       });
       // ===== CELTIC CROSS SPREAD =====
       function drawCelticCross() {
