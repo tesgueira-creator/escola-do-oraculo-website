@@ -459,9 +459,24 @@
       }
 
       .card-result {
-        font-size: 3rem;
         margin: 1rem 0;
         animation: flip 0.6s ease-in-out;
+      }
+      .card-result img,
+      .card-image-preview {
+        width: 140px;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        margin: 0 auto;
+      }
+      .three-cards-grid img {
+        width: 64px;
+        height: auto;
+      }
+      .card-draw-box p {
+        color: var(--color-text);
       }
 
       @keyframes flip {
@@ -526,8 +541,10 @@
       }
 
       .card-emoji {
-        font-size: 4rem;
         margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .card-name {
@@ -681,8 +698,10 @@
       }
 
       .celtic-position-emoji {
-        font-size: 2.5rem;
         margin: 0.5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .celtic-position-card {
@@ -848,11 +867,11 @@
       {
         "@context": "https://schema.org",
         "@type": "Course",
-        "name": "Escola do Or�culo - Cursos de Tarot Online",
-        "description": "Aprenda Tarot do zero com a Rafaella Kally. Curso completo online com certificado inclu�do.",
+        "name": "Escola do Oráculo - Cursos de Tarot Online",
+        "description": "Aprenda Tarot do zero com a Rafaella Kally. Curso completo online com certificado incluído.",
         "provider": {
           "@type": "Organization",
-          "name": "Escola do Or�culo",
+          "name": "Escola do Oráculo",
           "sameAs": "https://tesgueira-creator.github.io/escola-do-oraculo-website"
         },
         "courseMode": "online",
@@ -946,7 +965,7 @@
       </div>
       <p class="subtext">
         Aprenda a ler tarot sem decorar. Domine a ética profissional e
-        prepare-se para consultar clientes em Portugal e Brasil.
+        prepare-se para consultar clientes com segurança.
       </p>
       <button class="cta-button" onclick="scrollTo('#cursos')">
         Começar Agora
@@ -1044,7 +1063,14 @@
             onclick="drawCard('daily')"
             aria-label="Clique para tirar uma carta do dia"
           >
-            <div class="card-result">🎴</div>
+            <div class="card-result">
+              <img
+                src="tarotdeck-main/art/78.webp"
+                alt="Carta"
+                class="card-back-img"
+                onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
+              />
+            </div>
             <p style="color: var(--color-text-light)">
               Clique para tirar uma carta
             </p>
@@ -1080,7 +1106,14 @@
               onclick="drawThreeCards()"
               aria-label="Passado"
             >
-              <div class="card-result">🎴</div>
+              <div class="card-result">
+                <img
+                  src="tarotdeck-main/art/78.webp"
+                  alt="Carta"
+                  class="card-back-img"
+                  onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
+                />
+              </div>
               <p style="color: var(--color-text-light)">Passado</p>
             </button>
             <button
@@ -1088,7 +1121,14 @@
               onclick="drawThreeCards()"
               aria-label="Presente"
             >
-              <div class="card-result">🎴</div>
+              <div class="card-result">
+                <img
+                  src="tarotdeck-main/art/78.webp"
+                  alt="Carta"
+                  class="card-back-img"
+                  onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
+                />
+              </div>
               <p style="color: var(--color-text-light)">Presente</p>
             </button>
             <button
@@ -1096,7 +1136,14 @@
               onclick="drawThreeCards()"
               aria-label="Futuro"
             >
-              <div class="card-result">🎴</div>
+              <div class="card-result">
+                <img
+                  src="tarotdeck-main/art/78.webp"
+                  alt="Carta"
+                  class="card-back-img"
+                  onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
+                />
+              </div>
               <p style="color: var(--color-text-light)">Futuro</p>
             </button>
           </div>
@@ -2107,6 +2154,43 @@
         },
       };
 
+      // Helper: resolve card image from deck folder (tarotdeck-main/art/<index>.webp)
+      function getCardImageFor(card) {
+        const majorIndex = tarotCards.majorArcana.indexOf(card);
+        if (majorIndex !== -1) return `tarotdeck-main/art/${majorIndex}.webp`;
+
+        const suitBases = { copas: 22, espadas: 36, paus: 50, ouros: 64 };
+        for (const [suitKey, base] of Object.entries(suitBases)) {
+          const arr = tarotCards.minorArcana[suitKey];
+          if (!arr) continue;
+          const idx = arr.indexOf(card);
+          if (idx !== -1) return `tarotdeck-main/art/${base + idx}.webp`;
+        }
+
+        return "tarotdeck-main/art/78.webp";
+      }
+
+      // Shuffle helper and unique draw
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function drawUniqueCards(count, source = "all") {
+        let cardPool = [];
+        if (source === "all" || source === "major")
+          cardPool.push(...tarotCards.majorArcana);
+        if (source === "all" || source === "minor")
+          Object.values(tarotCards.minorArcana).forEach((s) =>
+            cardPool.push(...s)
+          );
+        const pool = [...cardPool];
+        shuffleArray(pool);
+        return pool.slice(0, Math.min(count, pool.length));
+      }
+
       let currentReadingType = "daily";
       let drawnCards = { daily: null, three: [], celtic: [] };
 
@@ -2159,7 +2243,11 @@
           // Major Arcana
           return `
             <div class="card-info">
-              <div class="card-emoji">${card.emoji}</div>
+              <div class="card-emoji"><img src="${getCardImageFor(
+                card
+              )}" alt="${
+            card.name
+          }" class="card-image-preview" onerror="this.src='tarotdeck-main/art/78.webp'"></div>
               <div class="card-name">${card.name}${reversed}</div>
               <div class="card-suit">Arcano Maior • ${card.number}</div>
               <div class="card-element">Elemento: ${card.element}</div>
@@ -2184,7 +2272,11 @@
           const suit = card.suit || "Arcano Menor";
           return `
             <div class="card-info">
-              <div class="card-emoji">${card.emoji}</div>
+              <div class="card-emoji"><img src="${getCardImageFor(
+                card
+              )}" alt="${
+            card.name
+          }" class="card-image-preview" onerror="this.src='tarotdeck-main/art/78.webp'"></div>
               <div class="card-name">${card.name}${reversed}</div>
               <div class="card-suit">${suit}</div>
             </div>
@@ -2226,8 +2318,10 @@
           drawnCards.three = [];
           const positions = ["Passado", "Presente", "Futuro"];
 
-          for (let i = 0; i < 3; i++) {
-            const card = getRandomCard("all");
+          // Draw 3 unique cards
+          const cards = drawUniqueCards(3, "all");
+          for (let i = 0; i < cards.length; i++) {
+            const card = cards[i];
             const isReversed = Math.random() > 0.5;
             drawnCards.three.push({ card, isReversed, position: positions[i] });
           }
@@ -2241,9 +2335,11 @@
               <div class="three-card-item">
                 <div class="three-card-position">📍 ${item.position}</div>
                 <div style="text-align: center;">
-                  <div style="font-size: 2.5rem; margin: 0.5rem 0;">${
-                    item.card.emoji
-                  }</div>
+                  <div style="margin: 0.5rem 0;">
+                    <img src="${getCardImageFor(item.card)}" alt="${
+              item.card.name
+            }" style="width:64px;height:auto;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.08);" onerror="this.src='tarotdeck-main/art/78.webp'">
+                  </div>
                   <div style="font-weight: 600; color: var(--color-dark-purple); margin: 0.5rem 0;">
                     ${item.card.name}${item.isReversed ? " (Invertida)" : ""}
                   </div>
@@ -2267,45 +2363,45 @@
       const chakras = [
         {
           name: "Muladhara",
-          emoji: "??",
+          emoji: "🔴",
           element: "Terra",
-          meaning: "Raiz - Seguran?a e Estabilidade",
+          meaning: "Raiz - Segurança e Estabilidade",
         },
         {
           name: "Swadhisthana",
-          emoji: "??",
-          element: "?gua",
+          emoji: "🟠",
+          element: "Água",
           meaning: "Sagrado - Criatividade e Prazer",
         },
         {
           name: "Manipura",
-          emoji: "??",
+          emoji: "🟡",
           element: "Fogo",
           meaning: "Plexo Solar - Poder e Vontade",
         },
         {
           name: "Anahata",
-          emoji: "??",
+          emoji: "💚",
           element: "Ar",
-          meaning: "Cora??o - Amor e Compaix?o",
+          meaning: "Coração - Amor e Compaixão",
         },
         {
           name: "Vishuddha",
-          emoji: "??",
-          element: "?ter",
-          meaning: "Garganta - Express?o e Verdade",
+          emoji: "🔵",
+          element: "Éter",
+          meaning: "Garganta - Expressão e Verdade",
         },
         {
           name: "Ajna",
-          emoji: "??",
+          emoji: "🟣",
           element: "Luz",
-          meaning: "Terceiro Olho - Intui??o e Sabedoria",
+          meaning: "Terceiro Olho - Intuição e Sabedoria",
         },
         {
           name: "Sahasrara",
-          emoji: "??",
+          emoji: "👑",
           element: "Espiritualidade",
-          meaning: "Coroa - Ilumina??o e Conex?o",
+          meaning: "Coroa - Iluminação e Conexão",
         },
       ];
       function drawChakraSpread() {
@@ -2318,21 +2414,36 @@
           let html =
             '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Leitura de Chakras - 7 Energias</h3>';
           html += '<div class="chakra-cards-grid">';
-          chakras.forEach((chakra, index) => {
-            const card = getRandomCard();
+          // Draw 7 unique cards for chakras
+          const chakraCards = drawUniqueCards(chakras.length, "all");
+          chakraCards.forEach((card, index) => {
             const isReversed = Math.random() > 0.5;
-            drawnCards.chakra.push({ card, chakra: chakra.name, isReversed });
+            drawnCards.chakra.push({
+              card,
+              chakra: chakras[index].name,
+              isReversed,
+            });
             const meaning = isReversed
               ? card.reversedMeaning || card.meaning
               : card.meaning;
             const direction = isReversed ? "(Invertida)" : "(Direita)";
             html += `
               <div class="chakra-card-item">
-                <div class="chakra-name">${chakra.emoji} ${chakra.name}</div>
-                <div class="chakra-card-name" role="heading" aria-level="4">${card.name} ${direction}</div>
-                <div class="chakra-emoji">${card.emoji}</div>
+                <div class="chakra-name">${chakras[index].emoji} ${
+              chakras[index].name
+            }</div>
+                <div class="chakra-card-name" role="heading" aria-level="4">${
+                  card.name
+                } ${direction}</div>
+                <div class="chakra-emoji"><img src="${getCardImageFor(
+                  card
+                )}" alt="${
+              card.name
+            }" style="width:48px;height:auto;border-radius:6px;" onerror="this.src='tarotdeck-main/art/78.webp'"></div>
                 <div class="chakra-card-meaning">${meaning}</div>
-                <div style="font-size: 0.7rem; color: var(--color-text-light); margin-top: 0.5rem; border-top: 1px solid rgba(212, 165, 116, 0.3); padding-top: 0.5rem;">${chakra.element}</div>
+                <div style="font-size: 0.7rem; color: var(--color-text-light); margin-top: 0.5rem; border-top: 1px solid rgba(212, 165, 116, 0.3); padding-top: 0.5rem;">${
+                  chakras[index].element
+                }</div>
               </div>
             `;
           });
@@ -2360,21 +2471,21 @@
         const d = jd - 2451550.1;
         const x = (d % 29.5306) / 29.5306;
         const phases = [
-          { name: "?? Lua Nova", range: [0, 0.125] },
-          { name: "?? Lua Crescente", range: [0.125, 0.25] },
-          { name: "?? Quarto Crescente", range: [0.25, 0.375] },
-          { name: "?? Lua Crescente (Iluminada)", range: [0.375, 0.5] },
-          { name: "?? Lua Cheia", range: [0.5, 0.625] },
-          { name: "?? Lua Minguante", range: [0.625, 0.75] },
-          { name: "?? Quarto Minguante", range: [0.75, 0.875] },
-          { name: "?? Lua Minguante (Escura)", range: [0.875, 1] },
+          { name: "🌑 Lua Nova", range: [0, 0.125] },
+          { name: "🌒 Lua Crescente", range: [0.125, 0.25] },
+          { name: "🌓 Quarto Crescente", range: [0.25, 0.375] },
+          { name: "🌔 Lua Crescente (Iluminada)", range: [0.375, 0.5] },
+          { name: "🌕 Lua Cheia", range: [0.5, 0.625] },
+          { name: "🌖 Lua Minguante", range: [0.625, 0.75] },
+          { name: "🌗 Quarto Minguante", range: [0.75, 0.875] },
+          { name: "🌘 Lua Minguante (Escura)", range: [0.875, 1] },
         ];
         for (let phase of phases) {
           if (x >= phase.range[0] && x < phase.range[1]) {
             return phase.name;
           }
         }
-        return "?? Lua Nova";
+        return "🌑 Lua Nova";
       }
       window.addEventListener("load", () => {
         const moonPhaseEl = document.getElementById("moon-phase-display");
@@ -2421,8 +2532,10 @@
             { num: "10", name: "Resultado", meaning: "Desfecho provável" },
           ];
 
-          for (let i = 0; i < 10; i++) {
-            const card = getRandomCard("all");
+          // Draw 10 unique cards for the Celtic Cross
+          const celticCards = drawUniqueCards(10, "all");
+          for (let i = 0; i < celticCards.length; i++) {
+            const card = celticCards[i];
             const isReversed = Math.random() > 0.5;
             drawnCards.celtic.push({
               card,
@@ -2442,7 +2555,11 @@
                   item.position.num
                 }</div>
                 <div class="celtic-position-name">${item.position.name}</div>
-                <div class="celtic-position-emoji">${item.card.emoji}</div>
+                <div class="celtic-position-emoji"><img src="${getCardImageFor(
+                  item.card
+                )}" alt="${
+              item.card.name
+            }" style="width:48px;height:auto;border-radius:6px;" onerror="this.src='tarotdeck-main/art/78.webp'"></div>
                 <div class="celtic-position-card">
                   ${item.card.name}<br><small>${
               item.isReversed ? "(Invertida)" : ""
@@ -2591,14 +2708,11 @@
 
         // Send via FormSubmit (free service - no backend needed)
         try {
-          const response = await fetch(
-            "https://formspree.io/f/xqeekpde",
-            {
-              method: "POST",
-              body: formData,
-              headers: { Accept: "application/json" },
-            }
-          );
+          const response = await fetch("https://formspree.io/f/xqeekpde", {
+            method: "POST",
+            body: formData,
+            headers: { Accept: "application/json" },
+          });
 
           if (response.ok) {
             alert("✅ Mensagem enviada com sucesso! Responderemos em breve.");
@@ -2656,14 +2770,11 @@ Acesse o painel de alunos para processar esta inscrição.
           enrollmentForm.append("phone", phone);
           enrollmentForm.append("course", course);
 
-          const response = await fetch(
-            "https://formspree.io/f/xqeekpde",
-            {
-              method: "POST",
-              body: enrollmentForm,
-              headers: { Accept: "application/json" },
-            }
-          );
+          const response = await fetch("https://formspree.io/f/xqeekpde", {
+            method: "POST",
+            body: enrollmentForm,
+            headers: { Accept: "application/json" },
+          });
 
           if (response.ok) {
             alert(
@@ -2690,9 +2801,11 @@ Acesse o painel de alunos para processar esta inscrição.
       <button
         id="fs-open"
         class="fs-fab"
-        aria-label="Abrir formul�rio de contacto"
+        aria-label="Abrir formulário de contacto"
+        title="Dúvidas? Fale comigo!"
       >
-        ?? D�vidas? Fale comigo!
+        <span class="fs-fab-text">Dúvidas? Fale comigo!</span>
+        <span class="fs-fab-icon" aria-hidden="true">💬</span>
       </button>
       <aside
         id="fs-panel"
@@ -2703,9 +2816,14 @@ Acesse o painel de alunos para processar esta inscrição.
         aria-hidden="true"
       >
         <header class="fs-header">
-          <h3 id="fs-title">Contacto R�pido</h3>
-          <button id="fs-close" class="fs-close" aria-label="Fechar formul�rio">
-            �
+          <h3 id="fs-title">Contacto Rápido</h3>
+          <button
+            id="fs-close"
+            class="fs-close"
+            aria-label="Fechar formulário"
+            title="Fechar formulário"
+          >
+            ×
           </button>
         </header>
         <form
@@ -2717,7 +2835,7 @@ Acesse o painel de alunos para processar esta inscrição.
           <input
             type="hidden"
             name="_subject"
-            value="Site Popup: Contacto R�pido"
+            value="Site Popup: Contacto Rápido"
           />
           <label for="fs-name">Nome</label>
           <input id="fs-name" name="name" type="text" required />
@@ -2751,18 +2869,49 @@ Acesse o painel de alunos para processar esta inscrição.
         font-family: inherit;
       }
       .fs-fab {
-        width: 56px;
-        height: 56px;
-        border-radius: 999px;
-        border: none;
-        cursor: pointer;
-        display: flex;
+        /* Pill layout: allows short text while keeping a compact shape */
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-        background: linear-gradient(135deg, #6a1b9a, #8e24aa);
-        color: #fff;
+        min-width: 56px;
+        height: 56px;
+        padding: 0 14px;
+        border-radius: 28px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.28);
+        background: linear-gradient(135deg, #5b0f7a, #7a1aa1);
+        color: #ffffff;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .fs-fab .fs-fab-icon {
+        display: none;
+        margin-left: 8px;
+      }
+      .fs-fab .fs-fab-text {
+        display: inline-block;
+      }
+      /* Small screens: switch back to a circular FAB showing only an icon */
+      @media (max-width: 480px) {
+        .fs-fab {
+          min-width: 56px;
+          width: 56px;
+          padding: 0;
+          border-radius: 999px;
+          font-size: 20px;
+        }
+        .fs-fab .fs-fab-text {
+          display: none;
+        }
+        .fs-fab .fs-fab-icon {
+          display: inline-block;
+        }
       }
       .fs-panel {
         width: 340px;
@@ -2789,16 +2938,28 @@ Acesse o painel de alunos para processar esta inscrição.
         justify-content: space-between;
         gap: 8px;
         margin-bottom: 8px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
       }
       .fs-header h3 {
         margin: 0;
         font-size: 1rem;
       }
       .fs-close {
-        background: none;
+        background: transparent;
         border: none;
-        font-size: 20px;
+        font-size: 18px;
         cursor: pointer;
+        color: var(--color-dark-purple);
+        width: 36px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+      }
+      .fs-close:hover {
+        background: rgba(75, 0, 130, 0.06);
       }
       .fs-form label {
         display: block;
@@ -2817,6 +2978,15 @@ Acesse o painel de alunos para processar esta inscrição.
         display: flex;
         gap: 8px;
         margin-top: 10px;
+      }
+      .fs-actions .btn {
+        flex: 1;
+        min-width: 0;
+      }
+      .fs-actions .btn.ghost {
+        background: transparent;
+        border: 1px solid #ddd;
+        color: var(--color-text);
       }
       .fs-status {
         margin-top: 8px;

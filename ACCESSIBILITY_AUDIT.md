@@ -8,17 +8,17 @@
 
 ## 🎯 AUDIT EXECUTIVE SUMMARY
 
-| Category | Status | Score | Notes |
-|----------|--------|-------|-------|
-| **Keyboard Navigation** | ✅ PASS | 100% | Full keyboard support, visible focus |
-| **Screen Reader Support** | ✅ PASS | 95% | ARIA labels, semantic HTML |
-| **Color Contrast** | ✅ PASS | 100% | WCAG AA compliant (#4b0082 on #f5f5f0) |
-| **Focus Indicators** | ✅ PASS | 100% | Clear gold outline (2px) |
-| **Form Labels** | ✅ PASS | 100% | All inputs labeled |
-| **Heading Hierarchy** | ✅ PASS | 100% | Proper h1-h3 structure |
-| **Alternative Text** | ⚠️ MIXED | 85% | Emojis don't need alt, but tarot cards need descriptions |
-| **Mobile Responsive** | ✅ PASS | 100% | Works at 320px to 4K |
-| **Dark Mode** | ✅ PASS | 100% | Proper color contrast in both themes |
+| Category                  | Status  | Score | Notes                                                    |
+| ------------------------- | ------- | ----- | -------------------------------------------------------- |
+| **Keyboard Navigation**   | ✅ PASS  | 100%  | Full keyboard support, visible focus                     |
+| **Screen Reader Support** | ✅ PASS  | 95%   | ARIA labels, semantic HTML                               |
+| **Color Contrast**        | ✅ PASS  | 100%  | WCAG AA compliant (#4b0082 on #f5f5f0)                   |
+| **Focus Indicators**      | ✅ PASS  | 100%  | Clear gold outline (2px)                                 |
+| **Form Labels**           | ✅ PASS  | 100%  | All inputs labeled                                       |
+| **Heading Hierarchy**     | ✅ PASS  | 100%  | Proper h1-h3 structure                                   |
+| **Alternative Text**      | ⚠️ MIXED | 85%   | Emojis don't need alt, but tarot cards need descriptions |
+| **Mobile Responsive**     | ✅ PASS  | 100%  | Works at 320px to 4K                                     |
+| **Dark Mode**             | ✅ PASS  | 100%  | Proper color contrast in both themes                     |
 
 **Overall Rating: ✅ WCAG 2.1 AA Compliant**
 
@@ -300,15 +300,15 @@ Contrast Ratios in Dark Mode:
 
 ## 📊 ACCESSIBILITY STATISTICS
 
-| Metric | Value | Target |
-|--------|-------|--------|
-| **WCAG 2.1 Level** | AA | AA ✅ |
-| **Keyboard Accessible** | 100% | 100% ✅ |
-| **Screen Reader Support** | 95% | 90% ✅ |
-| **Color Contrast** | 100% | 100% ✅ |
-| **Focus Indicators** | 100% | 100% ✅ |
-| **Mobile Responsive** | 100% | 100% ✅ |
-| **Dark Mode** | Available | Optional ✅ |
+| Metric                    | Value     | Target     |
+| ------------------------- | --------- | ---------- |
+| **WCAG 2.1 Level**        | AA        | AA ✅       |
+| **Keyboard Accessible**   | 100%      | 100% ✅     |
+| **Screen Reader Support** | 95%       | 90% ✅      |
+| **Color Contrast**        | 100%      | 100% ✅     |
+| **Focus Indicators**      | 100%      | 100% ✅     |
+| **Mobile Responsive**     | 100%      | 100% ✅     |
+| **Dark Mode**             | Available | Optional ✅ |
 
 ---
 

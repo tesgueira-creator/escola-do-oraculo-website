@@ -14,25 +14,25 @@
 
 ### **COMPLETED: 8/12 (67%)**
 
-| # | Opportunity | Status | Implementation | Impact |
-|---|---|---|---|---|
-| 1 | Mobile Navigation | ✅ | Hamburger menu with auto-close | Major |
-| 2 | Accessibility | ✅ | ARIA labels, roles, semantic HTML | Major |
-| 3 | Form Validation | ✅ | Error handling, confirmations | Medium |
-| 4 | Loading Animations | ✅ | Card draw delays, spinners | Medium |
-| 5 | SEO Meta Tags | ✅ | OpenGraph, Twitter, descriptions | Medium |
-| 6 | Reading History | ✅ | localStorage, modal viewer, delete | Major |
-| 7 | Button Accessibility | ✅ | Focus states, keyboard nav | Medium |
-| 8 | Reading Export | ✅ | Save to localStorage | Major |
+| #   | Opportunity          | Status | Implementation                     | Impact |
+| --- | -------------------- | ------ | ---------------------------------- | ------ |
+| 1   | Mobile Navigation    | ✅      | Hamburger menu with auto-close     | Major  |
+| 2   | Accessibility        | ✅      | ARIA labels, roles, semantic HTML  | Major  |
+| 3   | Form Validation      | ✅      | Error handling, confirmations      | Medium |
+| 4   | Loading Animations   | ✅      | Card draw delays, spinners         | Medium |
+| 5   | SEO Meta Tags        | ✅      | OpenGraph, Twitter, descriptions   | Medium |
+| 6   | Reading History      | ✅      | localStorage, modal viewer, delete | Major  |
+| 7   | Button Accessibility | ✅      | Focus states, keyboard nav         | Medium |
+| 8   | Reading Export       | ✅      | Save to localStorage               | Major  |
 
 ### **NOT STARTED: 4/12 (33%)**
 
-| # | Opportunity | Status | Reason | Effort |
-|---|---|---|---|---|
-| 9 | Image Optimization | ⏳ | Using emojis (no images) | 30 min |
-| 10 | Dark Mode Toggle | ⏳ | Nice-to-have feature | 45 min |
-| 11 | Breadcrumb Navigation | ⏳ | Low priority for current design | 20 min |
-| 12 | Backend Email Integration | ⏳ | Requires server setup | 2-3 hrs |
+| #   | Opportunity               | Status | Reason                          | Effort  |
+| --- | ------------------------- | ------ | ------------------------------- | ------- |
+| 9   | Image Optimization        | ⏳      | Using emojis (no images)        | 30 min  |
+| 10  | Dark Mode Toggle          | ⏳      | Nice-to-have feature            | 45 min  |
+| 11  | Breadcrumb Navigation     | ⏳      | Low priority for current design | 20 min  |
+| 12  | Backend Email Integration | ⏳      | Requires server setup           | 2-3 hrs |
 
 ---
 
@@ -182,14 +182,14 @@ CSS Changes: ~15 lines (focus-visible states)
 ## 📈 IMPACT ASSESSMENT
 
 ### User Experience
-| Aspect | Before | After | Impact |
-|--------|--------|-------|--------|
-| Mobile Navigation | ❌ Broken | ✅ Working | Major |
-| Accessibility | ⚠️ Poor | ✅ Good | Major |
-| Reading Tracking | ❌ None | ✅ Full | Major |
-| Load Feedback | ❌ None | ✅ Visible | Medium |
-| SEO | ⚠️ Basic | ✅ Good | Medium |
-| Keyboard Nav | ❌ Poor | ✅ Good | Medium |
+| Aspect            | Before   | After     | Impact |
+| ----------------- | -------- | --------- | ------ |
+| Mobile Navigation | ❌ Broken | ✅ Working | Major  |
+| Accessibility     | ⚠️ Poor   | ✅ Good    | Major  |
+| Reading Tracking  | ❌ None   | ✅ Full    | Major  |
+| Load Feedback     | ❌ None   | ✅ Visible | Medium |
+| SEO               | ⚠️ Basic  | ✅ Good    | Medium |
+| Keyboard Nav      | ❌ Poor   | ✅ Good    | Medium |
 
 ### Performance
 - **Bundle Size**: +2KB JavaScript

@@ -356,17 +356,17 @@ AFTER:
 
 ## 📈 **STATISTICS**
 
-| Metric | Value |
-|--------|-------|
-| **Code Added** | ~300 lines |
-| **New JS Functions** | 6 |
-| **New CSS Classes** | 12 |
-| **ARIA Attributes** | 15+ |
-| **Meta Tags** | 10 |
-| **Git Commits** | 4 |
-| **Issues Fixed** | 8/12 |
-| **Completion** | 67% |
-| **Bundle Size Increase** | +2KB |
+| Metric                   | Value      |
+| ------------------------ | ---------- |
+| **Code Added**           | ~300 lines |
+| **New JS Functions**     | 6          |
+| **New CSS Classes**      | 12         |
+| **ARIA Attributes**      | 15+        |
+| **Meta Tags**            | 10         |
+| **Git Commits**          | 4          |
+| **Issues Fixed**         | 8/12       |
+| **Completion**           | 67%        |
+| **Bundle Size Increase** | +2KB       |
 
 ---
 
