@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from typing import Optional
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, text
 
 # Try to import from the package (when running from root), else fallback to local (when running from folder)
 try:
@@ -48,6 +48,18 @@ FRONTEND_URL = (
 )
 
 app = FastAPI(title="Escola do Oraculo API", version="1.0.0")
+
+
+@app.get("/health")
+def health_check(db: Session = Depends(get_db)):
+    try:
+        # Tenta executar uma query simples para verificar a conexão
+        db.execute(text("SELECT 1"))
+        return {"status": "ok", "database": "connected", "environment": ENVIRONMENT}
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Database connection failed: {str(e)}"
+        )
 
 # CORS setup - allow frontend to talk to backend
 allowed_origins = ["*"]
