@@ -119,51 +119,56 @@
     </div>
 
     <script>
+      // Auto-detect API URL based on environment
+      const API_URL =
+        window.location.hostname === "localhost"
+          ? "http://localhost:8000"
+          : window.location.origin;
+
       async function handleLogin(e) {
         e.preventDefault();
 
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const submitBtn = e.target.querySelector('button');
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const submitBtn = e.target.querySelector("button");
         const originalText = submitBtn.innerText;
 
         try {
-            submitBtn.disabled = true;
-            submitBtn.innerText = 'Autenticando...';
+          submitBtn.disabled = true;
+          submitBtn.innerText = "Autenticando...";
 
-            // Connect to the Python FastAPI Backend
-            const response = await fetch('http://localhost:8000/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
-            });
+          // Connect to the Python FastAPI Backend
+          const response = await fetch(API_URL + "/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password,
+            }),
+          });
 
-            const data = await response.json();
+          const data = await response.json();
 
-            if (response.ok) {
-                // Success: Save token and redirect
-                localStorage.setItem("user_token", data.access_token);
-                localStorage.setItem("user_email", email);
-                window.location.href = "oraculo-app.html";
-            } else {
-                // Error handling
-                alert(data.detail || 'Erro ao realizar login');
-            }
+          if (response.ok) {
+            // Success: Save token and redirect
+            localStorage.setItem("user_token", data.access_token);
+            localStorage.setItem("user_email", email);
+            window.location.href = "oraculo-app.html";
+          } else {
+            // Error handling
+            alert(data.detail || "Erro ao realizar login");
+          }
         } catch (error) {
-            console.error('Login error:', error);
-            alert('Erro de conexão com o servidor. Verifique se o backend está rodando.');
+          console.error("Login error:", error);
+          alert(
+            "Erro de conexão com o servidor. Verifique se o backend está rodando."
+          );
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerText = originalText;
+          submitBtn.disabled = false;
+          submitBtn.innerText = originalText;
         }
-      }
-        alert("Bem-vindo(a) de volta, Iniciado(a)!");
-        window.location.href = "oraculo-app.html"; // Go to the App (Client Area)
       }
     </script>
   </body>

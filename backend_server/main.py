@@ -1,6 +1,6 @@
 import stripe
 import os
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends, status, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -43,9 +43,8 @@ Base.metadata.create_all(bind=engine)
 # For dev, use "sk_test_..."
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "sk_test_PLACEHOLDER")
 stripe.api_key = STRIPE_SECRET_KEY
-FRONTEND_URL = (
-    "http://localhost:8000"  # Adjust if frontend is on a different port/domain in prod
-)
+# Use environment variable for frontend URL in production
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
 
 app = FastAPI(title="Escola do Oraculo API", version="1.0.0")
 
@@ -60,6 +59,7 @@ def health_check(db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=500, detail=f"Database connection failed: {str(e)}"
         )
+
 
 # CORS setup - allow frontend to talk to backend
 allowed_origins = ["*"]
@@ -254,6 +254,81 @@ def create_customer_portal_session(user_email: str, db: Session = Depends(get_db
         return {"portal_url": session.url}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+# --- STRIPE WEBHOOK ---
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+
+
+@app.post("/webhooks/stripe")
+async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
+    """Recebe eventos do Stripe para atualizar subscrições"""
+    payload = await request.body()
+    sig_header = request.headers.get("stripe-signature")
+
+    try:
+        if STRIPE_WEBHOOK_SECRET:
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, STRIPE_WEBHOOK_SECRET
+            )
+        else:
+            # Para testes sem webhook secret
+            import json
+
+            event = json.loads(payload)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid payload")
+    except stripe.error.SignatureVerificationError:
+        raise HTTPException(status_code=400, detail="Invalid signature")
+
+    # Processar eventos
+    event_type = event.get("type", "")
+    data = event.get("data", {}).get("object", {})
+
+    if event_type == "checkout.session.completed":
+        # Pagamento concluído com sucesso
+        customer_id = data.get("customer")
+        subscription_id = data.get("subscription")
+
+        if customer_id:
+            user = db.query(User).filter(User.stripe_customer_id == customer_id).first()
+            if user:
+                user.subscription_status = "active"
+                db.commit()
+                print(f"✅ User {user.email} subscription activated!")
+
+    elif event_type == "customer.subscription.updated":
+        customer_id = data.get("customer")
+        status = data.get("status")  # active, past_due, canceled, etc.
+
+        if customer_id:
+            user = db.query(User).filter(User.stripe_customer_id == customer_id).first()
+            if user:
+                user.subscription_status = status
+                db.commit()
+                print(f"📝 User {user.email} subscription updated to: {status}")
+
+    elif event_type == "customer.subscription.deleted":
+        customer_id = data.get("customer")
+
+        if customer_id:
+            user = db.query(User).filter(User.stripe_customer_id == customer_id).first()
+            if user:
+                user.subscription_status = "free"
+                db.commit()
+                print(f"❌ User {user.email} subscription cancelled")
+
+    elif event_type == "invoice.payment_failed":
+        customer_id = data.get("customer")
+
+        if customer_id:
+            user = db.query(User).filter(User.stripe_customer_id == customer_id).first()
+            if user:
+                user.subscription_status = "past_due"
+                db.commit()
+                print(f"⚠️ User {user.email} payment failed")
+
+    return {"status": "received"}
 
 
 # --- STATIC FILES ---
