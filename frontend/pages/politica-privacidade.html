@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Política de Privacidade | Escola do Oráculo</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --color-cream: #f5f5f0;
+        --color-dark-purple: #4b0082;
+        --color-gold: #c5a059;
+        --color-text: #2c2c2c;
+        --color-text-light: #6b6b6b;
+        --color-white: #ffffff;
+        --color-accent: #e8dcc8;
+        --font-serif: "Georgia", "Playfair Display", serif;
+        --font-sans: "Segoe UI", "Lato", sans-serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background: linear-gradient(to bottom, var(--color-cream), #fafaf8);
+        color: var(--color-text);
+        line-height: 1.6;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(245, 245, 240, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--color-dark-purple);
+        font-family: var(--font-serif);
+        letter-spacing: 2px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .logo-small {
+        font-size: 0.7rem;
+        color: var(--color-gold);
+        display: block;
+        margin-top: -0.3rem;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--color-text);
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: color 0.3s;
+        border-bottom: 2px solid transparent;
+      }
+
+      nav a:hover {
+        color: var(--color-dark-purple);
+        border-bottom: 2px solid var(--color-gold);
+      }
+
+      .hero {
+        margin-top: 80px;
+        padding: 4rem 2rem;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          var(--color-cream) 0%,
+          var(--color-accent) 100%
+        );
+      }
+
+      .hero h1 {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        color: var(--color-dark-purple);
+        margin-bottom: 1rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+        color: var(--color-text-light);
+      }
+
+      .section {
+        padding: 4rem 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .card {
+        background: var(--color-white);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(75, 0, 130, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .card h3 {
+        font-family: var(--font-serif);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--color-dark-purple);
+      }
+
+      .card p,
+      .card li {
+        color: var(--color-text-light);
+        line-height: 1.8;
+        margin-bottom: 1rem;
+      }
+
+      .card ul {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .back-button {
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--color-dark-purple);
+        padding: 0.75rem 1.5rem;
+        border: 2px solid var(--color-gold);
+        border-radius: 50px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 2rem;
+      }
+
+      .back-button:hover {
+        background: var(--color-gold);
+        color: var(--color-text);
+      }
+
+      footer {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: rgba(75, 0, 130, 0.05);
+        margin-top: 4rem;
+        border-top: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      footer a {
+        color: var(--color-gold);
+        text-decoration: none;
+        margin: 0 1rem;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        nav ul {
+          gap: 1rem;
+          font-size: 0.85rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVIGATION -->
+    <nav>
+      <a href="../index.html" class="logo">
+        ORÁCULO
+        <span class="logo-small">por Rafaella Kally</span>
+      </a>
+      <ul>
+        <li><a href="../index.html#cursos">Cursos</a></li>
+        <li><a href="../index.html#sobre">Sobre</a></li>
+        <li><a href="../index.html#faq">FAQ</a></li>
+        <li><a href="../index.html#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <h1>🔒 Política de Privacidade</h1>
+      <p>Última atualização: Janeiro de 2026</p>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <a href="../index.html" class="back-button">← Voltar ao Site</a>
+
+      <div class="card">
+        <h3>1. Responsável pelo Tratamento</h3>
+        <p>
+          A Escola do Oráculo, operada por Rafaella Kally, é responsável pelo
+          tratamento dos dados pessoais recolhidos através deste website.
+        </p>
+        <p>
+          <strong>Contacto:</strong>
+          <a href="mailto:contacto@rafaellakally.com"
+            >contacto@rafaellakally.com</a
+          >
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>2. Dados Que Recolhemos</h3>
+        <p>Recolhemos apenas os dados que você fornece voluntariamente:</p>
+        <ul>
+          <li>
+            <strong>Nome:</strong> Para identificação e comunicação
+            personalizada
+          </li>
+          <li>
+            <strong>Email:</strong> Para responder a contactos e enviar
+            informações sobre cursos
+          </li>
+          <li>
+            <strong>Telefone:</strong> Apenas quando fornecido, para contacto
+            direto se solicitado
+          </li>
+          <li>
+            <strong>Mensagens:</strong> O conteúdo das suas perguntas ou pedidos
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>3. Finalidade do Tratamento</h3>
+        <p>Os seus dados são utilizados exclusivamente para:</p>
+        <ul>
+          <li>Responder às suas questões e pedidos de informação</li>
+          <li>Processar inscrições nos nossos cursos</li>
+          <li>Enviar informações sobre os serviços solicitados</li>
+          <li>
+            Comunicar novidades relacionadas com os cursos (apenas com
+            consentimento)
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>4. Base Legal</h3>
+        <p>O tratamento dos seus dados baseia-se em:</p>
+        <ul>
+          <li>
+            <strong>Consentimento:</strong> Ao preencher formulários neste site
+          </li>
+          <li>
+            <strong>Execução de contrato:</strong> Para processar inscrições
+          </li>
+          <li>
+            <strong>Interesse legítimo:</strong> Para comunicação relacionada
+            com serviços solicitados
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>5. Retenção de Dados</h3>
+        <p>
+          Os seus dados são mantidos apenas durante o período necessário para
+          cumprir as finalidades para as quais foram recolhidos, ou conforme
+          exigido por lei.
+        </p>
+        <p>
+          Dados de inscrição em cursos são mantidos durante a vigência da
+          relação comercial e pelo período legal subsequente.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>6. Os Seus Direitos</h3>
+        <p>Nos termos do RGPD, você tem direito a:</p>
+        <ul>
+          <li><strong>Acesso:</strong> Saber que dados temos sobre si</li>
+          <li><strong>Retificação:</strong> Corrigir dados incorretos</li>
+          <li>
+            <strong>Apagamento:</strong> Solicitar a eliminação dos seus dados
+          </li>
+          <li>
+            <strong>Portabilidade:</strong> Receber os seus dados em formato
+            estruturado
+          </li>
+          <li>
+            <strong>Oposição:</strong> Opor-se ao tratamento dos seus dados
+          </li>
+          <li>
+            <strong>Retirada de consentimento:</strong> A qualquer momento
+          </li>
+        </ul>
+        <p>
+          Para exercer estes direitos, contacte-nos em:
+          <a href="mailto:contacto@rafaellakally.com"
+            >contacto@rafaellakally.com</a
+          >
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>7. Cookies</h3>
+        <p>
+          Este site utiliza apenas cookies essenciais para o funcionamento
+          básico. Não utilizamos cookies de rastreamento ou publicidade.
+        </p>
+        <p>
+          As preferências de tema (modo claro/escuro) são armazenadas localmente
+          no seu navegador (localStorage) e não são partilhadas.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>8. Partilha de Dados</h3>
+        <p>
+          Não vendemos, alugamos ou partilhamos os seus dados pessoais com
+          terceiros, exceto:
+        </p>
+        <ul>
+          <li>
+            Serviços necessários para processar pagamentos (com consentimento)
+          </li>
+          <li>Quando exigido por lei</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>9. Alterações a Esta Política</h3>
+        <p>
+          Reservamo-nos o direito de atualizar esta política. Quaisquer
+          alterações serão publicadas nesta página com a data de atualização.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>10. Contacto</h3>
+        <p>Para questões sobre privacidade ou exercício dos seus direitos:</p>
+        <p>
+          <strong>Email:</strong>
+          <a href="mailto:contacto@rafaellakally.com"
+            >contacto@rafaellakally.com</a
+          ><br />
+          <strong>Resposta:</strong> Dentro de 30 dias úteis
+        </p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <h3>Escola do Oráculo</h3>
+      <p>Cursos de Tarot Online • Portugal + Brasil</p>
+      <div>
+        <a href="politica-privacidade.html">Política de Privacidade</a>
+        <a href="termos-condicoes.html">Termos e Condições</a>
+      </div>
+      <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8">
+        © 2026 Escola do Oráculo por Rafaella Kally. Todos os direitos
+        reservados.
+      </p>
+    </footer>
+  </body>
+</html>

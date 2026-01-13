@@ -1,0 +1,11 @@
+*.db
+__pycache__
+.env
+.git
+.gitignore
+node_modules
+*.pyc
+.DS_Store
+*.egg-info
+dist
+build

@@ -894,6 +894,15 @@
     </script>
   </head>
   <body>
+    <script>
+      // CLIENT AREA PROTECTION
+      const token = localStorage.getItem("user_token");
+      if (!token) {
+        // Redirect to Login if not authenticated
+        alert("Acesso restrito ao Templo. Por favor, faça login.");
+        window.location.href = "login.html";
+      }
+    </script>
     <a href="#main-content" class="skip-to-content"
       >Ir para o conteúdo principal</a
     >
@@ -912,11 +921,22 @@
         ☰
       </button>
       <ul id="nav-menu">
-        <li><a href="#cursos" onclick="closeMobileMenu()">Cursos</a></li>
-        <li><a href="#sobre" onclick="closeMobileMenu()">Sobre</a></li>
-        <li><a href="#faq" onclick="closeMobileMenu()">FAQ</a></li>
-        <li><a href="#contacto" onclick="closeMobileMenu()">Contacto</a></li>
+        <li>
+          <a href="../index.html"><strong>🏠 Home (Método Kally)</strong></a>
+        </li>
+        <li><a href="../index.html#cursos">Cursos</a></li>
+        <li>
+          <a href="#" onclick="location.reload()">🔄 Reiniciar Oráculo</a>
+        </li>
       </ul>
+      <button
+        class="theme-toggle"
+        onclick="toggleTheme()"
+        title="Alternar tema"
+        aria-label="Alternar entre modo claro e escuro"
+      >
+        🌙
+      </button>
     </nav>
 
     <!-- HERO SECTION -->
@@ -967,7 +987,7 @@
         Aprenda a ler tarot sem decorar. Domine a ética profissional e
         prepare-se para consultar clientes com segurança.
       </p>
-      <button class="cta-button" onclick="scrollTo('#cursos')">
+      <button class="cta-button" onclick="smoothScrollTo('#cursos')">
         Começar Agora
       </button>
     </section>
@@ -1065,7 +1085,7 @@
           >
             <div class="card-result">
               <img
-                src="tarotdeck-main/art/78.webp"
+                src="/backend/art/78.webp"
                 alt="Carta"
                 class="card-back-img"
                 onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
@@ -1108,7 +1128,7 @@
             >
               <div class="card-result">
                 <img
-                  src="tarotdeck-main/art/78.webp"
+                  src="/backend/art/78.webp"
                   alt="Carta"
                   class="card-back-img"
                   onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
@@ -1123,7 +1143,7 @@
             >
               <div class="card-result">
                 <img
-                  src="tarotdeck-main/art/78.webp"
+                  src="/backend/art/78.webp"
                   alt="Carta"
                   class="card-back-img"
                   onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
@@ -1138,7 +1158,7 @@
             >
               <div class="card-result">
                 <img
-                  src="tarotdeck-main/art/78.webp"
+                  src="/backend/art/78.webp"
                   alt="Carta"
                   class="card-back-img"
                   onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
@@ -1222,7 +1242,7 @@
             ⏱️ 8-10 horas de conteúdo | 📖 Dicionário Kally incluído
           </p>
           <a
-            href="modulo-1.html"
+            href="pages/modulo-1.html"
             class="cta-button"
             style="text-decoration: none; display: inline-block"
           >
@@ -1251,7 +1271,7 @@
             ⏱️ 10-12 horas | 👥 Comunidade incluída
           </p>
           <a
-            href="modulo-2.html"
+            href="pages/modulo-2.html"
             class="cta-button"
             style="text-decoration: none; display: inline-block"
           >
@@ -1280,7 +1300,7 @@
             ⏱️ 12-14 horas | 📱 Templates prontos
           </p>
           <a
-            href="modulo-3.html"
+            href="pages/modulo-3.html"
             class="cta-button"
             style="text-decoration: none; display: inline-block"
           >
@@ -1345,7 +1365,7 @@
               transition: all 0.3s;
               text-decoration: none;
             "
-            onclick="window.location.href='checkout.html'"
+            onclick="window.location.href='pages/checkout.html'"
           >
             Inscrever Agora
           </button>
@@ -1448,7 +1468,7 @@
         </div>
         <button
           class="cta-button"
-          onclick="window.location.href='circulo.html'"
+          onclick="window.location.href='pages/circulo.html'"
         >
           Saber Mais Sobre Círculo
         </button>
@@ -1558,8 +1578,10 @@
       <p>Cursos de Tarot Online • Portugal + Brasil</p>
 
       <div class="footer-links">
-        <a href="#politica" rel="help">Política de Privacidade</a>
-        <a href="#termos" rel="help">Termos e Condições</a>
+        <a href="pages/politica-privacidade.html" rel="help"
+          >Política de Privacidade</a
+        >
+        <a href="pages/termos-condicoes.html" rel="help">Termos e Condições</a>
         <a href="mailto:contacto@rafaellakally.com" rel="contact">
           Email: contacto@rafaellakally.com
         </a>
@@ -1586,13 +1608,15 @@
 
     <script>
       // ===== DARK MODE TOGGLE =====
-      function toggleDarkMode() {
+      function toggleTheme() {
         const html = document.documentElement;
         const isDark = html.getAttribute("data-theme") === "dark";
         html.setAttribute("data-theme", isDark ? "light" : "dark");
         localStorage.setItem("theme", isDark ? "light" : "dark");
         updateThemeButton();
       }
+      // Alias for backwards compatibility
+      const toggleDarkMode = toggleTheme;
 
       function updateThemeButton() {
         const html = document.documentElement;
@@ -1866,6 +1890,7 @@
           copas: [
             {
               name: "Ás de Copas",
+              suit: "Copas",
               emoji: "🏆",
               meaning: "Novo começo emocional, oferecimento, oportunidade",
             },
@@ -1938,6 +1963,7 @@
           ouros: [
             {
               name: "Ás de Ouros",
+              suit: "Ouros",
               emoji: "💎",
               meaning: "Abundância, prosperidade, oportunidade financeira",
             },
@@ -2010,6 +2036,7 @@
           espadas: [
             {
               name: "Ás de Espadas",
+              suit: "Espadas",
               emoji: "⚔️",
               meaning: "Nova verdade, clareza, poder da palavra",
             },
@@ -2082,6 +2109,7 @@
           paus: [
             {
               name: "Ás de Paus",
+              suit: "Paus",
               emoji: "🔥",
               meaning: "Criatividade, novo potencial, energia",
             },
@@ -2154,20 +2182,20 @@
         },
       };
 
-      // Helper: resolve card image from deck folder (tarotdeck-main/art/<index>.webp)
+      // Helper: resolve card image from deck folder (/backend/art/<index>.webp)
       function getCardImageFor(card) {
         const majorIndex = tarotCards.majorArcana.indexOf(card);
-        if (majorIndex !== -1) return `tarotdeck-main/art/${majorIndex}.webp`;
+        if (majorIndex !== -1) return `/backend/art/${majorIndex}.webp`;
 
         const suitBases = { copas: 22, espadas: 36, paus: 50, ouros: 64 };
         for (const [suitKey, base] of Object.entries(suitBases)) {
           const arr = tarotCards.minorArcana[suitKey];
           if (!arr) continue;
           const idx = arr.indexOf(card);
-          if (idx !== -1) return `tarotdeck-main/art/${base + idx}.webp`;
+          if (idx !== -1) return `/backend/art/${base + idx}.webp`;
         }
 
-        return "tarotdeck-main/art/78.webp";
+        return "/backend/art/78.webp";
       }
 
       // Shuffle helper and unique draw
@@ -2247,7 +2275,7 @@
                 card
               )}" alt="${
             card.name
-          }" class="card-image-preview" onerror="this.src='tarotdeck-main/art/78.webp'"></div>
+          }" class="card-image-preview" onerror="this.src='/backend/art/78.webp'"></div>
               <div class="card-name">${card.name}${reversed}</div>
               <div class="card-suit">Arcano Maior • ${card.number}</div>
               <div class="card-element">Elemento: ${card.element}</div>
@@ -2276,7 +2304,7 @@
                 card
               )}" alt="${
             card.name
-          }" class="card-image-preview" onerror="this.src='tarotdeck-main/art/78.webp'"></div>
+          }" class="card-image-preview" onerror="this.src='/backend/art/78.webp'"></div>
               <div class="card-name">${card.name}${reversed}</div>
               <div class="card-suit">${suit}</div>
             </div>
@@ -2338,7 +2366,7 @@
                   <div style="margin: 0.5rem 0;">
                     <img src="${getCardImageFor(item.card)}" alt="${
               item.card.name
-            }" style="width:64px;height:auto;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.08);" onerror="this.src='tarotdeck-main/art/78.webp'">
+            }" style="width:64px;height:auto;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.08);" onerror="this.src='/backend/art/78.webp'">
                   </div>
                   <div style="font-weight: 600; color: var(--color-dark-purple); margin: 0.5rem 0;">
                     ${item.card.name}${item.isReversed ? " (Invertida)" : ""}
@@ -2439,7 +2467,7 @@
                   card
                 )}" alt="${
               card.name
-            }" style="width:48px;height:auto;border-radius:6px;" onerror="this.src='tarotdeck-main/art/78.webp'"></div>
+            }" style="width:48px;height:auto;border-radius:6px;" onerror="this.src='/backend/art/78.webp'"></div>
                 <div class="chakra-card-meaning">${meaning}</div>
                 <div style="font-size: 0.7rem; color: var(--color-text-light); margin-top: 0.5rem; border-top: 1px solid rgba(212, 165, 116, 0.3); padding-top: 0.5rem;">${
                   chakras[index].element
@@ -2456,50 +2484,82 @@
       }
       // ===== MOON PHASE CALCULATION =====
       function calculateMoonPhase() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth() + 1;
-        const day = now.getDate();
-        const c = Math.floor(year / 100);
-        const s = Math.floor((year - 1900) / 100);
-        const a = year + Math.floor(month / 12) - Math.floor((12 - month) / 12);
-        const m = (month + 9) % 12;
-        const t = Math.floor(
-          a * 365.25 + Math.floor(30.6001 * (m + 1)) + day + 1900 - 1
-        );
-        const jd = t + 0.5;
-        const d = jd - 2451550.1;
-        const x = (d % 29.5306) / 29.5306;
-        const phases = [
-          { name: "🌑 Lua Nova", range: [0, 0.125] },
-          { name: "🌒 Lua Crescente", range: [0.125, 0.25] },
-          { name: "🌓 Quarto Crescente", range: [0.25, 0.375] },
-          { name: "🌔 Lua Crescente (Iluminada)", range: [0.375, 0.5] },
-          { name: "🌕 Lua Cheia", range: [0.5, 0.625] },
-          { name: "🌖 Lua Minguante", range: [0.625, 0.75] },
-          { name: "🌗 Quarto Minguante", range: [0.75, 0.875] },
-          { name: "🌘 Lua Minguante (Escura)", range: [0.875, 1] },
-        ];
-        for (let phase of phases) {
-          if (x >= phase.range[0] && x < phase.range[1]) {
-            return phase.name;
+        try {
+          // Precise Julian Date calculation (UTC-aware)
+          const now = new Date();
+          const yyyy = now.getUTCFullYear();
+          let mm = now.getUTCMonth() + 1; // 1-12
+          const dd =
+            now.getUTCDate() +
+            now.getUTCHours() / 24 +
+            now.getUTCMinutes() / 1440 +
+            now.getUTCSeconds() / 86400;
+
+          let y = yyyy;
+          if (mm <= 2) {
+            y -= 1;
+            mm += 12;
           }
+
+          const A = Math.floor(y / 100);
+          const B = 2 - A + Math.floor(A / 4);
+          const jd =
+            Math.floor(365.25 * (y + 4716)) +
+            Math.floor(30.6001 * (mm + 1)) +
+            dd +
+            B -
+            1524.5;
+
+          // Age in days since known new moon epoch
+          const d = jd - 2451550.1;
+          // Normalize fraction of lunation [0,1)
+          const lunation = d / 29.53058867;
+          const x = lunation - Math.floor(lunation);
+
+          const phases = [
+            { name: "🌑 Lua Nova", range: [0, 0.125] },
+            { name: "🌒 Lua Crescente", range: [0.125, 0.25] },
+            { name: "🌓 Quarto Crescente", range: [0.25, 0.375] },
+            { name: "🌔 Lua Crescente (Iluminada)", range: [0.375, 0.5] },
+            { name: "🌕 Lua Cheia", range: [0.5, 0.625] },
+            { name: "🌖 Lua Minguante", range: [0.625, 0.75] },
+            { name: "🌗 Quarto Minguante", range: [0.75, 0.875] },
+            { name: "🌘 Lua Minguante (Escura)", range: [0.875, 1] },
+          ];
+
+          for (let phase of phases) {
+            if (x >= phase.range[0] && x < phase.range[1]) {
+              return phase.name;
+            }
+          }
+          return "🌑 Lua Nova";
+        } catch (err) {
+          console.error("calculateMoonPhase error:", err);
+          return "—";
         }
-        return "🌑 Lua Nova";
       }
+
+      // Safely update moon phase and date on load; keep independent updates
       window.addEventListener("load", () => {
         const moonPhaseEl = document.getElementById("moon-phase-display");
         const moonDateEl = document.getElementById("moon-date");
-        if (moonPhaseEl && moonDateEl) {
-          const moonPhase = calculateMoonPhase();
-          moonPhaseEl.textContent = moonPhase;
-          const today = new Date().toLocaleDateString("pt-PT", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          });
-          moonDateEl.textContent = today;
+        try {
+          if (moonPhaseEl) {
+            const moonPhase = calculateMoonPhase();
+            moonPhaseEl.textContent = moonPhase;
+          }
+          if (moonDateEl) {
+            const today = new Date().toLocaleDateString("pt-PT", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+            moonDateEl.textContent = today;
+          }
+        } catch (err) {
+          console.error("Error updating moon phase/date:", err);
+          if (moonPhaseEl) moonPhaseEl.textContent = "Erro a carregar";
         }
       });
       // ===== CELTIC CROSS SPREAD =====
@@ -2559,7 +2619,7 @@
                   item.card
                 )}" alt="${
               item.card.name
-            }" style="width:48px;height:auto;border-radius:6px;" onerror="this.src='tarotdeck-main/art/78.webp'"></div>
+            }" style="width:48px;height:auto;border-radius:6px;" onerror="this.src='/backend/art/78.webp'"></div>
                 <div class="celtic-position-card">
                   ${item.card.name}<br><small>${
               item.isReversed ? "(Invertida)" : ""
@@ -2581,7 +2641,7 @@
       }
 
       // ===== EXISTING FUNCTIONS =====
-      function scrollTo(id) {
+      function smoothScrollTo(id) {
         const element = document.querySelector(id);
         if (element) {
           element.scrollIntoView({ behavior: "smooth" });
@@ -2679,9 +2739,11 @@
         historyBtn.innerHTML = "📖 Histórico";
         historyBtn.onclick = viewReadingHistory;
         historyBtn.style.position = "fixed";
-        historyBtn.style.bottom = "20px";
+        historyBtn.style.bottom = "90px"; // Positioned above the Formspree widget
         historyBtn.style.right = "20px";
-        historyBtn.style.zIndex = "999";
+        historyBtn.style.zIndex = "998";
+        historyBtn.style.fontSize = "0.9rem";
+        historyBtn.style.padding = "0.75rem 1.25rem";
         document.body.appendChild(historyBtn);
       });
 

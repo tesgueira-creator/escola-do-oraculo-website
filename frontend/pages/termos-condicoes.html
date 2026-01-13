@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Termos e Condições | Escola do Oráculo</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --color-cream: #f5f5f0;
+        --color-dark-purple: #4b0082;
+        --color-gold: #c5a059;
+        --color-text: #2c2c2c;
+        --color-text-light: #6b6b6b;
+        --color-white: #ffffff;
+        --color-accent: #e8dcc8;
+        --font-serif: "Georgia", "Playfair Display", serif;
+        --font-sans: "Segoe UI", "Lato", sans-serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background: linear-gradient(to bottom, var(--color-cream), #fafaf8);
+        color: var(--color-text);
+        line-height: 1.6;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(245, 245, 240, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--color-dark-purple);
+        font-family: var(--font-serif);
+        letter-spacing: 2px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .logo-small {
+        font-size: 0.7rem;
+        color: var(--color-gold);
+        display: block;
+        margin-top: -0.3rem;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--color-text);
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: color 0.3s;
+        border-bottom: 2px solid transparent;
+      }
+
+      nav a:hover {
+        color: var(--color-dark-purple);
+        border-bottom: 2px solid var(--color-gold);
+      }
+
+      .hero {
+        margin-top: 80px;
+        padding: 4rem 2rem;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          var(--color-cream) 0%,
+          var(--color-accent) 100%
+        );
+      }
+
+      .hero h1 {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        color: var(--color-dark-purple);
+        margin-bottom: 1rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+        color: var(--color-text-light);
+      }
+
+      .section {
+        padding: 4rem 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .card {
+        background: var(--color-white);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(75, 0, 130, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .card h3 {
+        font-family: var(--font-serif);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--color-dark-purple);
+      }
+
+      .card p,
+      .card li {
+        color: var(--color-text-light);
+        line-height: 1.8;
+        margin-bottom: 1rem;
+      }
+
+      .card ul {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .back-button {
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--color-dark-purple);
+        padding: 0.75rem 1.5rem;
+        border: 2px solid var(--color-gold);
+        border-radius: 50px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 2rem;
+      }
+
+      .back-button:hover {
+        background: var(--color-gold);
+        color: var(--color-text);
+      }
+
+      footer {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: rgba(75, 0, 130, 0.05);
+        margin-top: 4rem;
+        border-top: 1px solid rgba(75, 0, 130, 0.1);
+      }
+
+      footer a {
+        color: var(--color-gold);
+        text-decoration: none;
+        margin: 0 1rem;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        nav ul {
+          gap: 1rem;
+          font-size: 0.85rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVIGATION -->
+    <nav>
+      <a href="../index.html" class="logo">
+        ORÁCULO
+        <span class="logo-small">por Rafaella Kally</span>
+      </a>
+      <ul>
+        <li><a href="../index.html#cursos">Cursos</a></li>
+        <li><a href="../index.html#sobre">Sobre</a></li>
+        <li><a href="../index.html#faq">FAQ</a></li>
+        <li><a href="../index.html#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <h1>📜 Termos e Condições</h1>
+      <p>Última atualização: Janeiro de 2026</p>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <a href="../index.html" class="back-button">← Voltar ao Site</a>
+
+      <div class="card">
+        <h3>1. Identificação</h3>
+        <p>
+          Estes Termos e Condições regulam a utilização do website da Escola do
+          Oráculo e a aquisição dos cursos e serviços oferecidos por Rafaella
+          Kally.
+        </p>
+        <p>
+          <strong>Contacto:</strong>
+          <a href="mailto:contacto@rafaellakally.com"
+            >contacto@rafaellakally.com</a
+          >
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>2. Serviços Oferecidos</h3>
+        <p>A Escola do Oráculo oferece:</p>
+        <ul>
+          <li>
+            <strong>Módulo 1:</strong> A Base do Oráculo - Curso introdutório de
+            tarot
+          </li>
+          <li>
+            <strong>Módulo 2:</strong> O Método Kally - Prática e
+            desenvolvimento de intuição
+          </li>
+          <li>
+            <strong>Módulo 3:</strong> Profissionalização - Estruturação de
+            negócio de tarot
+          </li>
+          <li>
+            <strong>Bundle Completo:</strong> Todos os módulos + comunidade
+            exclusiva
+          </li>
+          <li>
+            <strong>Círculo do Oráculo:</strong> Comunidade de tarólogos
+            profissionais
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>3. Inscrição e Pagamento</h3>
+        <p>
+          A inscrição é processada após contacto através do formulário ou email.
+          O acesso ao curso é concedido após confirmação do pagamento.
+        </p>
+        <p>
+          <strong>Métodos de pagamento:</strong> Transferência bancária, MBWay,
+          PayPal (mediante consulta).
+        </p>
+        <p>
+          Os preços apresentados incluem IVA quando aplicável. Reservamo-nos o
+          direito de alterar preços, sendo os valores confirmados no momento da
+          inscrição.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>4. Acesso aos Cursos</h3>
+        <p>
+          Após pagamento confirmado, receberá acesso ao material do curso no
+          prazo de 48 horas úteis.
+        </p>
+        <ul>
+          <li>O acesso é pessoal e intransmissível</li>
+          <li>Acesso vitalício ao material adquirido</li>
+          <li>Proibida a partilha de credenciais ou conteúdos</li>
+          <li>Proibida a gravação ou redistribuição de material</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>5. Direitos de Autor</h3>
+        <p>
+          Todo o conteúdo dos cursos (vídeos, PDFs, templates, métodos) é
+          propriedade intelectual de Rafaella Kally e protegido por direitos de
+          autor.
+        </p>
+        <p>
+          <strong>É proibido:</strong>
+        </p>
+        <ul>
+          <li>Copiar, reproduzir ou distribuir material</li>
+          <li>
+            Utilizar conteúdos para criar materiais derivados sem autorização
+          </li>
+          <li>Partilhar acesso com terceiros</li>
+        </ul>
+        <p>
+          A violação dos direitos de autor resultará em cancelamento de acesso
+          sem reembolso e possível ação legal.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>6. Política de Reembolso</h3>
+        <p>
+          <strong>Período de reflexão:</strong> 14 dias após a compra, sem
+          necessidade de justificação, desde que não tenha acedido a mais de 20%
+          do conteúdo.
+        </p>
+        <p>
+          <strong>Após início do curso:</strong> Após acesso a mais de 20% do
+          material, não é possível reembolso, salvo situações excecionais
+          analisadas caso a caso.
+        </p>
+        <p>
+          Pedidos de reembolso devem ser enviados para:
+          <a href="mailto:contacto@rafaellakally.com"
+            >contacto@rafaellakally.com</a
+          >
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>7. Responsabilidades</h3>
+        <p>
+          <strong>Compromisso da Escola:</strong>
+        </p>
+        <ul>
+          <li>Fornecer conteúdo de qualidade conforme descrito</li>
+          <li>Responder a dúvidas dentro de prazos razoáveis</li>
+          <li>Manter o material acessível e atualizado</li>
+        </ul>
+        <p>
+          <strong>Limitação de responsabilidade:</strong>
+        </p>
+        <ul>
+          <li>
+            Os cursos têm carácter educativo e não garantem resultados
+            específicos
+          </li>
+          <li>
+            O sucesso profissional depende da dedicação individual de cada aluno
+          </li>
+          <li>
+            O tarot é uma ferramenta de reflexão e não substitui aconselhamento
+            profissional (médico, legal, financeiro)
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>8. Código de Conduta</h3>
+        <p>Ao participar nos nossos cursos e comunidades, compromete-se a:</p>
+        <ul>
+          <li>Tratar todos os participantes com respeito</li>
+          <li>Manter confidencialidade sobre discussões do grupo</li>
+          <li>Não promover serviços concorrentes sem autorização</li>
+          <li>Praticar ética profissional conforme ensinado</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>9. Alterações aos Termos</h3>
+        <p>
+          Reservamo-nos o direito de alterar estes termos. As alterações serão
+          comunicadas por email aos alunos ativos e publicadas nesta página.
+        </p>
+        <p>
+          A utilização continuada dos serviços após notificação constitui
+          aceitação das alterações.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>10. Lei Aplicável e Foro</h3>
+        <p>
+          Estes termos regem-se pela lei portuguesa. Para resolução de litígios,
+          as partes acordam na competência dos tribunais de Lisboa, sem prejuízo
+          de recurso a meios alternativos de resolução de conflitos.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>11. Contacto</h3>
+        <p>Para questões sobre estes termos:</p>
+        <p>
+          <strong>Email:</strong>
+          <a href="mailto:contacto@rafaellakally.com"
+            >contacto@rafaellakally.com</a
+          ><br />
+          <strong>Tempo de resposta:</strong> Até 48 horas úteis
+        </p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <h3>Escola do Oráculo</h3>
+      <p>Cursos de Tarot Online • Portugal + Brasil</p>
+      <div>
+        <a href="politica-privacidade.html">Política de Privacidade</a>
+        <a href="termos-condicoes.html">Termos e Condições</a>
+      </div>
+      <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8">
+        © 2026 Escola do Oráculo por Rafaella Kally. Todos os direitos
+        reservados.
+      </p>
+    </footer>
+  </body>
+</html>

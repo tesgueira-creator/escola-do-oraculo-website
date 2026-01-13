@@ -1,0 +1,59 @@
+<!-- Botão para abrir Customer Portal (adicione isto ao seu oraculo-app.html) -->
+
+<button
+  id="customerPortalBtn"
+  onclick="openCustomerPortal()"
+  style="
+    background: #4b0082;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 10px;
+  "
+>
+  💳 Minha Subscrição (Gestão de Pagamento)
+</button>
+
+<script>
+  async function openCustomerPortal() {
+    const userEmail = localStorage.getItem("user_email");
+
+    if (!userEmail) {
+      alert("Por favor, faça login primeiro");
+      return;
+    }
+
+    try {
+      // Chamar o backend para obter o URL do portal
+      const response = await fetch(
+        "http://localhost:8000/customer/create-portal-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_email: userEmail,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Redirecionar para o portal do Stripe
+        window.location.href = data.portal_url;
+      } else {
+        alert("Erro: " + data.detail);
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+      alert(
+        "Erro ao abrir o portal. Certifique-se que o backend está a correr."
+      );
+    }
+  }
+</script>

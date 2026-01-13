@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kundalini Reiki | Escola do Oráculo</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <style>
+      :root {
+        --color-cream: #f5f5f0;
+        --color-dark-purple: #2a0a4a;
+        --color-light-purple: #4b0082;
+        --color-gold: #c5a059;
+        --color-text: #2c2c2c;
+        --font-main: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --font-serif: "Georgia", serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: var(--font-main);
+        background-color: var(--color-cream);
+        color: var(--color-text);
+        line-height: 1.6;
+      }
+
+      /* HEADER */
+      header {
+        background: var(--color-dark-purple);
+        padding: 1rem 2rem;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        top: 0;
+      }
+      .logo {
+        color: var(--color-gold);
+        font-family: var(--font-serif);
+        font-size: 1.8rem;
+        font-weight: bold;
+        text-decoration: none;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        margin-left: 20px;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      nav a:hover {
+        color: var(--color-gold);
+      }
+      .btn-cta-nav {
+        border: 1px solid var(--color-gold);
+        padding: 5px 15px;
+        border-radius: 20px;
+        color: var(--color-gold);
+      }
+      .btn-cta-nav:hover {
+        background: var(--color-gold);
+        color: var(--color-dark-purple);
+      }
+
+      /* HERO SECTION */
+      .hero {
+        height: 60vh;
+        background: linear-gradient(
+            rgba(42, 10, 74, 0.9),
+            rgba(42, 10, 74, 0.7)
+          ),
+          url("../assets/images/hero-bg.jpg");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+        padding: 0 20px;
+        margin-top: 60px;
+      }
+      .hero h1 {
+        font-family: var(--font-serif);
+        font-size: 3rem;
+        margin-bottom: 20px;
+        color: var(--color-gold);
+      }
+      .hero p {
+        font-size: 1.25rem;
+        max-width: 800px;
+        margin-bottom: 40px;
+      }
+      .btn-hero {
+        background: var(--color-gold);
+        color: var(--color-dark-purple);
+        padding: 15px 40px;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 30px;
+        transition: transform 0.2s;
+        border: none;
+        cursor: pointer;
+      }
+      .btn-hero:hover {
+        transform: scale(1.05);
+      }
+
+      /* CONTENT */
+      .content {
+        max-width: 900px;
+        margin: 80px auto;
+        padding: 0 20px;
+      }
+      .content h2 {
+        color: var(--color-light-purple);
+        font-family: var(--font-serif);
+        margin-bottom: 20px;
+        font-size: 2rem;
+      }
+      .content p {
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+      }
+      .content ul {
+        margin-bottom: 30px;
+        padding-left: 20px;
+      }
+      .content li {
+        margin-bottom: 10px;
+      }
+
+      /* PRICING */
+      .pricing-card {
+        background: #fff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-top: 50px;
+        border: 2px solid var(--color-gold);
+      }
+      .price {
+        font-size: 2.5rem;
+        color: var(--color-dark-purple);
+        font-weight: bold;
+        margin: 20px 0;
+      }
+
+      footer {
+        background: #1a052e;
+        color: #aaa;
+        padding: 50px 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="../index.html" class="logo">Rafaella Kally</a>
+      <nav>
+        <a href="../index.html#metodo">O Método</a>
+        <a href="../index.html#cursos">Cursos</a>
+        <a href="oraculo-app.html">Oráculo Online</a>
+        <a href="login.html" class="btn-cta-nav">Área de Membros</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>Kundalini Reiki</h1>
+      <p>
+        Desperte a sua Energia Vital (Shakti). Uma técnica simples, segura e
+        poderosa de cura energética canalizada por Ole Gabrielsen.
+      </p>
+      <a href="#inscricao" class="btn-hero">Iniciar Sintonização</a>
+    </section>
+
+    <div class="content">
+      <h2>O que é Kundalini Reiki?</h2>
+      <p>
+        É uma modalidade de Reiki que foca na abertura e fortalecimento dos
+        canais energéticos do corpo para permitir que a "Fogo da Kundalini" (a
+        nossa energia vital latente na base da coluna) suba e purifique todos os
+        chakras.
+      </p>
+      <p>
+        Diferente do Reiki Usui, o Kundalini Reiki usa menos símbolos e foca
+        mais na intenção e na força da energia telúrica.
+      </p>
+
+      <h2>Níveis do Curso (Mestrado Incluso)</h2>
+      <ul>
+        <li>
+          <strong>Nível 1:</strong> Limpeza dos canais, preparação do sistema
+          energético. Aprende-se a cura presencial e à distância.
+        </li>
+        <li>
+          <strong>Nível 2:</strong> Despertar suave da Kundalini. A energia
+          chega ao Chakra do Plexo Solar. Meditação Kundalini Reiki.
+        </li>
+        <li>
+          <strong>Nível 3 (Mestrado):</strong> Abertura total. A Kundalini sobe
+          até o Chakra da Coroa. Sintonizações extras (Diamond Reiki, DNA Reiki,
+          Past Life Reiki).
+        </li>
+      </ul>
+
+      <div id="inscricao" class="pricing-card">
+        <h3>Curso Completo (Níveis 1, 2 e 3)</h3>
+        <div class="price">€150,00</div>
+        <p>Inclui as 3 sintonizações à distância e Certificado de Mestre.</p>
+        <br />
+        <a href="checkout-pro.html" class="btn-hero">Comprar Agora</a>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Escola do Oráculo - Rafaella Kally.</p>
+    </footer>
+  </body>
+</html>

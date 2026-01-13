@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Assinatura Círculo do Oráculo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --purple: #4b0082;
+        --gold: #c5a059;
+      }
+      body {
+        font-family: "Helvetica Neue", sans-serif;
+        background: #2a0a4a;
+        color: white;
+        margin: 0;
+        padding: 40px 20px;
+        text-align: center;
+      }
+      h1 {
+        font-family: "Georgia", serif;
+        font-size: 2.5rem;
+        color: var(--gold);
+      }
+      .pricing-grid {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 50px;
+        flex-wrap: wrap;
+      }
+      .plan-card {
+        background: white;
+        color: #333;
+        padding: 40px;
+        border-radius: 15px;
+        width: 300px;
+        position: relative;
+      }
+      .plan-card.highlight {
+        transform: scale(1.05);
+        border: 4px solid var(--gold);
+      }
+      .plan-card h2 {
+        color: var(--purple);
+        margin-top: 0;
+      }
+      .price {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #333;
+      }
+      .period {
+        font-size: 1rem;
+        color: #666;
+      }
+      ul {
+        text-align: left;
+        margin: 30px 0;
+        padding-left: 20px;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        background: var(--purple);
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1rem;
+      }
+      .btn:hover {
+        background: #3a0066;
+      }
+      .btn.gold {
+        background: var(--gold);
+        color: #2a0a4a;
+      }
+      .disclaimer {
+        margin-top: 50px;
+        opacity: 0.6;
+        font-size: 0.8rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Escolha o seu Caminho</h1>
+    <p>Desbloqueie todo o poder do Oráculo e da Radiônica.</p>
+
+    <div class="pricing-grid">
+      <!-- Monthly -->
+      <div class="plan-card">
+        <h2>Iniciado</h2>
+        <div class="price">€9,90</div>
+        <span class="period">/mês</span>
+        <ul>
+          <li>Acesso à Cruz Celta</li>
+          <li>Leituras diárias ilimitadas</li>
+          <li>10% de desconto em consultas</li>
+        </ul>
+        <button class="btn" onclick="subscribe('monthly')">
+          Assinar Mensal
+        </button>
+      </div>
+
+      <!-- Annual -->
+      <div class="plan-card highlight">
+        <div
+          style="
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #2a0a4a;
+          "
+        >
+          MAIS POPULAR
+        </div>
+        <h2>Mestre</h2>
+        <div class="price">€97,00</div>
+        <span class="period">/ano</span>
+        <ul>
+          <li><strong>2 meses grátis</strong></li>
+          <li>Acesso a TODAS as tiragens</li>
+          <li>Simulador de Mesa Radiônica</li>
+          <li>Meditações Kundalini</li>
+        </ul>
+        <button class="btn gold" onclick="subscribe('yearly')">
+          Assinar Anual
+        </button>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <p>
+        Pagamento seguro via Stripe/PayPal. Pode cancelar a qualquer momento.
+      </p>
+      <a href="../index.html" style="color: white">Voltar à Home</a>
+    </div>
+
+    <script>
+      function subscribe(plan) {
+        let planParam = "pro";
+        if (plan === "yearly") {
+          planParam = "elite";
+        }
+        // Redirect to the checkout form with the selected plan
+        window.location.href = `checkout.html?plan=${planParam}`;
+      }
+    </script>
+  </body>
+</html>

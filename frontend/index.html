@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Rafaella Kally - Método Kally | Radiestesia, Tarot e Kundalini
+    </title>
+    <!-- Favicon handling -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <!-- Inline CSS for performance on Landing Page -->
+    <style>
+      :root {
+        --color-cream: #f5f5f0;
+        --color-dark-purple: #2a0a4a; /* Deeper purple */
+        --color-light-purple: #4b0082;
+        --color-gold: #c5a059;
+        --color-text: #2c2c2c;
+        --font-main: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --font-serif: "Georgia", serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: var(--font-main);
+        background-color: var(--color-cream);
+        color: var(--color-text);
+        line-height: 1.6;
+      }
+
+      /* HEADER */
+      header {
+        background: var(--color-dark-purple);
+        padding: 1rem 2rem;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        top: 0;
+      }
+      .logo {
+        color: var(--color-gold);
+        font-family: var(--font-serif);
+        font-size: 1.8rem;
+        font-weight: bold;
+        text-decoration: none;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        margin-left: 20px;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      nav a:hover {
+        color: var(--color-gold);
+      }
+      .btn-cta-nav {
+        border: 1px solid var(--color-gold);
+        padding: 5px 15px;
+        border-radius: 20px;
+        color: var(--color-gold);
+      }
+      .btn-cta-nav:hover {
+        background: var(--color-gold);
+        color: var(--color-dark-purple);
+      }
+
+      /* HERO SECTION */
+      .hero {
+        height: 90vh;
+        /* Use a gradient placeholder if image missing */
+        background: linear-gradient(
+          rgba(42, 10, 74, 0.8),
+          rgba(42, 10, 74, 0.6)
+        );
+        /* background-image url would go here */
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+        padding: 0 20px;
+        margin-top: 60px;
+      }
+      .hero h1 {
+        font-family: var(--font-serif);
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        color: var(--color-gold);
+      }
+      .hero p {
+        font-size: 1.25rem;
+        max-width: 800px;
+        margin-bottom: 40px;
+      }
+      .btn-hero {
+        background: var(--color-gold);
+        color: var(--color-dark-purple);
+        padding: 15px 40px;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 30px;
+        transition: transform 0.2s;
+        border: none;
+        cursor: pointer;
+      }
+      .btn-hero:hover {
+        transform: scale(1.05);
+      }
+
+      /* ABOUT SECTION */
+      .about {
+        padding: 80px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        align-items: center;
+      }
+      .about-text h2 {
+        font-family: var(--font-serif);
+        color: var(--color-light-purple);
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+      .about-img {
+        width: 100%;
+        height: 400px;
+        background-color: #ddd; /* Space for Rafaella's Photo */
+        border-radius: 10px;
+        box-shadow: 10px 10px 0 var(--color-gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        font-size: 1.2rem;
+        border: 2px dashed var(--color-gold);
+      }
+
+      /* METHOD KALLY GRID */
+      .method {
+        background: #fff;
+        padding: 80px 20px;
+      }
+      .method-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .section-title {
+        text-align: center;
+        color: var(--color-dark-purple);
+        font-size: 2.5rem;
+        margin-bottom: 60px;
+        font-family: var(--font-serif);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+      }
+      .card {
+        padding: 30px;
+        border: 1px valid #eee;
+        border-radius: 10px;
+        text-align: center;
+        transition: box-shadow 0.3s;
+        background: var(--color-cream);
+      }
+      .card:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transform: translateY(-5px);
+      }
+      .icon-box {
+        font-size: 3rem;
+        color: var(--color-gold);
+        margin-bottom: 20px;
+      }
+      .card h3 {
+        color: var(--color-light-purple);
+        margin-bottom: 15px;
+        font-family: var(--font-serif);
+      }
+
+      /* MEMBERSHIP / APP TEASER */
+      .membership {
+        background: var(--color-dark-purple);
+        color: #fff;
+        padding: 80px 20px;
+        text-align: center;
+      }
+      .membership h2 {
+        color: var(--color-gold);
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+      }
+      .features-list {
+        list-style: none;
+        max-width: 600px;
+        margin: 0 auto 40px;
+        text-align: left;
+      }
+      .features-list li {
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        padding-left: 25px;
+        position: relative;
+      }
+      .features-list li:before {
+        content: "★";
+        color: var(--color-gold);
+        position: absolute;
+        left: 0;
+      }
+
+      /* FOOTER */
+      footer {
+        background: #1a052e;
+        color: #aaa;
+        padding: 50px 20px;
+        text-align: center;
+      }
+      footer a {
+        color: var(--color-gold);
+        text-decoration: none;
+      }
+
+      @media (max-width: 768px) {
+        .about {
+          grid-template-columns: 1fr;
+        }
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+        header {
+          flex-direction: column;
+          gap: 10px;
+        }
+        nav {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 15px;
+          margin-left: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="logo">Rafaella Kally</a>
+      <nav>
+        <a href="#metodo">O Método</a>
+        <a href="#cursos">Cursos</a>
+        <a href="pages/oraculo-app.html">Oráculo Online</a>
+        <a href="pages/login.html" class="btn-cta-nav">Área de Membros</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>Desperte a sua Mestra Interior</h1>
+      <p>
+        Radiestesia, Kundalini Reiki e Terapia Multidimensional reunidos no
+        exclusivo <strong>Método Kally</strong>.<br />Harmonia espiritual e
+        autoconhecimento profundo.
+      </p>
+      <br />
+      <a href="#cursos" class="btn-hero">Começar Jornada</a>
+    </section>
+
+    <!-- ABOUT RAFAELLA -->
+    <section class="about">
+      <div class="about-img">
+        RAFAELLA KALLY IMAGE
+        <!-- <img src="assets/images/rafaella-profile.jpg" alt="Rafaella Kally"> -->
+      </div>
+      <div class="about-text">
+        <h2>Quem é Rafaella Kally?</h2>
+        <p>
+          Mestre em <strong>Kundalini Reiki</strong>,
+          <strong>Terapia Multidimensional</strong> e <strong>Tarot</strong>,
+          Rafaella dedica a sua vida a guiar almas no reencontro com a sua
+          essência.
+        </p>
+        <br />
+        <p>
+          Mestre de <strong>Mesa Radiónica de Arcanjo Miguel</strong>, ela une a
+          sabedoria ancestral do Tarot com tecnologias espirituais modernas para
+          promover cura, desbloqueio energético e clareza de propósito.
+        </p>
+      </div>
+    </section>
+
+    <!-- THE METHOD -->
+    <section id="metodo" class="method">
+      <div class="method-container">
+        <h2 class="section-title">Os Pilares do Método Kally</h2>
+        <div class="grid">
+          <div
+            class="card"
+            onclick="window.location.href='pages/radiestesia.html'"
+            style="cursor: pointer"
+          >
+            <div class="icon-box">✦</div>
+            <h3>Radiestesia & Radiônica</h3>
+            <p>
+              Utilização do pêndulo e gráficos para medir e transmutar energias.
+              Foco na Mesa Radiónica de Arcanjo Miguel.
+            </p>
+            <br />
+            <span
+              style="
+                color: var(--color-light-purple);
+                font-weight: bold;
+                text-decoration: underline;
+              "
+              >Saiba Mais</span
+            >
+          </div>
+          <div
+            class="card"
+            onclick="window.location.href='pages/kundalini.html'"
+            style="cursor: pointer"
+          >
+            <div class="icon-box">☀</div>
+            <h3>Kundalini Reiki</h3>
+            <p>
+              Despertar da energia vital (Shakti). Rafaella é Mestre nesta
+              técnica de cura poderosa e segura.
+            </p>
+            <br />
+            <span
+              style="
+                color: var(--color-light-purple);
+                font-weight: bold;
+                text-decoration: underline;
+              "
+              >Saiba Mais</span
+            >
+          </div>
+          <div
+            class="card"
+            onclick="window.location.href='pages/terapia-multidimensional.html'"
+            style="cursor: pointer"
+          >
+            <div class="icon-box">♥</div>
+            <h3>Terapia Multidimensional</h3>
+            <p>
+              A "Cura pelo Coração". Trabalho com os seres de luz para cura de
+              feridas emocionais e kármicas.
+            </p>
+            <br />
+            <span
+              style="
+                color: var(--color-light-purple);
+                font-weight: bold;
+                text-decoration: underline;
+              "
+              >Saiba Mais</span
+            >
+          </div>
+          <div
+            class="card"
+            onclick="window.location.href='pages/modulo-1.html'"
+            style="cursor: pointer"
+          >
+            <div class="icon-box">☾</div>
+            <h3>Tarot Terapêutico</h3>
+            <p>
+              O Tarot como espelho da alma. Uma ferramenta de diagnóstico e
+              orientação, não apenas previsão.
+            </p>
+            <br />
+            <span
+              style="
+                color: var(--color-light-purple);
+                font-weight: bold;
+                text-decoration: underline;
+              "
+              >Saiba Mais</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEASER CURSOS SECTION (NEW) -->
+    <section
+      id="cursos"
+      style="
+        padding: 80px 20px;
+        background: var(--color-cream);
+        text-align: center;
+      "
+    >
+      <h2 class="section-title">Formação em Tarot</h2>
+      <div
+        class="grid"
+        style="max-width: 1200px; margin: 0 auto; margin-bottom: 60px"
+      >
+        <div class="card">
+          <h3>Curso de Tarot - Módulo 1</h3>
+          <p>Os Arcanos Maiores e a Jornada do Louco.</p>
+          <br />
+          <a
+            href="pages/modulo-1.html"
+            style="color: var(--color-light-purple); font-weight: bold"
+            >Ver Detalhes &rarr;</a
+          >
+        </div>
+        <div class="card">
+          <h3>Curso de Tarot - Módulo 2</h3>
+          <p>Os Arcanos Menores e os Elementos.</p>
+          <br />
+          <a
+            href="pages/modulo-2.html"
+            style="color: var(--color-light-purple); font-weight: bold"
+            >Ver Detalhes &rarr;</a
+          >
+        </div>
+        <div class="card">
+          <h3>Curso de Tarot - Módulo 3</h3>
+          <p>Tiragens Avançadas e Ética Profissional.</p>
+          <br />
+          <a
+            href="pages/modulo-3.html"
+            style="color: var(--color-light-purple); font-weight: bold"
+            >Ver Detalhes &rarr;</a
+          >
+        </div>
+      </div>
+
+      <h2 class="section-title">Outras Formações Holísticas</h2>
+      <div class="grid" style="max-width: 1200px; margin: 0 auto">
+        <div class="card">
+          <h3>Mesa Radiónica Arcanjo Miguel</h3>
+          <p>Limpeza e Harmonização Energética.</p>
+          <br />
+          <a
+            href="pages/radiestesia.html"
+            style="color: var(--color-light-purple); font-weight: bold"
+            >Ver Detalhes &rarr;</a
+          >
+        </div>
+        <div class="card">
+          <h3>Kundalini Reiki</h3>
+          <p>Do Nível 1 ao Mestrado.</p>
+          <br />
+          <a
+            href="pages/kundalini.html"
+            style="color: var(--color-light-purple); font-weight: bold"
+            >Ver Detalhes &rarr;</a
+          >
+        </div>
+        <div class="card">
+          <h3>Terapia Multidimensional</h3>
+          <p>Cura pelo Coração e Seres de Luz.</p>
+          <br />
+          <a
+            href="pages/terapia-multidimensional.html"
+            style="color: var(--color-light-purple); font-weight: bold"
+            >Ver Detalhes &rarr;</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- MEMBERSHIP / APP TEASER -->
+    <section class="membership">
+      <h2>Círculo do Oráculo</h2>
+      <p>Acesse ferramentas exclusivas diariamente.</p>
+      <ul class="features-list">
+        <li>
+          Tiragens de Tarot Ilimitadas (Cruz Celta, Mandala, Relacionamento)
+        </li>
+        <li>Simulador de Mesa Radiónica (Em breve)</li>
+        <li>Meditações Guiadas de Kundalini</li>
+        <li>Histórico de Leituras</li>
+      </ul>
+      <a
+        href="pages/login.html"
+        class="btn-hero"
+        style="background: white; color: var(--color-dark-purple)"
+        >Entrar no Círculo</a
+      >
+      <br /><br />
+      <p style="font-size: 0.9rem; opacity: 0.8">
+        Ou
+        <a
+          href="pages/oraculo-app.html"
+          style="color: white; text-decoration: underline"
+          >experimente a versão gratuita</a
+        >.
+      </p>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 Escola do Oráculo - Rafaella Kally.</p>
+      <p>
+        Método Kally &bull; Mesa Radiónica de Arcanjo Miguel &bull; Tarot
+        Terapêutico
+      </p>
+    </footer>
+  </body>
+</html>
