@@ -14,7 +14,21 @@ if DATABASE_URL.startswith("postgresql://"):
 if DATABASE_URL.startswith("sqlite"):
     engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 else:
-    engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+    try:
+        engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+    except ValueError as e:
+        # Sanitizar URL para não mostrar password nos logs
+        sanitized_url = (
+            DATABASE_URL.split("@")[-1] if "@" in DATABASE_URL else "INVALID_URL_FORMAT"
+        )
+        print(
+            f"❌ CRITICAL ERROR: Invalid DATABASE_URL format. It seems to contain strict text instead of numbers (e.g. 'port')."
+        )
+        print(f"❌ Connection attempt to: ...@{sanitized_url}")
+        print(
+            "❌ Please check your Railway Variables. Do NOT manually add DATABASE_URL if you added a PostgreSQL service."
+        )
+        raise e
 
 # Session Local class
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
