@@ -3,12 +3,12 @@ import os
 import logging
 import sys
 import hashlib
+import bcrypt
 from datetime import datetime
 from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from passlib.context import CryptContext
 from pydantic import BaseModel
 from typing import Optional
 from sqlalchemy import Column, Integer, String, Boolean, text
@@ -66,8 +66,8 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
 app = FastAPI(title="Escola do Oraculo API", version="1.0.1")
 
 # Version info for debugging deployment
-API_VERSION = "1.0.4-debug-hash"
-DEPLOY_TIMESTAMP = "2026-01-14T19:00:00Z"
+API_VERSION = "1.0.5-bcrypt-direct"
+DEPLOY_TIMESTAMP = "2026-01-14T19:15:00Z"
 
 
 @app.get("/version")
@@ -92,12 +92,13 @@ def debug_hash_test():
         sha256_hash = hashlib.sha256(test_password.encode("utf-8")).hexdigest()
         logger.info(f"SHA256 hash: {sha256_hash} (len={len(sha256_hash)})")
 
-        # Step 2: bcrypt
-        bcrypt_hash = pwd_context.hash(sha256_hash)
+        # Step 2: bcrypt (directly, not via passlib)
+        salt = bcrypt.gensalt(rounds=12)
+        bcrypt_hash = bcrypt.hashpw(sha256_hash.encode("utf-8"), salt)
         logger.info(f"Bcrypt hash: {bcrypt_hash[:30]}...")
 
         # Step 3: Verify
-        verified = pwd_context.verify(sha256_hash, bcrypt_hash)
+        verified = bcrypt.checkpw(sha256_hash.encode("utf-8"), bcrypt_hash)
 
         return {
             "success": True,
@@ -106,7 +107,8 @@ def debug_hash_test():
             "bcrypt_length": len(bcrypt_hash),
             "verified": verified,
             "python_version": sys.version,
-            "message": "Hash test passed!",
+            "bcrypt_version": bcrypt.__version__ if hasattr(bcrypt, "__version__") else "unknown",
+            "message": "Hash test passed using bcrypt directly!",
         }
     except Exception as e:
         import traceback
@@ -157,31 +159,38 @@ app.add_middleware(
 )
 
 # --- SECURITY ---
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Using bcrypt directly instead of passlib to avoid compatibility issues
+# with newer bcrypt versions and passlib's wrap bug detection
 
 
-def verify_password(plain_password, hashed_password):
-    # SEMPRE fazer hash SHA256 primeiro para corresponder ao que foi salvo
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify a password against its hash using SHA256 pre-hash + bcrypt."""
+    # Pre-hash with SHA256 to avoid bcrypt 72-byte limit
     sha256_hash = hashlib.sha256(plain_password.encode("utf-8")).hexdigest()
-    return pwd_context.verify(sha256_hash, hashed_password)
-
-
-def get_password_hash(password):
-    # SEMPRE fazer hash SHA256 primeiro para evitar qualquer problema de limite do bcrypt
-    # SHA256 produz sempre 64 caracteres hex que está bem dentro do limite de 72 bytes
-    logger.debug(
-        f"get_password_hash called, password length: {len(password)}, bytes: {len(password.encode('utf-8'))}"
-    )
-    sha256_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
-    logger.debug(
-        f"SHA256 pre-hash applied: {sha256_hash[:20]}... (length: {len(sha256_hash)})"
-    )
     try:
-        result = pwd_context.hash(sha256_hash)
-        logger.debug(f"Password hashed successfully, result length: {len(result)}")
+        return bcrypt.checkpw(sha256_hash.encode("utf-8"), hashed_password.encode("utf-8"))
+    except Exception as e:
+        logger.error(f"Password verification error: {e}")
+        return False
+
+
+def get_password_hash(password: str) -> str:
+    """Hash a password using SHA256 pre-hash + bcrypt."""
+    # Pre-hash with SHA256 to ensure we never exceed bcrypt's 72-byte limit
+    # SHA256 produces 64 hex chars, well within the limit
+    logger.debug(f"get_password_hash called, password length: {len(password)}")
+    sha256_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
+    logger.debug(f"SHA256 pre-hash applied, length: {len(sha256_hash)}")
+    
+    try:
+        # Generate salt and hash
+        salt = bcrypt.gensalt(rounds=12)
+        hashed = bcrypt.hashpw(sha256_hash.encode("utf-8"), salt)
+        result = hashed.decode("utf-8")
+        logger.debug(f"Password hashed successfully")
         return result
     except Exception as e:
-        logger.error(f"Error in pwd_context.hash: {type(e).__name__}: {str(e)}")
+        logger.error(f"Error in bcrypt.hashpw: {type(e).__name__}: {str(e)}")
         raise
 
 

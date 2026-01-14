@@ -1,11 +1,11 @@
 # Escola do Oráculo - Dependencies
-# Last updated: 2026-01-14 18:30
+# Last updated: 2026-01-14 19:15
 fastapi
 uvicorn[standard]
 sqlalchemy
 pydantic
 python-multipart
 stripe
-passlib[bcrypt]
+bcrypt
 psycopg2-binary
 
