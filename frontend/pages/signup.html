@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Criar Conta - Escola do Oráculo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: "Helvetica Neue", sans-serif;
+        background: linear-gradient(135deg, #4b0082 0%, #2a0a4a 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+      }
+      .signup-container {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        max-width: 450px;
+        text-align: center;
+        border-top: 5px solid #c5a059;
+      }
+      h1 {
+        color: #4b0082;
+        margin-bottom: 10px;
+        font-family: "Georgia", serif;
+        font-size: 2rem;
+      }
+      .subtitle {
+        color: #666;
+        font-size: 0.95rem;
+        margin-bottom: 30px;
+      }
+      .input-group {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+      label {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+        display: block;
+        font-weight: 500;
+      }
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+      input:focus {
+        outline: none;
+        border-color: #4b0082;
+      }
+      button {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #c5a059 0%, #b08d4d 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1.1rem;
+        margin-top: 10px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+      }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4);
+      }
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .password-strength {
+        margin-top: 5px;
+        font-size: 0.85rem;
+        color: #666;
+      }
+      .strength-bar {
+        height: 4px;
+        background: #ddd;
+        border-radius: 2px;
+        margin-top: 5px;
+        overflow: hidden;
+      }
+      .strength-fill {
+        height: 100%;
+        width: 0%;
+        transition: width 0.3s, background-color 0.3s;
+      }
+      .strength-weak {
+        background: #f44336;
+        width: 33%;
+      }
+      .strength-medium {
+        background: #ff9800;
+        width: 66%;
+      }
+      .strength-strong {
+        background: #4caf50;
+        width: 100%;
+      }
+      .links {
+        margin-top: 25px;
+        font-size: 0.9rem;
+        color: #666;
+      }
+      a {
+        color: #4b0082;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .back-link {
+        display: block;
+        margin-top: 20px;
+        color: #888;
+        text-decoration: none;
+        font-size: 0.85rem;
+      }
+      .error-message {
+        background: #ffebee;
+        color: #c62828;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        display: none;
+      }
+      .success-message {
+        background: #e8f5e9;
+        color: #2e7d32;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        display: none;
+      }
+      .benefits {
+        background: #f5f5f0;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 30px;
+        text-align: left;
+      }
+      .benefits h3 {
+        color: #4b0082;
+        margin-bottom: 15px;
+        font-size: 1rem;
+        text-align: center;
+      }
+      .benefits ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .benefits li {
+        padding: 8px 0;
+        color: #555;
+        font-size: 0.9rem;
+      }
+      .benefits li:before {
+        content: "✨ ";
+        color: #c5a059;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <h1>Bem-vinda ao Templo</h1>
+      <p class="subtitle">Crie sua conta e comece sua jornada</p>
+
+      <div class="error-message" id="error-message"></div>
+      <div class="success-message" id="success-message"></div>
+
+      <form onsubmit="handleSignup(event)">
+        <div class="input-group">
+          <label for="name">Nome Completo</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Seu nome completo"
+            required
+            minlength="3"
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="seu@email.com"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="password">Senha</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Mínimo 6 caracteres"
+            required
+            minlength="6"
+            oninput="checkPasswordStrength()"
+          />
+          <div class="strength-bar">
+            <div class="strength-fill" id="strength-fill"></div>
+          </div>
+          <div class="password-strength" id="password-strength"></div>
+        </div>
+
+        <div class="input-group">
+          <label for="confirm-password">Confirmar Senha</label>
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            placeholder="Digite a senha novamente"
+            required
+            minlength="6"
+          />
+        </div>
+
+        <button type="submit">✨ Criar Minha Conta</button>
+      </form>
+
+      <div class="links">
+        Já tem uma conta? <a href="login.html">Fazer Login</a>
+      </div>
+
+      <a href="../index.html" class="back-link">&larr; Voltar para Home</a>
+
+      <div class="benefits">
+        <h3>🎁 O que você ganha:</h3>
+        <ul>
+          <li>Acesso ao Oráculo Digital</li>
+          <li>Histórico de leituras salvo</li>
+          <li>Conteúdo exclusivo de membros</li>
+          <li>Atualizações e novos recursos</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // Auto-detect API URL based on environment
+      let API_URL = "https://web-production-21437.up.railway.app";
+
+      if (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+      ) {
+        API_URL = "http://localhost:8000";
+      } else if (window.location.protocol !== "file:") {
+        API_URL = window.location.origin;
+      }
+
+      console.log("Signup using API_URL:", API_URL);
+
+      // Password strength checker
+      function checkPasswordStrength() {
+        const password = document.getElementById("password").value;
+        const strengthFill = document.getElementById("strength-fill");
+        const strengthText = document.getElementById("password-strength");
+
+        let strength = 0;
+        if (password.length >= 6) strength++;
+        if (password.length >= 10) strength++;
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+        if (/\d/.test(password)) strength++;
+        if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+        strengthFill.className = "strength-fill";
+
+        if (strength < 2) {
+          strengthFill.classList.add("strength-weak");
+          strengthText.textContent = "Fraca";
+          strengthText.style.color = "#f44336";
+        } else if (strength < 4) {
+          strengthFill.classList.add("strength-medium");
+          strengthText.textContent = "Média";
+          strengthText.style.color = "#ff9800";
+        } else {
+          strengthFill.classList.add("strength-strong");
+          strengthText.textContent = "Forte";
+          strengthText.style.color = "#4caf50";
+        }
+      }
+
+      // Show error message
+      function showError(message) {
+        const errorDiv = document.getElementById("error-message");
+        errorDiv.textContent = message;
+        errorDiv.style.display = "block";
+        setTimeout(() => {
+          errorDiv.style.display = "none";
+        }, 5000);
+      }
+
+      // Show success message
+      function showSuccess(message) {
+        const successDiv = document.getElementById("success-message");
+        successDiv.textContent = message;
+        successDiv.style.display = "block";
+      }
+
+      // Handle signup
+      async function handleSignup(e) {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirm-password").value;
+        const submitBtn = e.target.querySelector("button");
+        const originalText = submitBtn.innerHTML;
+
+        // Validate passwords match
+        if (password !== confirmPassword) {
+          showError("As senhas não coincidem!");
+          return;
+        }
+
+        // Validate password strength
+        if (password.length < 6) {
+          showError("A senha deve ter pelo menos 6 caracteres!");
+          return;
+        }
+
+        try {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = "⏳ Criando conta...";
+
+          // Register user via API
+          const response = await fetch(API_URL + "/auth/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password,
+              full_name: name,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            // Success
+            showSuccess("✅ Conta criada com sucesso! Redirecionando...");
+
+            // Automatically log in the user
+            setTimeout(async () => {
+              try {
+                const loginResponse = await fetch(API_URL + "/auth/login", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    email: email,
+                    password: password,
+                  }),
+                });
+
+                const loginData = await loginResponse.json();
+
+                if (loginResponse.ok) {
+                  localStorage.setItem("user_token", loginData.access_token);
+                  localStorage.setItem("user_email", email);
+                  window.location.href = "oraculo-app.html";
+                } else {
+                  // If auto-login fails, redirect to login page
+                  window.location.href = "login.html?registered=true";
+                }
+              } catch (error) {
+                window.location.href = "login.html?registered=true";
+              }
+            }, 1500);
+          } else {
+            // Error handling
+            if (
+              response.status === 400 &&
+              data.detail?.includes("already registered")
+            ) {
+              showError("Este email já está registado. Tente fazer login.");
+            } else {
+              showError(data.detail || "Erro ao criar conta. Tente novamente.");
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+          }
+        } catch (error) {
+          console.error("Signup error:", error);
+          showError("Erro de conexão com o servidor. Verifique sua internet.");
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      }
+    </script>
+  </body>
+</html>

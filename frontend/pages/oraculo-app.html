@@ -895,11 +895,199 @@
   </head>
   <body>
     <script>
-      // CLIENT AREA PROTECTION
+      // CLIENT AREA PROTECTION & USER INFO
       const token = localStorage.getItem("user_token");
+      const userEmail = localStorage.getItem("user_email");
+
       if (!token) {
         // Redirect to Login if not authenticated
         alert("Acesso restrito ao Templo. Por favor, faça login.");
+        window.location.href = "login.html";
+      }
+
+      // API URL configuration
+      let API_URL = "https://web-production-21437.up.railway.app";
+      if (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+      ) {
+        API_URL = "http://localhost:8000";
+      } else if (window.location.protocol !== "file:") {
+        API_URL = window.location.origin;
+      }
+
+      // Load user info on page load
+      window.addEventListener("DOMContentLoaded", async () => {
+        await loadUserInfo();
+        await loadDashboardStats();
+        await loadUserCourses();
+      });
+
+      // Load dashboard statistics
+      async function loadDashboardStats() {
+        try {
+          // Get readings count from localStorage
+          const readingsCount = parseInt(localStorage.getItem("readings_count") || "0");
+          document.getElementById("stats-readings").textContent = readingsCount;
+          
+          // Calculate level based on readings
+          let level = "Iniciante";
+          if (readingsCount >= 100) level = "Mestre";
+          else if (readingsCount >= 50) level = "Avançado";
+          else if (readingsCount >= 20) level = "Intermédio";
+          else if (readingsCount >= 5) level = "Aprendiz";
+          document.getElementById("stats-level").textContent = level;
+          
+          // Try to get courses from API
+          try {
+            const response = await fetch(API_URL + "/users/me/courses", {
+              method: "GET",
+              headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+              }
+            });
+            
+            if (response.ok) {
+              const courses = await response.json();
+              document.getElementById("stats-courses").textContent = courses.length || 0;
+              document.getElementById("stats-certificates").textContent = courses.filter(c => c.completed).length || 0;
+            }
+          } catch (e) {
+            // API might not have this endpoint yet - use localStorage
+            const savedCourses = JSON.parse(localStorage.getItem("user_courses") || "[]");
+            document.getElementById("stats-courses").textContent = savedCourses.length;
+          }
+        } catch (error) {
+          console.log("Dashboard stats loaded from local storage");
+        }
+      }
+
+      // Load user courses
+      async function loadUserCourses() {
+        const container = document.getElementById("my-courses-container");
+        const noCoursesMsg = document.getElementById("no-courses-message");
+        
+        try {
+          // Try API first
+          const response = await fetch(API_URL + "/users/me/courses", {
+            method: "GET",
+            headers: {
+              "Authorization": "Bearer " + token,
+              "Content-Type": "application/json"
+            }
+          });
+          
+          if (response.ok) {
+            const courses = await response.json();
+            if (courses && courses.length > 0) {
+              noCoursesMsg.style.display = "none";
+              courses.forEach(course => {
+                container.insertAdjacentHTML("beforeend", createCourseCard(course));
+              });
+            }
+          }
+        } catch (e) {
+          // Check localStorage for demo/saved courses
+          const savedCourses = JSON.parse(localStorage.getItem("user_courses") || "[]");
+          if (savedCourses.length > 0) {
+            noCoursesMsg.style.display = "none";
+            savedCourses.forEach(course => {
+              container.insertAdjacentHTML("beforeend", createCourseCard(course));
+            });
+          }
+        }
+      }
+
+      // Create course card HTML
+      function createCourseCard(course) {
+        const progress = course.progress || 0;
+        return `
+          <div style="background: linear-gradient(135deg, rgba(75, 0, 130, 0.05), rgba(197, 160, 89, 0.05)); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--color-gold);">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+              <h4 style="color: var(--color-dark-purple); font-family: var(--font-serif);">${course.name || course.title}</h4>
+              <span style="background: ${progress === 100 ? '#4caf50' : 'var(--color-gold)'}; color: ${progress === 100 ? 'white' : 'var(--color-text)'}; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">${progress}%</span>
+            </div>
+            <div style="background: rgba(0,0,0,0.1); border-radius: 10px; height: 8px; margin-bottom: 1rem;">
+              <div style="background: var(--color-gold); height: 100%; border-radius: 10px; width: ${progress}%; transition: width 0.5s;"></div>
+            </div>
+            <button onclick="window.location.href='${course.url || '#'}'" style="width: 100%; background: var(--color-dark-purple); color: white; border: none; padding: 0.75rem; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='var(--color-gold)';this.style.color='var(--color-text)'" onmouseout="this.style.background='var(--color-dark-purple)';this.style.color='white'">
+              ${progress === 100 ? '📜 Ver Certificado' : '▶️ Continuar'}
+            </button>
+          </div>
+        `;
+      }
+
+      // Track readings
+      function trackReading() {
+        const current = parseInt(localStorage.getItem("readings_count") || "0");
+        localStorage.setItem("readings_count", (current + 1).toString());
+        loadDashboardStats();
+      }
+
+      // Load user information
+      async function loadUserInfo() {
+        try {
+          const response = await fetch(API_URL + "/users/me", {
+            method: "GET",
+            headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (response.ok) {
+            const userData = await response.json();
+            const userName = userData.email.split("@")[0]; // Use email prefix as name
+            document.getElementById("user-name").textContent = userName;
+            document.getElementById("user-email-display").textContent =
+              userData.email;
+          } else if (response.status === 401) {
+            // Token expired or invalid
+            alert("Sessão expirada. Por favor, faça login novamente.");
+            handleLogout();
+          } else {
+            // Fallback to stored email
+            if (userEmail) {
+              const userName = userEmail.split("@")[0];
+              document.getElementById("user-name").textContent = userName;
+              document.getElementById("user-email-display").textContent =
+                userEmail;
+            }
+          }
+        } catch (error) {
+          console.error("Error loading user info:", error);
+          // Fallback to stored email
+          if (userEmail) {
+            const userName = userEmail.split("@")[0];
+            document.getElementById("user-name").textContent = userName;
+            document.getElementById("user-email-display").textContent =
+              userEmail;
+          }
+        }
+      }
+
+      // Toggle user menu dropdown
+      function toggleUserMenu() {
+        const dropdown = document.getElementById("user-dropdown");
+        dropdown.style.display =
+          dropdown.style.display === "none" ? "block" : "none";
+      }
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        const userMenu = document.querySelector(".user-menu");
+        const dropdown = document.getElementById("user-dropdown");
+        if (userMenu && !userMenu.contains(e.target)) {
+          dropdown.style.display = "none";
+        }
+      });
+
+      // Logout function
+      function handleLogout() {
+        localStorage.removeItem("user_token");
+        localStorage.removeItem("user_email");
+        alert("Até breve! ✨");
         window.location.href = "login.html";
       }
     </script>
@@ -928,6 +1116,150 @@
         <li>
           <a href="#" onclick="location.reload()">🔄 Reiniciar Oráculo</a>
         </li>
+        <li>
+          <div
+            class="user-menu"
+            style="position: relative; display: inline-block"
+          >
+            <button
+              onclick="toggleUserMenu()"
+              style="
+                background: rgba(197, 160, 89, 0.1);
+                border: 2px solid var(--color-gold);
+                border-radius: 50px;
+                padding: 8px 15px;
+                cursor: pointer;
+                color: var(--color-text);
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+              "
+            >
+              <span style="font-size: 1.2rem">👤</span>
+              <span id="user-name">Carregando...</span>
+              <span style="font-size: 0.8rem">▼</span>
+            </button>
+            <div
+              id="user-dropdown"
+              style="
+                display: none;
+                position: absolute;
+                right: 0;
+                top: 45px;
+                background: var(--color-white);
+                border: 2px solid var(--color-gold);
+                border-radius: 10px;
+                min-width: 200px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+              "
+            >
+              <div style="padding: 15px; border-bottom: 1px solid #eee">
+                <p
+                  style="
+                    font-size: 0.85rem;
+                    color: var(--color-text-light);
+                    margin: 0;
+                  "
+                >
+                  Conectado como
+                </p>
+                <p
+                  id="user-email-display"
+                  style="
+                    font-weight: bold;
+                    margin: 5px 0 0 0;
+                    color: var(--color-dark-purple);
+                  "
+                ></p>
+              </div>
+              <button
+                onclick="smoothScrollTo('#dashboard')"
+                style="
+                  width: 100%;
+                  padding: 12px 15px;
+                  background: none;
+                  border: none;
+                  border-bottom: 1px solid #eee;
+                  text-align: left;
+                  cursor: pointer;
+                  color: var(--color-text);
+                  font-weight: 500;
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                "
+                onmouseover="this.style.background='rgba(75, 0, 130, 0.05)'"
+                onmouseout="this.style.background='none'"
+              >
+                <span>📊</span> Meu Painel
+              </button>
+              <button
+                onclick="smoothScrollTo('#cursos')"
+                style="
+                  width: 100%;
+                  padding: 12px 15px;
+                  background: none;
+                  border: none;
+                  border-bottom: 1px solid #eee;
+                  text-align: left;
+                  cursor: pointer;
+                  color: var(--color-text);
+                  font-weight: 500;
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                "
+                onmouseover="this.style.background='rgba(75, 0, 130, 0.05)'"
+                onmouseout="this.style.background='none'"
+              >
+                <span>📚</span> Meus Cursos
+              </button>
+              <button
+                onclick="window.location.href='checkout.html'"
+                style="
+                  width: 100%;
+                  padding: 12px 15px;
+                  background: none;
+                  border: none;
+                  border-bottom: 1px solid #eee;
+                  text-align: left;
+                  cursor: pointer;
+                  color: var(--color-text);
+                  font-weight: 500;
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                "
+                onmouseover="this.style.background='rgba(75, 0, 130, 0.05)'"
+                onmouseout="this.style.background='none'"
+              >
+                <span>🛒</span> Loja
+              </button>
+              <button
+                onclick="handleLogout()"
+                style="
+                  width: 100%;
+                  padding: 12px 15px;
+                  background: none;
+                  border: none;
+                  text-align: left;
+                  cursor: pointer;
+                  color: #d32f2f;
+                  font-weight: 500;
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                "
+                onmouseover="this.style.background='rgba(211, 47, 47, 0.1)'"
+                onmouseout="this.style.background='none'"
+              >
+                <span>🚪</span> Sair
+              </button>
+            </div>
+          </div>
+        </li>
       </ul>
       <button
         class="theme-toggle"
@@ -941,8 +1273,8 @@
 
     <!-- HERO SECTION -->
     <section class="hero" id="main-content">
-      <h1>Tarot com Clareza</h1>
-      <p class="tagline">O teu caminho nas cartas</p>
+      <h1>Bem-vindo(a) à Área de Membros</h1>
+      <p class="tagline">O teu espaço sagrado de aprendizagem</p>
       <!-- Moon Phase Widget -->
       <div
         style="
@@ -984,12 +1316,138 @@
         ></p>
       </div>
       <p class="subtext">
-        Aprenda a ler tarot sem decorar. Domine a ética profissional e
-        prepare-se para consultar clientes com segurança.
+        Aqui encontras todos os teus cursos, ferramentas exclusivas e recursos
+        para a tua jornada no tarot.
       </p>
-      <button class="cta-button" onclick="smoothScrollTo('#cursos')">
-        Começar Agora
+      <button class="cta-button" onclick="smoothScrollTo('#dashboard')">
+        Ver Meus Cursos
       </button>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- DASHBOARD DE CLIENTE - ÁREA EXCLUSIVA -->
+    <!-- ========================================= -->
+    <section class="section" id="dashboard">
+      <h2 class="section-title">📊 Meu Painel</h2>
+      
+      <!-- Stats Cards -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+        <div style="background: linear-gradient(135deg, var(--color-dark-purple), #7e2da0); color: white; padding: 2rem; border-radius: 12px; text-align: center;">
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📚</div>
+          <div id="stats-courses" style="font-size: 2rem; font-weight: bold;">0</div>
+          <div style="font-size: 0.9rem; opacity: 0.9;">Cursos Ativos</div>
+        </div>
+        <div style="background: linear-gradient(135deg, var(--color-gold), #d4a574); color: #2c2c2c; padding: 2rem; border-radius: 12px; text-align: center;">
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔮</div>
+          <div id="stats-readings" style="font-size: 2rem; font-weight: bold;">0</div>
+          <div style="font-size: 0.9rem;">Leituras Realizadas</div>
+        </div>
+        <div style="background: linear-gradient(135deg, #2e7d32, #4caf50); color: white; padding: 2rem; border-radius: 12px; text-align: center;">
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏆</div>
+          <div id="stats-certificates" style="font-size: 2rem; font-weight: bold;">0</div>
+          <div style="font-size: 0.9rem; opacity: 0.9;">Certificados</div>
+        </div>
+        <div style="background: linear-gradient(135deg, #1976d2, #42a5f5); color: white; padding: 2rem; border-radius: 12px; text-align: center;">
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⭐</div>
+          <div id="stats-level" style="font-size: 1.5rem; font-weight: bold;">Iniciante</div>
+          <div style="font-size: 0.9rem; opacity: 0.9;">Seu Nível</div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div style="background: var(--color-white); border-radius: 12px; padding: 2rem; margin-bottom: 3rem; border: 1px solid rgba(75, 0, 130, 0.1);">
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-dark-purple); margin-bottom: 1.5rem;">⚡ Ações Rápidas</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+          <button onclick="smoothScrollTo('#oraculo')" style="background: rgba(75, 0, 130, 0.1); border: 2px solid var(--color-dark-purple); color: var(--color-dark-purple); padding: 1rem 1.5rem; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.background='var(--color-dark-purple)';this.style.color='white'" onmouseout="this.style.background='rgba(75, 0, 130, 0.1)';this.style.color='var(--color-dark-purple)'">
+            🔮 Tirar Carta do Dia
+          </button>
+          <button onclick="smoothScrollTo('#cursos')" style="background: rgba(197, 160, 89, 0.1); border: 2px solid var(--color-gold); color: var(--color-text); padding: 1rem 1.5rem; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.background='var(--color-gold)'" onmouseout="this.style.background='rgba(197, 160, 89, 0.1)'">
+            📚 Ver Meus Cursos
+          </button>
+          <button onclick="window.open('https://wa.me/351912345678?text=Olá Rafaella, preciso de ajuda', '_blank')" style="background: rgba(37, 211, 102, 0.1); border: 2px solid #25d366; color: #25d366; padding: 1rem 1.5rem; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.background='#25d366';this.style.color='white'" onmouseout="this.style.background='rgba(37, 211, 102, 0.1)';this.style.color='#25d366'">
+            💬 Suporte WhatsApp
+          </button>
+          <button onclick="window.location.href='checkout.html'" style="background: rgba(211, 47, 47, 0.1); border: 2px solid #d32f2f; color: #d32f2f; padding: 1rem 1.5rem; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.background='#d32f2f';this.style.color='white'" onmouseout="this.style.background='rgba(211, 47, 47, 0.1)';this.style.color='#d32f2f'">
+            🛒 Loja de Cursos
+          </button>
+        </div>
+      </div>
+
+      <!-- My Courses Section -->
+      <div style="background: var(--color-white); border-radius: 12px; padding: 2rem; margin-bottom: 3rem; border: 1px solid rgba(75, 0, 130, 0.1);">
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-dark-purple); margin-bottom: 1.5rem;">📚 Meus Cursos</h3>
+        
+        <div id="my-courses-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          <!-- Empty State -->
+          <div id="no-courses-message" style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: rgba(75, 0, 130, 0.03); border-radius: 12px; border: 2px dashed rgba(75, 0, 130, 0.2);">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">📖</div>
+            <h4 style="color: var(--color-dark-purple); margin-bottom: 1rem;">Ainda não tens cursos ativos</h4>
+            <p style="color: var(--color-text-light); margin-bottom: 1.5rem;">Começa a tua jornada no tarot hoje mesmo!</p>
+            <button onclick="window.location.href='checkout.html'" style="background: var(--color-dark-purple); color: white; border: none; padding: 1rem 2rem; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='var(--color-gold)';this.style.color='var(--color-text)'" onmouseout="this.style.background='var(--color-dark-purple)';this.style.color='white'">
+              Ver Cursos Disponíveis →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div style="background: var(--color-white); border-radius: 12px; padding: 2rem; margin-bottom: 3rem; border: 1px solid rgba(75, 0, 130, 0.1);">
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-dark-purple); margin-bottom: 1.5rem;">📅 Atividade Recente</h3>
+        
+        <div id="activity-feed" style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(75, 0, 130, 0.03); border-radius: 8px; border-left: 4px solid var(--color-gold);">
+            <div style="font-size: 1.5rem;">🎉</div>
+            <div>
+              <div style="font-weight: 600; color: var(--color-dark-purple);">Bem-vindo(a) à Escola do Oráculo!</div>
+              <div style="font-size: 0.85rem; color: var(--color-text-light);">Agora mesmo</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(75, 0, 130, 0.03); border-radius: 8px; border-left: 4px solid var(--color-dark-purple);">
+            <div style="font-size: 1.5rem;">✨</div>
+            <div>
+              <div style="font-weight: 600; color: var(--color-dark-purple);">Dica: Tira a tua carta do dia!</div>
+              <div style="font-size: 0.85rem; color: var(--color-text-light);">Usa o Oráculo interativo abaixo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resources Section -->
+      <div style="background: linear-gradient(135deg, rgba(75, 0, 130, 0.05), rgba(197, 160, 89, 0.05)); border-radius: 12px; padding: 2rem; margin-bottom: 3rem;">
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-dark-purple); margin-bottom: 1.5rem;">🎁 Recursos Exclusivos</h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+          <div style="background: var(--color-white); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(75, 0, 130, 0.1); text-align: center;">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">📘</div>
+            <h4 style="color: var(--color-dark-purple); margin-bottom: 0.5rem;">Guia de Significados</h4>
+            <p style="font-size: 0.9rem; color: var(--color-text-light); margin-bottom: 1rem;">78 cartas explicadas</p>
+            <button onclick="alert('Em breve! Estamos preparando este conteúdo exclusivo.')" style="background: var(--color-gold); border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; font-weight: 600;">Download PDF</button>
+          </div>
+          <div style="background: var(--color-white); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(75, 0, 130, 0.1); text-align: center;">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎬</div>
+            <h4 style="color: var(--color-dark-purple); margin-bottom: 0.5rem;">Aulas Bónus</h4>
+            <p style="font-size: 0.9rem; color: var(--color-text-light); margin-bottom: 1rem;">Conteúdo extra gratuito</p>
+            <button onclick="alert('Em breve! Estamos preparando este conteúdo exclusivo.')" style="background: var(--color-gold); border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; font-weight: 600;">Ver Aulas</button>
+          </div>
+          <div style="background: var(--color-white); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(75, 0, 130, 0.1); text-align: center;">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">👥</div>
+            <h4 style="color: var(--color-dark-purple); margin-bottom: 0.5rem;">Comunidade Privada</h4>
+            <p style="font-size: 0.9rem; color: var(--color-text-light); margin-bottom: 1rem;">Grupo exclusivo de alunos</p>
+            <button onclick="window.open('https://t.me/escoladooraculo', '_blank')" style="background: var(--color-gold); border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; font-weight: 600;">Entrar no Grupo</button>
+          </div>
+          <div style="background: var(--color-white); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(75, 0, 130, 0.1); text-align: center;">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">📅</div>
+            <h4 style="color: var(--color-dark-purple); margin-bottom: 0.5rem;">Lives Mensais</h4>
+            <p style="font-size: 0.9rem; color: var(--color-text-light); margin-bottom: 1rem;">Sessões ao vivo com Rafaella</p>
+            <button onclick="alert('Próxima live: Em breve! Receberás um email com a data.')" style="background: var(--color-gold); border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; font-weight: 600;">Agendar Lembrete</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORÁCULO INTERATIVO -->
+    <section class="section" id="oraculo">
+      <h2 class="section-title">🔮 Oráculo Interativo</h2>
     </section>
 
     <!-- INTERACTIVE CARD DRAW -->
@@ -2333,6 +2791,9 @@
           drawnCards.daily = { card, isReversed };
 
           resultDiv.innerHTML = formatCardDisplay(card, isReversed);
+          
+          // Track this reading
+          trackReading();
         }, 600);
       }
 

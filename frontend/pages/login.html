@@ -113,12 +113,36 @@
       </form>
       <div class="links">
         <a href="forgot-password.html">Esqueceu a Senha?</a> |
-        <a href="checkout-pro.html">Criar Conta</a>
+        <a href="signup.html">Criar Conta</a>
       </div>
       <a href="../index.html" class="back-link">&larr; Voltar para Home</a>
+
+      <div
+        class="success-message"
+        id="success-message"
+        style="
+          display: none;
+          background: #e8f5e9;
+          color: #2e7d32;
+          padding: 10px;
+          border-radius: 5px;
+          margin-top: 15px;
+          font-size: 0.9rem;
+        "
+      >
+        ✅ Conta criada com sucesso! Faça login para continuar.
+      </div>
     </div>
 
     <script>
+      // Check if user just registered
+      window.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get("registered") === "true") {
+          document.getElementById("success-message").style.display = "block";
+        }
+      });
+
       // Auto-detect API URL based on environment
       let API_URL = "https://web-production-21437.up.railway.app"; // Default to production
 
@@ -146,6 +170,9 @@
           submitBtn.disabled = true;
           submitBtn.innerText = "Autenticando...";
 
+          console.log("Tentando login com:", email);
+          console.log("API_URL:", API_URL);
+
           // Connect to the Python FastAPI Backend
           const response = await fetch(API_URL + "/auth/login", {
             method: "POST",
@@ -158,21 +185,48 @@
             }),
           });
 
-          const data = await response.json();
+          console.log("Response status:", response.status);
 
-          if (response.ok) {
+          let data;
+          try {
+            data = await response.json();
+            console.log("Response data:", data);
+          } catch (jsonError) {
+            console.error("Erro ao parsear JSON:", jsonError);
+            throw new Error("Resposta inválida do servidor");
+          }
+
+          if (response.ok && data.access_token) {
             // Success: Save token and redirect
+            console.log("✅ Login bem-sucedido!");
             localStorage.setItem("user_token", data.access_token);
             localStorage.setItem("user_email", email);
-            window.location.href = "oraculo-app.html";
+
+            // Show success message before redirect
+            submitBtn.innerText = "✅ Entrando...";
+            setTimeout(() => {
+              window.location.href = "oraculo-app.html";
+            }, 500);
           } else {
             // Error handling
-            alert(data.detail || "Erro ao realizar login");
+            console.error("❌ Login falhou:", data);
+            alert(
+              data.detail ||
+                data.message ||
+                "Credenciais inválidas. Verifique email e senha."
+            );
           }
         } catch (error) {
-          console.error("Login error:", error);
+          console.error("❌ Erro de conexão:", error);
           alert(
-            "Erro de conexão com o servidor. Verifique se o backend está rodando."
+            "Erro de conexão com o servidor.\n\n" +
+              "Detalhes: " +
+              error.message +
+              "\n\n" +
+              "Verifique:\n" +
+              "1. Se o backend está rodando\n" +
+              "2. Se as credenciais estão corretas\n" +
+              "3. Console do navegador para mais detalhes (F12)"
           );
         } finally {
           submitBtn.disabled = false;
