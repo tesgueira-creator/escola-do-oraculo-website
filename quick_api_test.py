@@ -3,6 +3,7 @@
 
 import requests
 import urllib3
+
 urllib3.disable_warnings()
 
 BASE = "https://web-production-21437.up.railway.app"
@@ -23,7 +24,11 @@ except Exception as e:
 # Test 2: Register with SHORT password
 print("\n2. Register (senha curta 'Test123!'):")
 try:
-    data = {"email": "test_short_pwd@test.local", "password": "Test123!", "full_name": "Short Pwd Test"}
+    data = {
+        "email": "test_short_pwd@test.local",
+        "password": "Test123!",
+        "full_name": "Short Pwd Test",
+    }
     r = requests.post(f"{BASE}/auth/register", json=data, verify=False, timeout=15)
     print(f"   Status: {r.status_code}")
     print(f"   Response: {r.text[:500]}")
@@ -34,6 +39,7 @@ except Exception as e:
 print("\n3. Register with very simple data:")
 try:
     import random
+
     email = f"x{random.randint(10000,99999)}@t.co"
     data = {"email": email, "password": "abc", "full_name": "X"}
     r = requests.post(f"{BASE}/auth/register", json=data, verify=False, timeout=15)
