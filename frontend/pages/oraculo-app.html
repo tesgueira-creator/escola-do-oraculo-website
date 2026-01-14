@@ -2743,7 +2743,7 @@
           >
             <div class="card-result">
               <img
-                src="/backend/art/78.webp"
+                src="/assets/images/cards/back.webp"
                 alt="Carta"
                 class="card-back-img"
                 onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
@@ -2786,7 +2786,7 @@
             >
               <div class="card-result">
                 <img
-                  src="/backend/art/78.webp"
+                  src="https://via.placeholder.com/120x180?text=🎴"
                   alt="Carta"
                   class="card-back-img"
                   onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
@@ -2801,7 +2801,7 @@
             >
               <div class="card-result">
                 <img
-                  src="/backend/art/78.webp"
+                  src="https://via.placeholder.com/120x180?text=🎴"
                   alt="Carta"
                   class="card-back-img"
                   onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
@@ -2816,7 +2816,7 @@
             >
               <div class="card-result">
                 <img
-                  src="/backend/art/78.webp"
+                  src="https://via.placeholder.com/120x180?text=🎴"
                   alt="Carta"
                   class="card-back-img"
                   onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"
@@ -3844,17 +3844,17 @@
       // Helper: resolve card image from deck folder (/backend/art/<index>.webp)
       function getCardImageFor(card) {
         const majorIndex = tarotCards.majorArcana.indexOf(card);
-        if (majorIndex !== -1) return `/backend/art/${majorIndex}.webp`;
+        if (majorIndex !== -1) return `/assets/images/cards/${majorIndex}.webp`;
 
         const suitBases = { copas: 22, espadas: 36, paus: 50, ouros: 64 };
         for (const [suitKey, base] of Object.entries(suitBases)) {
           const arr = tarotCards.minorArcana[suitKey];
           if (!arr) continue;
           const idx = arr.indexOf(card);
-          if (idx !== -1) return `/backend/art/${base + idx}.webp`;
+          if (idx !== -1) return `/assets/images/cards/${base + idx}.webp`;
         }
 
-        return "/backend/art/78.webp";
+        return "https://via.placeholder.com/120x180?text=Carta+de+Tarot";
       }
 
       // Shuffle helper and unique draw
@@ -3934,7 +3934,7 @@
                 card
               )}" alt="${
             card.name
-          }" class="card-image-preview" onerror="this.src='/backend/art/78.webp'"></div>
+          }" class="card-image-preview" onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"></div>
               <div class="card-name">${card.name}${reversed}</div>
               <div class="card-suit">Arcano Maior • ${card.number}</div>
               <div class="card-element">Elemento: ${card.element}</div>
@@ -3963,7 +3963,7 @@
                 card
               )}" alt="${
             card.name
-          }" class="card-image-preview" onerror="this.src='/backend/art/78.webp'"></div>
+          }" class="card-image-preview" onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"></div>
               <div class="card-name">${card.name}${reversed}</div>
               <div class="card-suit">${suit}</div>
             </div>
@@ -4028,7 +4028,7 @@
                   <div style="margin: 0.5rem 0;">
                     <img src="${getCardImageFor(item.card)}" alt="${
               item.card.name
-            }" style="width:64px;height:auto;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.08);" onerror="this.src='/backend/art/78.webp'">
+            }" style="width:64px;height:auto;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.08);" onerror="this.src='https://via.placeholder.com/120x180?text=Carta'">
                   </div>
                   <div style="font-weight: 600; color: var(--color-dark-purple); margin: 0.5rem 0;">
                     ${item.card.name}${item.isReversed ? " (Invertida)" : ""}
@@ -4129,7 +4129,7 @@
                   card
                 )}" alt="${
               card.name
-            }" style="width:48px;height:auto;border-radius:6px;" onerror="this.src='/backend/art/78.webp'"></div>
+            }" style="width:48px;height:auto;border-radius:6px;" onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"></div>
                 <div class="chakra-card-meaning">${meaning}</div>
                 <div style="font-size: 0.7rem; color: var(--color-text-light); margin-top: 0.5rem; border-top: 1px solid rgba(212, 165, 116, 0.3); padding-top: 0.5rem;">${
                   chakras[index].element
@@ -4231,7 +4231,7 @@
       } else {
         updateMoonPhase();
       }
-      
+
       // Also update on window load
       window.addEventListener("load", updateMoonPhase);
       // ===== CELTIC CROSS SPREAD =====
@@ -4291,7 +4291,7 @@
                   item.card
                 )}" alt="${
               item.card.name
-            }" style="width:48px;height:auto;border-radius:6px;" onerror="this.src='/backend/art/78.webp'"></div>
+            }" style="width:48px;height:auto;border-radius:6px;" onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"></div>
                 <div class="celtic-position-card">
                   ${item.card.name}<br><small>${
               item.isReversed ? "(Invertida)" : ""

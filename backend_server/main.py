@@ -167,10 +167,22 @@ frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
 if os.path.exists(frontend_path):
     logger.info(f"✅ Mounting frontend from: {frontend_path}")
     # Mount frontend files at their actual paths (css/, js/, assets/, pages/, etc.)
-    app.mount("/css", StaticFiles(directory=os.path.join(frontend_path, "css")), name="css")
-    app.mount("/js", StaticFiles(directory=os.path.join(frontend_path, "js")), name="js")
-    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_path, "assets")), name="assets")
-    app.mount("/pages", StaticFiles(directory=os.path.join(frontend_path, "pages")), name="pages")
+    app.mount(
+        "/css", StaticFiles(directory=os.path.join(frontend_path, "css")), name="css"
+    )
+    app.mount(
+        "/js", StaticFiles(directory=os.path.join(frontend_path, "js")), name="js"
+    )
+    app.mount(
+        "/assets",
+        StaticFiles(directory=os.path.join(frontend_path, "assets")),
+        name="assets",
+    )
+    app.mount(
+        "/pages",
+        StaticFiles(directory=os.path.join(frontend_path, "pages")),
+        name="pages",
+    )
 else:
     logger.warning(f"⚠️ Frontend path not found: {frontend_path}")
 
