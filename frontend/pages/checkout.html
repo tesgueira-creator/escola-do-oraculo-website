@@ -557,9 +557,10 @@
       const selectedPlan = getQueryParam("plan");
 
       // Detect API URL based on environment
-      const API_URL = window.location.hostname === 'localhost' 
-        ? 'http://localhost:8000' 
-        : window.location.origin;
+      const API_URL =
+        window.location.hostname === "localhost"
+          ? "http://localhost:8000"
+          : window.location.origin;
 
       async function handleSubmit(event) {
         event.preventDefault();
@@ -587,16 +588,19 @@
         const priceId = PRICE_IDS[selectedPlan];
 
         try {
-          const response = await fetch(`${API_URL}/payments/create-checkout-session`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              price_id: priceId,
-              user_email: email,
-            }),
-          });
+          const response = await fetch(
+            `${API_URL}/payments/create-checkout-session`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                price_id: priceId,
+                user_email: email,
+              }),
+            }
+          );
 
           const data = await response.json();
 

@@ -190,13 +190,13 @@ def create_checkout_session(request: CheckoutRequest, db: Session = Depends(get_
         # Buscar utilizador
         user = db.query(User).filter(User.email == request.user_email).first()
         if not user:
-            # Auto-register user if they don't exist
-            # Note: In a real app, you'd send an email to set a password.
-            # Here we just create the record to link the Stripe Customer.
+            # Auto-register user if they don't exist during checkout
+            # User will set password later when they first login
+            # For now, use a placeholder (bcrypt hash of empty string to avoid 72-byte limit issues)
             user = User(
                 email=request.user_email,
                 full_name=request.user_email.split("@")[0],
-                hashed_password=get_password_hash("temporary_password"),
+                hashed_password=get_password_hash(""),  # Empty password initially
                 is_active=True,
                 subscription_status="free",
             )
