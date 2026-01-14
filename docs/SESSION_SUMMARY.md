@@ -41,32 +41,32 @@ This session successfully resolved critical authentication issues and enhanced t
 
 ### Client Area (`oraculo-app.html`)
 
-| Section | Features |
-|---------|----------|
-| **Minha Conta** | Profile card, subscription badge, Stripe Portal button, upgrade CTA |
-| **Ajuda & Suporte** | Email, WhatsApp, FAQ, Tutorials |
-| **Conquistas & Badges** | 6 gamification badges with progress tracking |
-| **Recursos de Aprendizagem** | Glossário de Tarot, Diário de Práticas, Meditações Guiadas |
-| **Próximos Passos** | 4-step journey guide with Rafaella Kally quote |
+| Section                      | Features                                                            |
+| ---------------------------- | ------------------------------------------------------------------- |
+| **Minha Conta**              | Profile card, subscription badge, Stripe Portal button, upgrade CTA |
+| **Ajuda & Suporte**          | Email, WhatsApp, FAQ, Tutorials                                     |
+| **Conquistas & Badges**      | 6 gamification badges with progress tracking                        |
+| **Recursos de Aprendizagem** | Glossário de Tarot, Diário de Práticas, Meditações Guiadas          |
+| **Próximos Passos**          | 4-step journey guide with Rafaella Kally quote                      |
 
 ---
 
 ## 🔌 Backend API - All Endpoints
 
-| Endpoint | Method | Description | Status |
-|----------|--------|-------------|--------|
-| `/` | GET | API welcome message | ✅ |
-| `/health` | GET | Health check with DB status | ✅ |
-| `/version` | GET | API version and deployment info | ✅ |
-| `/docs` | GET | OpenAPI Swagger UI | ✅ |
-| `/redoc` | GET | ReDoc documentation | ✅ |
-| `/debug/hash-test` | GET | Password hash diagnostics | ✅ |
-| `/auth/register` | POST | User registration (EmailStr validation) | ✅ |
-| `/auth/login` | POST | User login (EmailStr validation) | ✅ |
-| `/auth/me` | GET | User profile (requires auth) | ✅ |
-| `/stripe/prices` | GET | List all Stripe price IDs | ✅ |
-| `/stripe/create-portal-session` | POST | Stripe Customer Portal | ✅ |
-| `/payments/create-checkout-session` | POST | Create Stripe checkout | ✅ |
+| Endpoint                            | Method | Description                             | Status |
+| ----------------------------------- | ------ | --------------------------------------- | ------ |
+| `/`                                 | GET    | API welcome message                     | ✅      |
+| `/health`                           | GET    | Health check with DB status             | ✅      |
+| `/version`                          | GET    | API version and deployment info         | ✅      |
+| `/docs`                             | GET    | OpenAPI Swagger UI                      | ✅      |
+| `/redoc`                            | GET    | ReDoc documentation                     | ✅      |
+| `/debug/hash-test`                  | GET    | Password hash diagnostics               | ✅      |
+| `/auth/register`                    | POST   | User registration (EmailStr validation) | ✅      |
+| `/auth/login`                       | POST   | User login (EmailStr validation)        | ✅      |
+| `/auth/me`                          | GET    | User profile (requires auth)            | ✅      |
+| `/stripe/prices`                    | GET    | List all Stripe price IDs               | ✅      |
+| `/stripe/create-portal-session`     | POST   | Stripe Customer Portal                  | ✅      |
+| `/payments/create-checkout-session` | POST   | Create Stripe checkout                  | ✅      |
 
 ---
 
@@ -92,24 +92,24 @@ psycopg2-binary
 
 **All 16/16 tests passing (100%)**
 
-| Category | Test | Status |
-|----------|------|--------|
-| Infrastructure | Health Check | ✅ |
-| Infrastructure | API Version | ✅ |
-| Infrastructure | API Root | ✅ |
-| Infrastructure | OpenAPI Docs | ✅ |
-| Infrastructure | ReDoc | ✅ |
-| Auth | Register (Normal Password) | ✅ |
-| Auth | Register (Long Password - 100 chars) | ✅ |
-| Auth | Register (Duplicate Email) | ✅ (400) |
-| Auth | Register (Invalid Email) | ✅ (422) |
-| Auth | Login (Valid Credentials) | ✅ |
-| Auth | Login (Invalid Credentials) | ✅ (401) |
-| Auth | Login (Non-existent User) | ✅ (401) |
-| Auth | Get User Profile | ✅ |
-| Stripe | Prices List | ✅ |
-| Stripe | Checkout Session | ✅ |
-| Debug | Hash Test | ✅ |
+| Category       | Test                                 | Status  |
+| -------------- | ------------------------------------ | ------- |
+| Infrastructure | Health Check                         | ✅       |
+| Infrastructure | API Version                          | ✅       |
+| Infrastructure | API Root                             | ✅       |
+| Infrastructure | OpenAPI Docs                         | ✅       |
+| Infrastructure | ReDoc                                | ✅       |
+| Auth           | Register (Normal Password)           | ✅       |
+| Auth           | Register (Long Password - 100 chars) | ✅       |
+| Auth           | Register (Duplicate Email)           | ✅ (400) |
+| Auth           | Register (Invalid Email)             | ✅ (422) |
+| Auth           | Login (Valid Credentials)            | ✅       |
+| Auth           | Login (Invalid Credentials)          | ✅ (401) |
+| Auth           | Login (Non-existent User)            | ✅ (401) |
+| Auth           | Get User Profile                     | ✅       |
+| Stripe         | Prices List                          | ✅       |
+| Stripe         | Checkout Session                     | ✅       |
+| Debug          | Hash Test                            | ✅       |
 
 ---
 
@@ -137,13 +137,13 @@ a7a03f8 Add /version endpoint for deployment verification
 
 ## 🚀 Deployment
 
-| Property | Value |
-|----------|-------|
-| Platform | Railway |
-| URL | https://web-production-21437.up.railway.app |
-| API Version | 1.0.6-email-validation |
-| Python | 3.11.14 |
-| GitHub | https://github.com/tesgueira-creator/escola-do-oraculo-website |
+| Property    | Value                                                          |
+| ----------- | -------------------------------------------------------------- |
+| Platform    | Railway                                                        |
+| URL         | https://web-production-21437.up.railway.app                    |
+| API Version | 1.0.6-email-validation                                         |
+| Python      | 3.11.14                                                        |
+| GitHub      | https://github.com/tesgueira-creator/escola-do-oraculo-website |
 
 ---
 

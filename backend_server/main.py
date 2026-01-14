@@ -7,6 +7,7 @@ import bcrypt
 from datetime import datetime
 from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, EmailStr
@@ -160,6 +161,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# --- STATIC FILES ---
+# Mount the frontend folder to serve static files (CSS, JS, images)
+frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
+if os.path.exists(frontend_path):
+    logger.info(f"✅ Mounting frontend from: {frontend_path}")
+    app.mount("/static", StaticFiles(directory=frontend_path), name="static")
+else:
+    logger.warning(f"⚠️ Frontend path not found: {frontend_path}")
+
 # --- SECURITY ---
 # Using bcrypt directly instead of passlib to avoid compatibility issues
 # with newer bcrypt versions and passlib's wrap bug detection
@@ -224,7 +234,12 @@ class UserDisplay(BaseModel):
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to Escola do Oraculo API (Connected to SQLite)"}
+    """Serve the main HTML page"""
+    frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "index.html")
+    if os.path.exists(frontend_path):
+        return FileResponse(frontend_path, media_type="text/html")
+    else:
+        return {"message": "Welcome to Escola do Oraculo API (Connected to SQLite)"}
 
 
 @app.post("/auth/register", status_code=201, response_model=UserDisplay)
