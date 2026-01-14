@@ -67,8 +67,28 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
 app = FastAPI(title="Escola do Oraculo API", version="1.0.1")
 
 # Version info for debugging deployment
-API_VERSION = "1.0.6-email-validation"
-DEPLOY_TIMESTAMP = "2026-01-14T18:30:00Z"
+API_VERSION = "1.0.7-browser-compat"
+DEPLOY_TIMESTAMP = "2026-01-14T19:00:00Z"
+
+
+# --- SECURITY HEADERS MIDDLEWARE ---
+# Add security headers for browser compatibility
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    # Content Security Policy - allow inline scripts/styles for simplicity
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    # Allow all for development/testing - adjust for production
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    # Cache control for static files
+    if request.url.path.startswith(("/css", "/js", "/assets", "/pages")):
+        response.headers["Cache-Control"] = "public, max-age=3600"
+    return response
 
 
 @app.get("/version")
