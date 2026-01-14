@@ -168,6 +168,31 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     }
 
 
+# --- FORGOT PASSWORD ---
+class ForgotPasswordRequest(BaseModel):
+    email: str
+
+
+@app.post("/auth/forgot-password")
+def forgot_password(request: ForgotPasswordRequest, db: Session = Depends(get_db)):
+    """
+    Initiate password reset. In production, this would send an email.
+    For now, we just log and return success (to prevent email enumeration).
+    """
+    user = db.query(User).filter(User.email == request.email).first()
+
+    if user:
+        # In production: generate reset token, save to DB, send email
+        # For now, just log
+        print(f"🔐 Password reset requested for: {request.email}")
+        # TODO: Implement email sending with reset token
+        # reset_token = secrets.token_urlsafe(32)
+        # send_email(user.email, reset_link=f"{FRONTEND_URL}/pages/reset-password.html?token={reset_token}")
+
+    # Always return success to prevent email enumeration attacks
+    return {"message": "If this email exists, a reset link has been sent."}
+
+
 @app.get("/users/me", response_model=UserDisplay)
 def read_users_me(token: str, db: Session = Depends(get_db)):
     # Simulating token decoding: Expected format "user_id:1"

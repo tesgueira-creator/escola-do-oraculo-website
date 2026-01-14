@@ -303,6 +303,8 @@
       <nav>
         <a href="#metodo">O Método</a>
         <a href="#cursos">Cursos</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contacto">Contacto</a>
         <a href="pages/oraculo-app.html">Oráculo Online</a>
         <a href="pages/login.html" class="btn-cta-nav">Área de Membros</a>
       </nav>
@@ -322,9 +324,23 @@
 
     <!-- ABOUT RAFAELLA -->
     <section class="about">
-      <div class="about-img">
-        RAFAELLA KALLY IMAGE
-        <!-- <img src="assets/images/rafaella-profile.jpg" alt="Rafaella Kally"> -->
+      <div
+        class="about-img"
+        style="
+          background: linear-gradient(135deg, #4b0082 0%, #2a0a4a 100%);
+          border-radius: 50%;
+          width: 300px;
+          height: 300px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #c5a059;
+          font-size: 4rem;
+          font-family: Georgia, serif;
+        "
+      >
+        RK
+        <!-- Replace with: <img src="assets/images/rafaella-profile.jpg" alt="Rafaella Kally" style="border-radius: 50%; width: 300px; height: 300px; object-fit: cover;"> -->
       </div>
       <div class="about-text">
         <h2>Quem é Rafaella Kally?</h2>
@@ -517,32 +533,217 @@
       </div>
     </section>
 
-    <!-- MEMBERSHIP / APP TEASER -->
-    <section class="membership">
-      <h2>Círculo do Oráculo</h2>
-      <p>Acesse ferramentas exclusivas diariamente.</p>
-      <ul class="features-list">
-        <li>
-          Tiragens de Tarot Ilimitadas (Cruz Celta, Mandala, Relacionamento)
-        </li>
-        <li>Simulador de Mesa Radiónica (Em breve)</li>
-        <li>Meditações Guiadas de Kundalini</li>
-        <li>Histórico de Leituras</li>
-      </ul>
-      <a
-        href="pages/login.html"
-        class="btn-hero"
-        style="background: white; color: var(--color-dark-purple)"
-        >Entrar no Círculo</a
+    <!-- FAQ SECTION -->
+    <section
+      id="faq"
+      style="
+        padding: 80px 20px;
+        background: var(--color-cream);
+        max-width: 900px;
+        margin: 0 auto;
+      "
+    >
+      <h2 class="section-title">Perguntas Frequentes</h2>
+
+      <div
+        style="
+          margin-bottom: 20px;
+          border-bottom: 1px solid #ddd;
+          padding-bottom: 20px;
+        "
       >
-      <br /><br />
-      <p style="font-size: 0.9rem; opacity: 0.8">
-        Ou
-        <a
-          href="pages/oraculo-app.html"
-          style="color: white; text-decoration: underline"
-          >experimente a versão gratuita</a
-        >.
+        <h3
+          style="
+            color: var(--color-light-purple);
+            margin-bottom: 10px;
+            cursor: pointer;
+          "
+          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'"
+        >
+          ▸ Preciso ter experiência prévia com Tarot?
+        </h3>
+        <p style="color: #666; display: none">
+          Não! Os nossos cursos são desenhados para iniciantes completos.
+          Começamos do zero e avançamos progressivamente. Se já tiver
+          experiência, poderá aprofundar os seus conhecimentos com o Método
+          Kally.
+        </p>
+      </div>
+
+      <div
+        style="
+          margin-bottom: 20px;
+          border-bottom: 1px solid #ddd;
+          padding-bottom: 20px;
+        "
+      >
+        <h3
+          style="
+            color: var(--color-light-purple);
+            margin-bottom: 10px;
+            cursor: pointer;
+          "
+          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'"
+        >
+          ▸ Os certificados são reconhecidos?
+        </h3>
+        <p style="color: #666; display: none">
+          Os certificados são emitidos por Rafaella Kally — Escola do Oráculo.
+          São certificados de formação livre, amplamente aceites no mercado
+          holístico e válidos para apresentação no LinkedIn e em portfólios
+          profissionais.
+        </p>
+      </div>
+
+      <div
+        style="
+          margin-bottom: 20px;
+          border-bottom: 1px solid #ddd;
+          padding-bottom: 20px;
+        "
+      >
+        <h3
+          style="
+            color: var(--color-light-purple);
+            margin-bottom: 10px;
+            cursor: pointer;
+          "
+          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'"
+        >
+          ▸ Quanto tempo tenho acesso aos cursos?
+        </h3>
+        <p style="color: #666; display: none">
+          Acesso vitalício! Uma vez inscrito, poderá rever o conteúdo quantas
+          vezes quiser, para sempre. Incluindo futuras atualizações.
+        </p>
+      </div>
+
+      <div
+        style="
+          margin-bottom: 20px;
+          border-bottom: 1px solid #ddd;
+          padding-bottom: 20px;
+        "
+      >
+        <h3
+          style="
+            color: var(--color-light-purple);
+            margin-bottom: 10px;
+            cursor: pointer;
+          "
+          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'"
+        >
+          ▸ As sintonizações de Reiki são à distância?
+        </h3>
+        <p style="color: #666; display: none">
+          Sim! As sintonizações de Kundalini Reiki são realizadas à distância,
+          num horário combinado. A energia não conhece distância e funciona
+          igualmente bem. Receberá instruções completas antes da sintonização.
+        </p>
+      </div>
+
+      <div style="margin-bottom: 20px">
+        <h3
+          style="
+            color: var(--color-light-purple);
+            margin-bottom: 10px;
+            cursor: pointer;
+          "
+          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'"
+        >
+          ▸ Posso parcelar o pagamento?
+        </h3>
+        <p style="color: #666; display: none">
+          Sim! O Stripe permite parcelamento em alguns cartões. Também
+          oferecemos planos mensais no Círculo do Oráculo. Para opções
+          personalizadas, entre em contacto connosco.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section
+      id="contacto"
+      style="
+        padding: 80px 20px;
+        background: var(--color-dark-purple);
+        color: white;
+        text-align: center;
+      "
+    >
+      <h2
+        style="
+          font-family: var(--font-serif);
+          color: var(--color-gold);
+          font-size: 2.5rem;
+          margin-bottom: 20px;
+        "
+      >
+        Contacto
+      </h2>
+      <p style="max-width: 600px; margin: 0 auto 30px; opacity: 0.9">
+        Tem dúvidas? Quer saber mais sobre os cursos ou consultas? Estamos aqui
+        para ajudar.
+      </p>
+
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          gap: 40px;
+          flex-wrap: wrap;
+          margin-bottom: 30px;
+        "
+      >
+        <div>
+          <p
+            style="
+              color: var(--color-gold);
+              font-weight: bold;
+              margin-bottom: 5px;
+            "
+          >
+            📧 Email
+          </p>
+          <a
+            href="mailto:contacto@rafaellakally.com"
+            style="color: white; text-decoration: none"
+            >contacto@rafaellakally.com</a
+          >
+        </div>
+        <div>
+          <p
+            style="
+              color: var(--color-gold);
+              font-weight: bold;
+              margin-bottom: 5px;
+            "
+          >
+            📱 WhatsApp
+          </p>
+          <a
+            href="https://wa.me/351912345678"
+            target="_blank"
+            style="color: white; text-decoration: none"
+            >+351 912 345 678</a
+          >
+        </div>
+        <div>
+          <p
+            style="
+              color: var(--color-gold);
+              font-weight: bold;
+              margin-bottom: 5px;
+            "
+          >
+            📍 Localização
+          </p>
+          <span>Portugal (Online)</span>
+        </div>
+      </div>
+
+      <p style="font-size: 0.9rem; opacity: 0.7">
+        Horário de resposta: Segunda a Sexta, 10h-18h (Hora de Lisboa)
       </p>
     </section>
 
@@ -552,6 +753,44 @@
         Método Kally &bull; Mesa Radiónica de Arcanjo Miguel &bull; Tarot
         Terapêutico
       </p>
+      <p style="margin-top: 15px; font-size: 0.85rem">
+        <a
+          href="pages/politica-privacidade.html"
+          style="color: var(--color-gold); margin-right: 20px"
+          >Política de Privacidade</a
+        >
+        <a href="pages/termos-condicoes.html" style="color: var(--color-gold)"
+          >Termos e Condições</a
+        >
+      </p>
     </footer>
+
+    <!-- WHATSAPP FLOATING BUTTON -->
+    <a
+      href="https://wa.me/351912345678?text=Olá! Gostaria de saber mais sobre os cursos da Escola do Oráculo."
+      target="_blank"
+      style="
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        background: #25d366;
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+        text-decoration: none;
+        transition: transform 0.3s;
+      "
+      onmouseover="this.style.transform='scale(1.1)'"
+      onmouseout="this.style.transform='scale(1)'"
+    >
+      💬
+    </a>
   </body>
 </html>
