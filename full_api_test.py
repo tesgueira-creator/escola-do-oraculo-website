@@ -20,9 +20,10 @@ BASE_URL = "https://web-production-21437.up.railway.app"
 VERIFY_SSL = False
 
 def random_email():
-    """Gera um email aleatório para testes"""
+    """Gera um email aleatório para testes usando domínio de teste válido"""
     random_str = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
-    return f"test_{random_str}@test.local"
+    # Using example.com which is a valid reserved domain for testing
+    return f"test_{random_str}@example.com"
 
 def random_password():
     """Gera uma password aleatória"""
@@ -201,7 +202,7 @@ def main():
         requests.post, 
         f"{BASE_URL}/auth/login", 
         401,
-        json={"email": "nonexistent@test.com", "password": "test123"}
+        json={"email": "nonexistent@example.com", "password": "test123"}
     )
     print_result(r)
     results.append(r)
@@ -232,13 +233,13 @@ def main():
     print_result(r)
     results.append(r)
     
-    # 15. Criar Checkout Session (sem autenticação)
+    # 15. Criar Checkout Session (path correto: /payments/)
     r = test_with_result(
         "Stripe Checkout (PRO Plan)", 
         requests.post, 
-        f"{BASE_URL}/stripe/create-checkout-session", 
-        None,  # Pode ser 200 ou 401/500 dependendo da config
-        json={"price_id": "price_1RSH9BFrSqH6HiMTtawWKf4B"}
+        f"{BASE_URL}/payments/create-checkout-session", 
+        200,  # Should return checkout URL
+        json={"price_id": "price_1SpAOPHvoxa2NZ5dMc6vbBMM", "user_email": email1}
     )
     print_result(r)
     results.append(r)
