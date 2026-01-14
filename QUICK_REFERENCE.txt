@@ -1,0 +1,73 @@
+REFERÊNCIA RÁPIDA - ESCOLA DO ORÁCULO DEBUGGING
+================================================
+
+PROBLEMA RESOLVIDO:
+- Erro 500 no endpoint POST /auth/register
+- Mensagem: "password cannot be longer than 72 bytes"
+- CAUSADO POR: Bcrypt tem limite de 72 bytes UTF-8
+
+SOLUÇÃO:
+- Adicionar SHA256 hashing para senhas > 72 bytes
+- Mantém segurança (SHA256 + bcrypt)
+
+STATUS: ✅ DEPLOYADO PARA RAILWAY
+
+COMANDOS ÚTEIS:
+===============
+
+Ver logs Railway:
+  https://railway.app/dashboard → Logs
+
+Ver logs locais:
+  type api_debug.log
+
+Testar localmente:
+  Terminal 1: python run_server_debug.py
+  Terminal 2: python test_simple_flow.py
+
+Re-deploy (se necessário):
+  python deploy_to_production.py
+
+FICHEIROS PRINCIPAIS:
+====================
+
+Documentação completa:
+  - DEPLOYMENT_REPORT_FINAL.md
+  - FIX_REPORT_PASSWORD_BCRYPT.md
+
+Código alterado:
+  - backend_server/main.py (+import hashlib, 2 funções)
+  - run_server_debug.py (+dotenv carregamento)
+
+Testes:
+  - test_simple_flow.py (rápido)
+  - test_local_flow.py (completo)
+  - run_all_tests.py (suite)
+
+Deploy:
+  - deploy_to_production.py
+
+TIMELINE:
+=========
+
+14/01/2026 17:30 - Debugging iniciado
+14/01/2026 17:33 - Erro identificado
+14/01/2026 17:34 - Solução implementada
+14/01/2026 17:35 - Testes locais passaram
+14/01/2026 17:35 - Deployed para Railway
+
+PRÓXIMAS AÇÕES:
+===============
+
+1. Aguarde 2-3 minutos para Railway re-deploy
+2. Verifique logs para "Application startup complete"
+3. Teste signup em https://web-production-21437.up.railway.app
+4. Se erro: Verifique logs Railway e execute testes locais
+
+CONTACTO:
+=========
+
+Se precisar de ajuda:
+1. Verifique os ficheiros de documentação acima
+2. Execute os testes locais
+3. Consulte api_debug.log para detalhes técnicos

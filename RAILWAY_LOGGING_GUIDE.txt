@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+"""
+Instruções para obter logs do Railway
+E análise dos erros possíveis
+"""
+
+print("""
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                  🔍 COMO OBTER LOGS DO RAILWAY                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+📍 OPÇÃO 1: Via Interface Web Railway
+─────────────────────────────────────────────────────────────────────────────────
+
+1. Aceda a: https://railway.app/dashboard
+2. Seleccione o projecto: "escola-do-oraculo-website"
+3. Clique na deployment/service
+4. Vá para a aba "Logs"
+5. Procure pelo timestamp do erro (17:25:58 GMT em 14 Jan 2026)
+6. Copie a mensagem de erro completa
+
+📍 OPÇÃO 2: Via Railway CLI
+─────────────────────────────────────────────────────────────────────────────────
+
+Instale Railway CLI:
+$ npm install -g @railway/cli
+
+Login:
+$ railway login
+
+Ver logs:
+$ railway logs --service web
+
+$ railway logs --follow (para seguir em tempo real)
+
+
+📍 OPÇÃO 3: Alternativamente - Verificar no código
+─────────────────────────────────────────────────────────────────────────────────
+
+Se não conseguir acesso aos logs, os erros mais comuns são:
+
+1. ❌ DATABASE_URL inválido em produção
+   Solução: Verificar que PostgreSQL está configurado no Railway
+
+2. ❌ Erro de permissão no banco de dados
+   Solução: Certificar-se que o user tem permissões de CREATE
+
+3. ❌ Erro de encoding/tipos de dados
+   Solução: Verificar compatibilidade entre SQLite e PostgreSQL
+
+4. ❌ Erro de importação de módulos
+   Solução: Certificar-se que requirements.txt tem todas as dependências
+
+5. ❌ Erro na conexão Stripe
+   Solução: Verificar que STRIPE_SECRET_KEY está correcta
+
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                  🛠️  PRÓXIMOS PASSOS                                          ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+1️⃣ Verificar logs do Railway
+   → Procurar pela mensagem de erro em: https://railway.app/dashboard
+
+2️⃣ Testar localmente
+   → Executar: python run_server_debug.py
+   → Em outro terminal: python test_complete_flow.py
+   → Ver arquivo: api_debug.log
+
+3️⃣ Se encontrar o erro:
+   → Corrigir no código
+   → Fazer commit e push
+   → Railway re-deploy automaticamente
+
+4️⃣ Se não encontrar:
+   → Adicionar mais logging no backend
+   → Deploy novamente para produção
+   → Tentar registar again
+
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                  📝 ARQUIVO DE LOG LOCAL                                       ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+Quando rodar o servidor localmente, verificar:
+→ api_debug.log (criado no directório do projecto)
+
+Este arquivo conterá logs detalhados de cada passo do registro.
+
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                  💡 DICA: TESTE LOCAL PRIMEIRO                                 ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+Sempre que mudar o código:
+
+1. Teste localmente:
+   $ python run_server_debug.py
+   $ python test_complete_flow.py
+
+2. Verifique os logs em: api_debug.log
+
+3. Depois faça deploy para produção no Railway
+
+
+═══════════════════════════════════════════════════════════════════════════════════
+Documentação Railway: https://docs.railway.app/
+Documentação FastAPI: https://fastapi.tiangolo.com/
+═══════════════════════════════════════════════════════════════════════════════════
+""")

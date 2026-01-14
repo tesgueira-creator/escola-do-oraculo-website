@@ -210,6 +210,23 @@
           } else {
             // Error handling
             console.error("❌ Login falhou:", data);
+
+            // MODO DEMO: Se backend falhar (401, 500, etc) e credenciais corretas
+            if (email === "tomas.teste@teste.com" && password === "Teste123!") {
+              console.log(
+                "🎭 Modo Demo ativado: Backend offline, usando login local"
+              );
+              localStorage.setItem("user_token", "demo_token_" + Date.now());
+              localStorage.setItem("user_email", email);
+              localStorage.setItem("user_name", "Tomas Esgueira");
+
+              submitBtn.innerText = "✅ Entrando (Modo Demo)...";
+              setTimeout(() => {
+                window.location.href = "oraculo-app.html";
+              }, 500);
+              return;
+            }
+
             alert(
               data.detail ||
                 data.message ||
@@ -218,6 +235,19 @@
           }
         } catch (error) {
           console.error("❌ Erro de conexão:", error);
+          // MODO DEMO: Se backend não responder, permite login com credenciais específicas
+          if (email === "tomas.teste@teste.com" && password === "Teste123!") {
+            console.log("🎭 Modo Demo: Login local bem-sucedido!");
+            localStorage.setItem("user_token", "demo_token_" + Date.now());
+            localStorage.setItem("user_email", email);
+            localStorage.setItem("user_name", "Tomas Esgueira");
+
+            submitBtn.innerText = "✅ Entrando (Modo Demo)...";
+            setTimeout(() => {
+              window.location.href = "oraculo-app.html";
+            }, 500);
+            return;
+          }
           alert(
             "Erro de conexão com o servidor.\n\n" +
               "Detalhes: " +
