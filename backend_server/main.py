@@ -146,14 +146,14 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == user.email).first()
     if not db_user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
-    
+
     # Check if user was created via checkout without password
     if db_user.hashed_password.startswith("NO_PASSWORD:"):
         raise HTTPException(
-            status_code=401, 
-            detail="This account was created via checkout. Please reset your password first."
+            status_code=401,
+            detail="This account was created via checkout. Please reset your password first.",
         )
-    
+
     if not verify_password(user.password, db_user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
@@ -348,9 +348,19 @@ import os
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 frontend_dir = os.path.join(base_dir, "frontend")
 
+# Debug: Print paths
+print(f"Base directory: {base_dir}")
+print(f"Frontend directory: {frontend_dir}")
+print(f"Frontend exists: {os.path.exists(frontend_dir)}")
+
 if os.path.exists(frontend_dir):
+    print(f"✅ Mounting frontend from: {frontend_dir}")
     app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
 else:
+    print(f"❌ Frontend directory not found at: {frontend_dir}")
     # Fallback for when running from root
     if os.path.exists("frontend"):
+        print(f"✅ Mounting frontend from: frontend (fallback)")
         app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
+    else:
+        print(f"❌ Could not find frontend directory in any location")
