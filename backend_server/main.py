@@ -9,7 +9,7 @@ from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import Optional
 from sqlalchemy import Column, Integer, String, Boolean, text
 
@@ -66,8 +66,8 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
 app = FastAPI(title="Escola do Oraculo API", version="1.0.1")
 
 # Version info for debugging deployment
-API_VERSION = "1.0.5-bcrypt-direct"
-DEPLOY_TIMESTAMP = "2026-01-14T19:15:00Z"
+API_VERSION = "1.0.6-email-validation"
+DEPLOY_TIMESTAMP = "2026-01-14T18:30:00Z"
 
 
 @app.get("/version")
@@ -196,12 +196,12 @@ def get_password_hash(password: str) -> str:
 
 # --- Pydantic MODELS ---
 class UserLogin(BaseModel):
-    email: str
+    email: EmailStr  # Validates email format automatically
     password: str
 
 
 class UserCreate(BaseModel):
-    email: str
+    email: EmailStr  # Validates email format automatically
     password: str
     full_name: Optional[str] = None
 
