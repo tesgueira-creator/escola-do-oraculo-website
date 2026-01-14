@@ -1,0 +1,13 @@
+TESTE DE PRODUCAO - 2026-01-14 17:43:24.901814
+============================================================
+[OK] Health Check: DB: connected, Env: production
+[ERRO] Register: Status: 500, Detail: Registration failed: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])
+[ERRO] Login: No email to test
+[ERRO] Get User: No token
+[ERRO] Stripe Prices: Status: 404
+[OK] Page: Home: Acessivel
+[OK] Page: Login Page: Acessivel
+[OK] Page: Signup Page: Acessivel
+[OK] Page: Oraculo App: Acessivel
+============================================================
+Resultado: 5/9 passaram
