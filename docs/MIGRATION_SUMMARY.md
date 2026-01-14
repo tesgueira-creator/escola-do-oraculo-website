@@ -69,15 +69,15 @@ password cannot be longer than 72 bytes, truncate manually if necessary
 
 ## 🧪 Resultados dos Testes Finais
 
-| Teste | Status | Código |
-|-------|--------|--------|
-| API Version | ✅ | 200 |
-| Health Check | ✅ | 200 |
-| Register (senha curta) | ✅ | 201 |
-| Register (dados simples) | ✅ | 201 |
-| Stripe Prices | ✅ | 200 |
-| API Root | ✅ | 200 |
-| OpenAPI Docs | ✅ | 200 |
+| Teste                    | Status | Código |
+| ------------------------ | ------ | ------ |
+| API Version              | ✅      | 200    |
+| Health Check             | ✅      | 200    |
+| Register (senha curta)   | ✅      | 201    |
+| Register (dados simples) | ✅      | 201    |
+| Stripe Prices            | ✅      | 200    |
+| API Root                 | ✅      | 200    |
+| OpenAPI Docs             | ✅      | 200    |
 
 ---
 

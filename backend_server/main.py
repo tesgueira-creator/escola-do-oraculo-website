@@ -107,7 +107,9 @@ def debug_hash_test():
             "bcrypt_length": len(bcrypt_hash),
             "verified": verified,
             "python_version": sys.version,
-            "bcrypt_version": bcrypt.__version__ if hasattr(bcrypt, "__version__") else "unknown",
+            "bcrypt_version": (
+                bcrypt.__version__ if hasattr(bcrypt, "__version__") else "unknown"
+            ),
             "message": "Hash test passed using bcrypt directly!",
         }
     except Exception as e:
@@ -168,7 +170,9 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     # Pre-hash with SHA256 to avoid bcrypt 72-byte limit
     sha256_hash = hashlib.sha256(plain_password.encode("utf-8")).hexdigest()
     try:
-        return bcrypt.checkpw(sha256_hash.encode("utf-8"), hashed_password.encode("utf-8"))
+        return bcrypt.checkpw(
+            sha256_hash.encode("utf-8"), hashed_password.encode("utf-8")
+        )
     except Exception as e:
         logger.error(f"Password verification error: {e}")
         return False
@@ -181,7 +185,7 @@ def get_password_hash(password: str) -> str:
     logger.debug(f"get_password_hash called, password length: {len(password)}")
     sha256_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
     logger.debug(f"SHA256 pre-hash applied, length: {len(sha256_hash)}")
-    
+
     try:
         # Generate salt and hash
         salt = bcrypt.gensalt(rounds=12)
