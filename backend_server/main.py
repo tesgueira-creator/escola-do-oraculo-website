@@ -122,24 +122,21 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def verify_password(plain_password, hashed_password):
-    # Se a senha for muito longa, fazer hash SHA256 primeiro
-    if len(plain_password.encode("utf-8")) > 72:
-        plain_password = hashlib.sha256(plain_password.encode("utf-8")).hexdigest()
-    return pwd_context.verify(plain_password, hashed_password)
+    # SEMPRE fazer hash SHA256 primeiro para corresponder ao que foi salvo
+    sha256_hash = hashlib.sha256(plain_password.encode("utf-8")).hexdigest()
+    return pwd_context.verify(sha256_hash, hashed_password)
 
 
 def get_password_hash(password):
-    # Bcrypt tem limite de 72 bytes
-    # Se a senha for muito longa, fazer hash SHA256 primeiro
+    # SEMPRE fazer hash SHA256 primeiro para evitar qualquer problema de limite do bcrypt
+    # SHA256 produz sempre 64 caracteres hex que está bem dentro do limite de 72 bytes
     logger.debug(
         f"get_password_hash called, password length: {len(password)}, bytes: {len(password.encode('utf-8'))}"
     )
-    if len(password.encode("utf-8")) > 72:
-        logger.debug("Password > 72 bytes, applying SHA256 pre-hash")
-        password = hashlib.sha256(password.encode("utf-8")).hexdigest()
-        logger.debug(f"Pre-hashed to: {password[:20]}... (length: {len(password)})")
+    sha256_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
+    logger.debug(f"SHA256 pre-hash applied: {sha256_hash[:20]}... (length: {len(sha256_hash)})")
     try:
-        result = pwd_context.hash(password)
+        result = pwd_context.hash(sha256_hash)
         logger.debug(f"Password hashed successfully, result length: {len(result)}")
         return result
     except Exception as e:
@@ -390,6 +387,24 @@ def create_customer_portal_session(user_email: str, db: Session = Depends(get_db
 
 # --- STRIPE WEBHOOK ---
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+
+# Price IDs for products
+STRIPE_PRICE_IDS = {
+    "pro": os.getenv("STRIPE_PRICE_PRO", "price_1RUXxf2KN7yNwNd99t9Y3uyT"),
+    "elite": os.getenv("STRIPE_PRICE_ELITE", "price_1RUY2C2KN7yNwNd9L4fPiVkw"),
+    "radiestesia": os.getenv("STRIPE_PRICE_RADIESTESIA", "price_1RUY502KN7yNwNd9wMcW0m8E"),
+    "modulo1": os.getenv("STRIPE_PRICE_MODULO1", "price_1RUY8z2KN7yNwNd9pQE2YYxO"),
+    "modulo2": os.getenv("STRIPE_PRICE_MODULO2", "price_1RUYAu2KN7yNwNd9oFFqFp2D"),
+    "modulo3": os.getenv("STRIPE_PRICE_MODULO3", "price_1RUYCg2KN7yNwNd93xJwPwXv"),
+    "kundalini": os.getenv("STRIPE_PRICE_KUNDALINI", "price_1RUYFR2KN7yNwNd9RK2nwWvx"),
+    "terapia": os.getenv("STRIPE_PRICE_TERAPIA", "price_1RUYGf2KN7yNwNd9Hs2z7K5L"),
+}
+
+
+@app.get("/stripe/prices")
+def get_stripe_prices():
+    """Retorna os IDs de preços do Stripe para os produtos"""
+    return STRIPE_PRICE_IDS
 
 
 @app.post("/webhooks/stripe")
