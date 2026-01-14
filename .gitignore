@@ -1,5 +1,16 @@
 # Git ignore rules for Escola do Oráculo Website
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.pyc
+.env
+venv/
+env/
+
 # IDE / Editor
 .vscode/
 .idea/

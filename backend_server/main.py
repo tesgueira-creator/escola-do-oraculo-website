@@ -313,11 +313,11 @@ def get_current_user(request: Request, db: Session = Depends(get_db)):
     Supports both Bearer token and query parameter.
     """
     logger.debug("📍 /auth/me endpoint called")
-    
+
     # Try to get token from Authorization header first
     auth_header = request.headers.get("Authorization")
     token = None
-    
+
     if auth_header and auth_header.startswith("Bearer "):
         token = auth_header[7:]  # Remove "Bearer " prefix
         logger.debug(f"Token from Authorization header: {token[:20]}...")
@@ -326,22 +326,22 @@ def get_current_user(request: Request, db: Session = Depends(get_db)):
         token = request.query_params.get("token")
         if token:
             logger.debug(f"Token from query params: {token[:20]}...")
-    
+
     if not token:
         logger.warning("No token provided")
         raise HTTPException(status_code=401, detail="Not authenticated")
-    
+
     try:
         if not token.startswith("user_id:"):
             raise ValueError("Invalid token format")
-        
+
         user_id = int(token.split(":")[1])
         user = db.query(User).filter(User.id == user_id).first()
-        
+
         if not user:
             logger.warning(f"User not found for ID: {user_id}")
             raise HTTPException(status_code=404, detail="User not found")
-        
+
         logger.info(f"✅ User authenticated: {user.email}")
         return {
             "id": user.id,
