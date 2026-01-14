@@ -67,8 +67,8 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
 app = FastAPI(title="Escola do Oraculo API", version="1.0.1")
 
 # Version info for debugging deployment
-API_VERSION = "1.0.7-browser-compat"
-DEPLOY_TIMESTAMP = "2026-01-14T19:00:00Z"
+API_VERSION = "1.0.8-railway-paths"
+DEPLOY_TIMESTAMP = "2026-01-14T19:10:00Z"
 
 
 # --- SECURITY HEADERS MIDDLEWARE ---
@@ -182,29 +182,47 @@ app.add_middleware(
 )
 
 # --- STATIC FILES ---
-# Mount the frontend folder to serve ALL static files (CSS, JS, images, etc.)
-frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
-if os.path.exists(frontend_path):
-    logger.info(f"✅ Mounting frontend from: {frontend_path}")
+# Get absolute path to frontend folder
+STATIC_FRONTEND_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend")
+logger.info(f"📁 Static frontend path: {STATIC_FRONTEND_PATH}")
+
+# Try multiple possible paths for Railway compatibility
+static_paths_to_try = [
+    STATIC_FRONTEND_PATH,
+    "/app/frontend",
+    "./frontend",
+    "frontend",
+]
+
+mounted_frontend = None
+for path in static_paths_to_try:
+    if os.path.exists(path):
+        mounted_frontend = path
+        logger.info(f"✅ Found frontend at: {path}")
+        break
+
+if mounted_frontend:
+    logger.info(f"✅ Mounting frontend from: {mounted_frontend}")
     # Mount frontend files at their actual paths (css/, js/, assets/, pages/, etc.)
-    app.mount(
-        "/css", StaticFiles(directory=os.path.join(frontend_path, "css")), name="css"
-    )
-    app.mount(
-        "/js", StaticFiles(directory=os.path.join(frontend_path, "js")), name="js"
-    )
-    app.mount(
-        "/assets",
-        StaticFiles(directory=os.path.join(frontend_path, "assets")),
-        name="assets",
-    )
-    app.mount(
-        "/pages",
-        StaticFiles(directory=os.path.join(frontend_path, "pages")),
-        name="pages",
-    )
+    css_path = os.path.join(mounted_frontend, "css")
+    js_path = os.path.join(mounted_frontend, "js")
+    assets_path = os.path.join(mounted_frontend, "assets")
+    pages_path = os.path.join(mounted_frontend, "pages")
+    
+    if os.path.exists(css_path):
+        app.mount("/css", StaticFiles(directory=css_path), name="css")
+        logger.info(f"✅ Mounted /css")
+    if os.path.exists(js_path):
+        app.mount("/js", StaticFiles(directory=js_path), name="js")
+        logger.info(f"✅ Mounted /js")
+    if os.path.exists(assets_path):
+        app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
+        logger.info(f"✅ Mounted /assets")
+    if os.path.exists(pages_path):
+        app.mount("/pages", StaticFiles(directory=pages_path), name="pages")
+        logger.info(f"✅ Mounted /pages")
 else:
-    logger.warning(f"⚠️ Frontend path not found: {frontend_path}")
+    logger.warning(f"⚠️ Frontend path not found! Tried: {static_paths_to_try}")
 
 # --- SECURITY ---
 # Using bcrypt directly instead of passlib to avoid compatibility issues
@@ -267,16 +285,36 @@ class UserDisplay(BaseModel):
 
 # --- ENDPOINTS ---
 
+# Get the base directory (project root)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
+
+logger.info(f"📁 Base directory: {BASE_DIR}")
+logger.info(f"📁 Frontend directory: {FRONTEND_DIR}")
+logger.info(f"📁 Frontend exists: {os.path.exists(FRONTEND_DIR)}")
+
 
 @app.get("/")
 def read_root():
     """Serve the main HTML page"""
-    frontend_path = os.path.join(
-        os.path.dirname(__file__), "..", "frontend", "index.html"
-    )
-    if os.path.exists(frontend_path):
-        return FileResponse(frontend_path, media_type="text/html")
+    index_path = os.path.join(FRONTEND_DIR, "index.html")
+    logger.info(f"📄 Looking for index.html at: {index_path}")
+    logger.info(f"📄 File exists: {os.path.exists(index_path)}")
+    if os.path.exists(index_path):
+        return FileResponse(index_path, media_type="text/html")
     else:
+        # Fallback - try alternative paths
+        alt_paths = [
+            "/app/frontend/index.html",
+            "./frontend/index.html",
+            "frontend/index.html",
+        ]
+        for alt_path in alt_paths:
+            if os.path.exists(alt_path):
+                logger.info(f"📄 Found index.html at alternative path: {alt_path}")
+                return FileResponse(alt_path, media_type="text/html")
+        
+        logger.warning(f"⚠️ index.html not found! Tried: {index_path} and {alt_paths}")
         return {"message": "Welcome to Escola do Oraculo API (Connected to SQLite)"}
 
 
