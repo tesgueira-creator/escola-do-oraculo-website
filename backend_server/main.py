@@ -131,9 +131,20 @@ def verify_password(plain_password, hashed_password):
 def get_password_hash(password):
     # Bcrypt tem limite de 72 bytes
     # Se a senha for muito longa, fazer hash SHA256 primeiro
+    logger.debug(
+        f"get_password_hash called, password length: {len(password)}, bytes: {len(password.encode('utf-8'))}"
+    )
     if len(password.encode("utf-8")) > 72:
+        logger.debug("Password > 72 bytes, applying SHA256 pre-hash")
         password = hashlib.sha256(password.encode("utf-8")).hexdigest()
-    return pwd_context.hash(password)
+        logger.debug(f"Pre-hashed to: {password[:20]}... (length: {len(password)})")
+    try:
+        result = pwd_context.hash(password)
+        logger.debug(f"Password hashed successfully, result length: {len(result)}")
+        return result
+    except Exception as e:
+        logger.error(f"Error in pwd_context.hash: {type(e).__name__}: {str(e)}")
+        raise
 
 
 # --- Pydantic MODELS ---
