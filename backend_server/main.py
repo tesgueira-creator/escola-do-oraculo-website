@@ -65,11 +65,13 @@ def health_check(db: Session = Depends(get_db)):
 allowed_origins = ["*"]
 if ENVIRONMENT == "production":
     # In production, restrict to your domain
-    allowed_origins = [
-        "https://escola-do-oraculo.com",
-        "https://www.escola-do-oraculo.com",
-        FRONTEND_URL,
-    ]
+    # allowed_origins = [
+    #     "https://escola-do-oraculo.com",
+    #     "https://www.escola-do-oraculo.com",
+    #     FRONTEND_URL,
+    # ]
+    # TEMPORARY: Allow all origins to enable local testing against prod backend
+    allowed_origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
