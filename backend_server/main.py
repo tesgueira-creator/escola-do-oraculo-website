@@ -66,8 +66,8 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
 app = FastAPI(title="Escola do Oraculo API", version="1.0.1")
 
 # Version info for debugging deployment
-API_VERSION = "1.0.2-always-sha256"
-DEPLOY_TIMESTAMP = "2026-01-14T18:05:00Z"
+API_VERSION = "1.0.3-client-area"
+DEPLOY_TIMESTAMP = "2026-01-14T18:30:00Z"
 
 
 @app.get("/version")
@@ -306,6 +306,60 @@ def read_users_me(token: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid authentication token")
 
 
+@app.get("/auth/me")
+def get_current_user(request: Request, db: Session = Depends(get_db)):
+    """
+    Get current user from Authorization header.
+    Supports both Bearer token and query parameter.
+    """
+    logger.debug("📍 /auth/me endpoint called")
+    
+    # Try to get token from Authorization header first
+    auth_header = request.headers.get("Authorization")
+    token = None
+    
+    if auth_header and auth_header.startswith("Bearer "):
+        token = auth_header[7:]  # Remove "Bearer " prefix
+        logger.debug(f"Token from Authorization header: {token[:20]}...")
+    else:
+        # Fallback to query parameter
+        token = request.query_params.get("token")
+        if token:
+            logger.debug(f"Token from query params: {token[:20]}...")
+    
+    if not token:
+        logger.warning("No token provided")
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    try:
+        if not token.startswith("user_id:"):
+            raise ValueError("Invalid token format")
+        
+        user_id = int(token.split(":")[1])
+        user = db.query(User).filter(User.id == user_id).first()
+        
+        if not user:
+            logger.warning(f"User not found for ID: {user_id}")
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        logger.info(f"✅ User authenticated: {user.email}")
+        return {
+            "id": user.id,
+            "email": user.email,
+            "full_name": user.full_name,
+            "subscription_status": user.subscription_status,
+            "subscription_tier": user.subscription_plan or user.subscription_status,
+            "stripe_customer_id": user.stripe_customer_id,
+            "is_active": user.is_active,
+        }
+    except ValueError:
+        logger.warning("Invalid token format")
+        raise HTTPException(status_code=401, detail="Invalid token format")
+    except Exception as e:
+        logger.error(f"Error in /auth/me: {str(e)}")
+        raise HTTPException(status_code=401, detail="Invalid authentication token")
+
+
 # --- PAYMENT ENDPOINTS ---
 
 
@@ -403,6 +457,61 @@ STRIPE_PRICE_IDS = {
     "kundalini": os.getenv("STRIPE_PRICE_KUNDALINI", "price_1RUYFR2KN7yNwNd9RK2nwWvx"),
     "terapia": os.getenv("STRIPE_PRICE_TERAPIA", "price_1RUYGf2KN7yNwNd9Hs2z7K5L"),
 }
+
+
+# --- STRIPE CUSTOMER PORTAL ---
+class PortalSessionRequest(BaseModel):
+    return_url: str
+
+
+@app.post("/stripe/create-portal-session")
+def create_portal_session(
+    request: PortalSessionRequest, token: str = None, db: Session = Depends(get_db)
+):
+    """
+    Creates a Stripe Customer Portal session for the authenticated user.
+    Allows users to manage their subscription, update payment methods, etc.
+    """
+    logger.info(f"🔄 Creating customer portal session")
+
+    # Get user from token
+    if not token:
+        logger.warning("No token provided for portal session")
+        raise HTTPException(status_code=401, detail="Authentication required")
+
+    try:
+        if not token.startswith("user_id:"):
+            raise ValueError("Invalid token format")
+
+        user_id = int(token.split(":")[1])
+        user = db.query(User).filter(User.id == user_id).first()
+
+        if not user:
+            logger.warning(f"User not found for ID: {user_id}")
+            raise HTTPException(status_code=404, detail="User not found")
+
+        if not user.stripe_customer_id:
+            logger.info(f"User {user.email} has no Stripe customer ID")
+            raise HTTPException(
+                status_code=404,
+                detail="No subscription found. Please subscribe to a plan first.",
+            )
+
+        # Create the portal session
+        portal_session = stripe.billing_portal.Session.create(
+            customer=user.stripe_customer_id,
+            return_url=request.return_url or FRONTEND_URL + "/pages/oraculo-app.html",
+        )
+
+        logger.info(f"✅ Portal session created for user {user.email}")
+        return {"url": portal_session.url}
+
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe error creating portal session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Stripe error: {str(e)}")
+    except Exception as e:
+        logger.error(f"Error creating portal session: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/stripe/prices")

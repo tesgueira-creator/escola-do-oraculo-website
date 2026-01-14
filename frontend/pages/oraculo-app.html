@@ -1851,6 +1851,487 @@
           </div>
         </div>
       </div>
+
+      <!-- Profile & Account Section -->
+      <div
+        style="
+          background: var(--color-white);
+          border-radius: 12px;
+          padding: 2rem;
+          margin-bottom: 3rem;
+          border: 1px solid rgba(75, 0, 130, 0.1);
+        "
+      >
+        <h3
+          style="
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--color-dark-purple);
+            margin-bottom: 1.5rem;
+          "
+        >
+          👤 Minha Conta
+        </h3>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+          "
+        >
+          <!-- Profile Card -->
+          <div
+            style="
+              background: linear-gradient(
+                135deg,
+                rgba(75, 0, 130, 0.05),
+                rgba(197, 160, 89, 0.05)
+              );
+              padding: 1.5rem;
+              border-radius: 10px;
+              border: 1px solid rgba(75, 0, 130, 0.1);
+            "
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 1rem;
+              "
+            >
+              <div
+                style="
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 50%;
+                  background: var(--color-dark-purple);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 1.5rem;
+                  color: white;
+                "
+              >
+                👤
+              </div>
+              <div>
+                <div
+                  id="profile-name"
+                  style="
+                    font-weight: bold;
+                    font-size: 1.1rem;
+                    color: var(--color-dark-purple);
+                  "
+                >
+                  Carregando...
+                </div>
+                <div
+                  id="profile-email"
+                  style="font-size: 0.9rem; color: var(--color-text-light)"
+                >
+                  ---
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+              <span
+                id="subscription-badge"
+                style="
+                  background: var(--color-gold);
+                  color: #2c2c2c;
+                  padding: 0.3rem 0.8rem;
+                  border-radius: 20px;
+                  font-size: 0.8rem;
+                  font-weight: bold;
+                "
+              >
+                FREE
+              </span>
+              <span
+                style="
+                  background: rgba(75, 0, 130, 0.1);
+                  color: var(--color-dark-purple);
+                  padding: 0.3rem 0.8rem;
+                  border-radius: 20px;
+                  font-size: 0.8rem;
+                "
+              >
+                Membro desde <span id="member-since">2024</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Subscription Management -->
+          <div
+            style="
+              background: white;
+              padding: 1.5rem;
+              border-radius: 10px;
+              border: 1px solid rgba(75, 0, 130, 0.1);
+            "
+          >
+            <h4
+              style="
+                color: var(--color-dark-purple);
+                margin-bottom: 1rem;
+                font-size: 1rem;
+              "
+            >
+              💳 Gerir Subscrição
+            </h4>
+            <p
+              style="
+                font-size: 0.9rem;
+                color: var(--color-text-light);
+                margin-bottom: 1rem;
+              "
+            >
+              Atualiza o teu plano, gere métodos de pagamento ou cancela a
+              subscrição.
+            </p>
+            <button
+              id="manage-subscription-btn"
+              onclick="openCustomerPortal()"
+              style="
+                width: 100%;
+                background: var(--color-dark-purple);
+                color: white;
+                border: none;
+                padding: 0.75rem;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s;
+              "
+              onmouseover="this.style.background='var(--color-gold)';this.style.color='var(--color-text)'"
+              onmouseout="this.style.background='var(--color-dark-purple)';this.style.color='white'"
+            >
+              Abrir Portal do Cliente →
+            </button>
+          </div>
+
+          <!-- Upgrade CTA for Free Users -->
+          <div
+            id="upgrade-card"
+            style="
+              background: linear-gradient(
+                135deg,
+                var(--color-dark-purple),
+                #7e2da0
+              );
+              padding: 1.5rem;
+              border-radius: 10px;
+              color: white;
+              display: block;
+            "
+          >
+            <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem">
+              ✨ Faça Upgrade Agora!
+            </h4>
+            <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem">
+              Desbloqueie todos os cursos e recursos exclusivos com o plano PRO
+              ou ELITE.
+            </p>
+            <button
+              onclick="window.location.href='checkout-pro.html'"
+              style="
+                width: 100%;
+                background: var(--color-gold);
+                color: #2c2c2c;
+                border: none;
+                padding: 0.75rem;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: all 0.3s;
+              "
+              onmouseover="this.style.background='white'"
+              onmouseout="this.style.background='var(--color-gold)'"
+            >
+              Ver Planos Premium →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support & Help Section -->
+      <div
+        style="
+          background: var(--color-white);
+          border-radius: 12px;
+          padding: 2rem;
+          margin-bottom: 3rem;
+          border: 1px solid rgba(75, 0, 130, 0.1);
+        "
+      >
+        <h3
+          style="
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--color-dark-purple);
+            margin-bottom: 1.5rem;
+          "
+        >
+          🆘 Ajuda & Suporte
+        </h3>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+          "
+        >
+          <div style="text-align: center; padding: 1.5rem">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem">📧</div>
+            <h4
+              style="
+                color: var(--color-dark-purple);
+                margin-bottom: 0.5rem;
+                font-size: 1rem;
+              "
+            >
+              Email
+            </h4>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--color-text-light);
+                margin-bottom: 0.5rem;
+              "
+            >
+              suporte@escoladooraculo.com
+            </p>
+            <small style="color: var(--color-text-light)"
+              >Resposta em 24h</small
+            >
+          </div>
+          <div style="text-align: center; padding: 1.5rem">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem">💬</div>
+            <h4
+              style="
+                color: var(--color-dark-purple);
+                margin-bottom: 0.5rem;
+                font-size: 1rem;
+              "
+            >
+              WhatsApp
+            </h4>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--color-text-light);
+                margin-bottom: 0.5rem;
+              "
+            >
+              +351 912 345 678
+            </p>
+            <small style="color: var(--color-text-light)"
+              >Seg-Sex, 10h-18h</small
+            >
+          </div>
+          <div style="text-align: center; padding: 1.5rem">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem">📚</div>
+            <h4
+              style="
+                color: var(--color-dark-purple);
+                margin-bottom: 0.5rem;
+                font-size: 1rem;
+              "
+            >
+              FAQ
+            </h4>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--color-text-light);
+                margin-bottom: 0.5rem;
+              "
+            >
+              Perguntas frequentes
+            </p>
+            <a
+              href="#faq"
+              style="
+                color: var(--color-gold);
+                text-decoration: none;
+                font-weight: 600;
+              "
+              >Ver FAQ →</a
+            >
+          </div>
+          <div style="text-align: center; padding: 1.5rem">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem">🎓</div>
+            <h4
+              style="
+                color: var(--color-dark-purple);
+                margin-bottom: 0.5rem;
+                font-size: 1rem;
+              "
+            >
+              Tutoriais
+            </h4>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--color-text-light);
+                margin-bottom: 0.5rem;
+              "
+            >
+              Como usar a plataforma
+            </p>
+            <button
+              onclick="alert('Tutoriais em breve!')"
+              style="
+                background: none;
+                border: none;
+                color: var(--color-gold);
+                font-weight: 600;
+                cursor: pointer;
+              "
+            >
+              Ver Tutoriais →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Achievements Section -->
+      <div
+        style="
+          background: linear-gradient(
+            135deg,
+            rgba(75, 0, 130, 0.05),
+            rgba(197, 160, 89, 0.08)
+          );
+          border-radius: 12px;
+          padding: 2rem;
+          margin-bottom: 3rem;
+        "
+      >
+        <h3
+          style="
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--color-dark-purple);
+            margin-bottom: 1.5rem;
+          "
+        >
+          🏆 Conquistas & Badges
+        </h3>
+
+        <div
+          style="
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+          "
+        >
+          <div style="width: 100px; text-align: center; opacity: 1">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem">🌟</div>
+            <div
+              style="
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--color-dark-purple);
+              "
+            >
+              Iniciante
+            </div>
+            <div style="font-size: 0.7rem; color: var(--color-text-light)">
+              Primeira leitura
+            </div>
+          </div>
+          <div style="width: 100px; text-align: center; opacity: 0.4">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem">🔮</div>
+            <div
+              style="
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--color-dark-purple);
+              "
+            >
+              Vidente
+            </div>
+            <div style="font-size: 0.7rem; color: var(--color-text-light)">
+              10 leituras
+            </div>
+          </div>
+          <div style="width: 100px; text-align: center; opacity: 0.4">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem">📚</div>
+            <div
+              style="
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--color-dark-purple);
+              "
+            >
+              Estudante
+            </div>
+            <div style="font-size: 0.7rem; color: var(--color-text-light)">
+              1º curso
+            </div>
+          </div>
+          <div style="width: 100px; text-align: center; opacity: 0.4">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem">🎓</div>
+            <div
+              style="
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--color-dark-purple);
+              "
+            >
+              Graduado
+            </div>
+            <div style="font-size: 0.7rem; color: var(--color-text-light)">
+              Módulo 1
+            </div>
+          </div>
+          <div style="width: 100px; text-align: center; opacity: 0.4">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem">👑</div>
+            <div
+              style="
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--color-dark-purple);
+              "
+            >
+              Mestre
+            </div>
+            <div style="font-size: 0.7rem; color: var(--color-text-light)">
+              Todos os cursos
+            </div>
+          </div>
+          <div style="width: 100px; text-align: center; opacity: 0.4">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem">💎</div>
+            <div
+              style="
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--color-dark-purple);
+              "
+            >
+              Elite
+            </div>
+            <div style="font-size: 0.7rem; color: var(--color-text-light)">
+              Membro Elite
+            </div>
+          </div>
+        </div>
+        <p
+          style="
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+          "
+        >
+          Complete cursos e faça leituras para desbloquear mais conquistas!
+        </p>
+      </div>
     </section>
 
     <!-- ORÁCULO INTERATIVO -->
@@ -3615,6 +4096,239 @@
         historyBtn.style.fontSize = "0.9rem";
         historyBtn.style.padding = "0.75rem 1.25rem";
         document.body.appendChild(historyBtn);
+
+        // Load user profile data
+        loadUserProfile();
+      });
+
+      // ===== USER PROFILE & ACCOUNT MANAGEMENT =====
+      async function loadUserProfile() {
+        const token =
+          localStorage.getItem("authToken") ||
+          sessionStorage.getItem("authToken");
+        const profileName = document.getElementById("profile-name");
+        const profileEmail = document.getElementById("profile-email");
+        const memberSince = document.getElementById("member-since");
+        const subscriptionBadge = document.getElementById("subscription-badge");
+        const upgradeCard = document.getElementById("upgrade-card");
+
+        if (!token) {
+          if (profileName) profileName.textContent = "Visitante";
+          if (profileEmail)
+            profileEmail.textContent = "Faça login para ver seu perfil";
+          return;
+        }
+
+        try {
+          const apiUrl =
+            typeof API_CONFIG !== "undefined"
+              ? API_CONFIG.API_URL
+              : "https://web-production-21437.up.railway.app";
+          const response = await fetch(`${apiUrl}/auth/me`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (response.ok) {
+            const user = await response.json();
+            if (profileName)
+              profileName.textContent =
+                user.full_name || user.email.split("@")[0];
+            if (profileEmail) profileEmail.textContent = user.email;
+
+            // Format member since date
+            if (memberSince && user.created_at) {
+              const date = new Date(user.created_at);
+              memberSince.textContent = date.toLocaleDateString("pt-PT", {
+                month: "short",
+                year: "numeric",
+              });
+            }
+
+            // Update subscription badge based on user subscription
+            const subscription =
+              user.subscription_tier || user.subscription || "free";
+            if (subscriptionBadge) {
+              const badgeStyles = {
+                elite: {
+                  bg: "linear-gradient(135deg, #FFD700, #FFA500)",
+                  text: "ELITE ⭐",
+                },
+                pro: { bg: "var(--color-gold)", text: "PRO" },
+                premium: { bg: "var(--color-gold)", text: "PREMIUM" },
+                free: { bg: "#e0e0e0", text: "FREE" },
+              };
+              const badge =
+                badgeStyles[subscription.toLowerCase()] || badgeStyles.free;
+              subscriptionBadge.style.background = badge.bg;
+              subscriptionBadge.textContent = badge.text;
+
+              // Hide upgrade card for premium users
+              if (
+                upgradeCard &&
+                (subscription.toLowerCase() === "elite" ||
+                  subscription.toLowerCase() === "pro")
+              ) {
+                upgradeCard.style.display = "none";
+              }
+            }
+
+            // Update stats from API if available
+            updateUserStats(user);
+          } else if (response.status === 401) {
+            // Token expired, clear it
+            localStorage.removeItem("authToken");
+            sessionStorage.removeItem("authToken");
+            if (profileName) profileName.textContent = "Sessão expirada";
+            if (profileEmail)
+              profileEmail.textContent = "Por favor, faça login novamente";
+          }
+        } catch (error) {
+          console.error("Error loading user profile:", error);
+          // Use cached data from localStorage if available
+          const cachedEmail = localStorage.getItem("userEmail");
+          if (cachedEmail) {
+            if (profileName)
+              profileName.textContent = cachedEmail.split("@")[0];
+            if (profileEmail) profileEmail.textContent = cachedEmail;
+          }
+        }
+      }
+
+      function updateUserStats(user) {
+        // Update dashboard stats based on user data
+        const readingsCount = document.querySelector('[data-stat="readings"]');
+        const coursesCount = document.querySelector('[data-stat="courses"]');
+
+        if (user.total_readings !== undefined && readingsCount) {
+          readingsCount.textContent = user.total_readings;
+        }
+        if (user.enrolled_courses !== undefined && coursesCount) {
+          coursesCount.textContent = user.enrolled_courses;
+        }
+      }
+
+      // ===== STRIPE CUSTOMER PORTAL =====
+      async function openCustomerPortal() {
+        const token =
+          localStorage.getItem("authToken") ||
+          sessionStorage.getItem("authToken");
+
+        if (!token) {
+          alert("Por favor, faça login para acessar o portal do cliente.");
+          window.location.href = "login.html";
+          return;
+        }
+
+        const btn = document.getElementById("manage-subscription-btn");
+        const originalText = btn.textContent;
+        btn.textContent = "Abrindo portal...";
+        btn.disabled = true;
+
+        try {
+          const apiUrl =
+            typeof API_CONFIG !== "undefined"
+              ? API_CONFIG.API_URL
+              : "https://web-production-21437.up.railway.app";
+
+          // First check if user has a Stripe customer ID
+          const response = await fetch(
+            `${apiUrl}/stripe/create-portal-session`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                return_url: window.location.href,
+              }),
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            if (data.url) {
+              window.location.href = data.url;
+              return;
+            }
+          } else if (response.status === 404) {
+            // No subscription yet
+            alert(
+              "Você ainda não tem uma subscrição ativa. Explore nossos planos para começar!"
+            );
+            btn.textContent = originalText;
+            btn.disabled = false;
+            return;
+          } else if (response.status === 401) {
+            alert("Sessão expirada. Por favor, faça login novamente.");
+            window.location.href = "login.html";
+            return;
+          }
+
+          // Fallback: redirect to Stripe Customer Portal directly if we have an email
+          const userEmail = localStorage.getItem("userEmail");
+          if (userEmail) {
+            // Use Stripe's hosted customer portal (this requires Stripe setup)
+            alert(
+              "Portal de cliente em manutenção. Por favor, contacte o suporte para gestão de subscrição."
+            );
+          }
+        } catch (error) {
+          console.error("Error opening customer portal:", error);
+          alert(
+            "Erro ao abrir o portal. Por favor, tente novamente ou contacte o suporte."
+          );
+        }
+
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }
+
+      // ===== LOGOUT FUNCTION =====
+      function logout() {
+        // Clear all auth data
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userEmail");
+        sessionStorage.removeItem("authToken");
+        sessionStorage.removeItem("userEmail");
+
+        // Clear any cached user data
+        localStorage.removeItem("userData");
+
+        // Redirect to home page
+        alert("Sessão terminada com sucesso!");
+        window.location.href = "../index.html";
+      }
+
+      // Add logout button if not present
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if user is logged in and add logout option to menu
+        const token =
+          localStorage.getItem("authToken") ||
+          sessionStorage.getItem("authToken");
+
+        if (token) {
+          // Add logout option to any existing user menus
+          const userMenus = document.querySelectorAll(
+            ".user-menu, .dropdown-menu"
+          );
+          userMenus.forEach((menu) => {
+            if (!menu.querySelector(".logout-btn")) {
+              const logoutItem = document.createElement("a");
+              logoutItem.href = "#";
+              logoutItem.className = "logout-btn";
+              logoutItem.textContent = "Sair";
+              logoutItem.onclick = (e) => {
+                e.preventDefault();
+                logout();
+              };
+              menu.appendChild(logoutItem);
+            }
+          });
+        }
       });
 
       // ===== EMAIL FORM HANDLER =====

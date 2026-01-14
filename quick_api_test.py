@@ -12,6 +12,15 @@ print("=" * 60)
 print("DIAGNÓSTICO RÁPIDO DA API")
 print("=" * 60)
 
+# Test 0: Version
+print("\n0. API Version:")
+try:
+    r = requests.get(f"{BASE}/version", verify=False, timeout=10)
+    print(f"   Status: {r.status_code}")
+    print(f"   Response: {r.json()}")
+except Exception as e:
+    print(f"   ERROR: {e}")
+
 # Test 1: Health
 print("\n1. Health Check:")
 try:
