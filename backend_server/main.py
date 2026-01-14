@@ -1,6 +1,10 @@
 import stripe
 import os
-from fastapi import FastAPI, HTTPException, Depends, status, Request
+import logging
+import sys
+import hashlib
+from datetime import datetime
+from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -8,6 +12,14 @@ from passlib.context import CryptContext
 from pydantic import BaseModel
 from typing import Optional
 from sqlalchemy import Column, Integer, String, Boolean, text
+
+# --- LOGGING CONFIGURATION ---
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout), logging.FileHandler("api_debug.log")],
+)
+logger = logging.getLogger(__name__)
 
 # Try to import from the package (when running from root), else fallback to local (when running from folder)
 try:
@@ -42,6 +54,11 @@ Base.metadata.create_all(bind=engine)
 # Replace with your actual Stripe Secret Key (SK)
 # For dev, use "sk_test_..."
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "sk_test_PLACEHOLDER")
+
+logger.info(f"🚀 Application starting...")
+logger.info(f"📍 Environment: {ENVIRONMENT}")
+logger.info(f"📊 Database URL: {os.getenv('DATABASE_URL', 'sqlite:///./escola.db')}")
+logger.info(f"🔑 Stripe API configured: {STRIPE_SECRET_KEY[:20]}...")
 stripe.api_key = STRIPE_SECRET_KEY
 # Use environment variable for frontend URL in production
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
@@ -51,11 +68,15 @@ app = FastAPI(title="Escola do Oraculo API", version="1.0.0")
 
 @app.get("/health")
 def health_check(db: Session = Depends(get_db)):
+    logger.info("🏥 Health check requested")
     try:
         # Tenta executar uma query simples para verificar a conexão
+        logger.debug("Checking database connection...")
         db.execute(text("SELECT 1"))
+        logger.info(f"✅ Health check OK - Environment: {ENVIRONMENT}")
         return {"status": "ok", "database": "connected", "environment": ENVIRONMENT}
     except Exception as e:
+        logger.error(f"❌ Health check failed: {str(e)}")
         raise HTTPException(
             status_code=500, detail=f"Database connection failed: {str(e)}"
         )
@@ -86,10 +107,17 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def verify_password(plain_password, hashed_password):
+    # Se a senha for muito longa, fazer hash SHA256 primeiro
+    if len(plain_password.encode("utf-8")) > 72:
+        plain_password = hashlib.sha256(plain_password.encode("utf-8")).hexdigest()
     return pwd_context.verify(plain_password, hashed_password)
 
 
 def get_password_hash(password):
+    # Bcrypt tem limite de 72 bytes
+    # Se a senha for muito longa, fazer hash SHA256 primeiro
+    if len(password.encode("utf-8")) > 72:
+        password = hashlib.sha256(password.encode("utf-8")).hexdigest()
     return pwd_context.hash(password)
 
 
@@ -111,7 +139,7 @@ class UserDisplay(BaseModel):
     subscription_status: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 # --- ENDPOINTS ---
@@ -124,23 +152,65 @@ def read_root():
 
 @app.post("/auth/register", status_code=201, response_model=UserDisplay)
 def register(user: UserCreate, db: Session = Depends(get_db)):
-    # Check if user exists
-    db_user = db.query(User).filter(User.email == user.email).first()
-    if db_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
+    logger.info(f"📝 Registration attempt for email: {user.email}")
+    try:
+        # Step 1: Check if user exists
+        logger.debug(f"Step 1: Checking if user {user.email} already exists")
+        db_user = db.query(User).filter(User.email == user.email).first()
+        if db_user:
+            logger.warning(f"⚠️ Email {user.email} already registered")
+            raise HTTPException(status_code=400, detail="Email already registered")
+        logger.debug(f"✅ Email {user.email} is available")
 
-    # Create new user
-    hashed_pwd = get_password_hash(user.password)
-    new_user = User(
-        email=user.email,
-        hashed_password=hashed_pwd,
-        full_name=user.full_name,
-        subscription_status="free",
-    )
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
+        # Step 2: Hash password
+        logger.debug(f"Step 2: Hashing password for {user.email}")
+        hashed_pwd = get_password_hash(user.password)
+        logger.debug(f"✅ Password hashed successfully")
+
+        # Step 3: Create new user object
+        logger.debug(f"Step 3: Creating User object for {user.email}")
+        new_user = User(
+            email=user.email,
+            hashed_password=hashed_pwd,
+            full_name=user.full_name,
+            subscription_status="free",
+        )
+        logger.debug(f"✅ User object created: {new_user}")
+
+        # Step 4: Add to database session
+        logger.debug(f"Step 4: Adding user to database session")
+        db.add(new_user)
+        logger.debug(f"✅ User added to session")
+
+        # Step 5: Commit to database
+        logger.debug(f"Step 5: Committing to database")
+        db.commit()
+        logger.debug(f"✅ Committed successfully")
+
+        # Step 6: Refresh from database
+        logger.debug(f"Step 6: Refreshing user object from database")
+        db.refresh(new_user)
+        logger.info(
+            f"✅ User registered successfully: {new_user.email} (ID: {new_user.id})"
+        )
+
+        return new_user
+    except HTTPException:
+        logger.error(f"❌ HTTPException during registration: {str(HTTPException)}")
+        raise
+    except Exception as e:
+        logger.error(f"❌ Unexpected error during registration for {user.email}")
+        logger.error(f"Exception type: {type(e).__name__}")
+        logger.error(f"Exception message: {str(e)}")
+        logger.exception(f"Full traceback: ")
+
+        try:
+            db.rollback()
+            logger.debug(f"✅ Database rollback successful")
+        except Exception as rollback_error:
+            logger.error(f"❌ Error during rollback: {str(rollback_error)}")
+
+        raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")
 
 
 @app.post("/auth/login")
@@ -324,7 +394,7 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
     if event_type == "checkout.session.completed":
         # Pagamento concluído com sucesso
         customer_id = data.get("customer")
-        subscription_id = data.get("subscription")
+        # subscription_id = data.get("subscription")  # Available if needed
 
         if customer_id:
             user = db.query(User).filter(User.stripe_customer_id == customer_id).first()
@@ -335,14 +405,14 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
 
     elif event_type == "customer.subscription.updated":
         customer_id = data.get("customer")
-        status = data.get("status")  # active, past_due, canceled, etc.
+        sub_status = data.get("status")  # active, past_due, canceled, etc.
 
         if customer_id:
             user = db.query(User).filter(User.stripe_customer_id == customer_id).first()
             if user:
-                user.subscription_status = status
+                user.subscription_status = sub_status
                 db.commit()
-                print(f"📝 User {user.email} subscription updated to: {status}")
+                print(f"📝 User {user.email} subscription updated to: {sub_status}")
 
     elif event_type == "customer.subscription.deleted":
         customer_id = data.get("customer")
@@ -387,7 +457,7 @@ else:
     print(f"❌ Frontend directory not found at: {frontend_dir}")
     # Fallback for when running from root
     if os.path.exists("frontend"):
-        print(f"✅ Mounting frontend from: frontend (fallback)")
+        print("✅ Mounting frontend from: frontend (fallback)")
         app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
     else:
-        print(f"❌ Could not find frontend directory in any location")
+        print("❌ Could not find frontend directory in any location")
