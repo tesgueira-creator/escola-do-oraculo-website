@@ -63,7 +63,22 @@ stripe.api_key = STRIPE_SECRET_KEY
 # Use environment variable for frontend URL in production
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
 
-app = FastAPI(title="Escola do Oraculo API", version="1.0.0")
+app = FastAPI(title="Escola do Oraculo API", version="1.0.1")
+
+# Version info for debugging deployment
+API_VERSION = "1.0.1-bcrypt-fix"
+DEPLOY_TIMESTAMP = "2026-01-14T17:00:00Z"
+
+
+@app.get("/version")
+def get_version():
+    """Returns the current API version and deployment info"""
+    return {
+        "api_version": API_VERSION,
+        "deploy_timestamp": DEPLOY_TIMESTAMP,
+        "environment": ENVIRONMENT,
+        "python_hashlib": "enabled",
+    }
 
 
 @app.get("/health")
