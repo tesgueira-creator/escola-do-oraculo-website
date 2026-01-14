@@ -534,8 +534,8 @@
       <h3>Escola do Oráculo</h3>
       <p>Cursos de Tarot Online • Portugal + Brasil</p>
       <div>
-        <a href="../index.html#politica">Política de Privacidade</a>
-        <a href="../index.html#termos">Termos e Condições</a>
+        <a href="politica-privacidade.html">Política de Privacidade</a>
+        <a href="termos-condicoes.html">Termos e Condições</a>
       </div>
       <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8">
         © 2026 Escola do Oráculo por Rafaella Kally. Todos os direitos
@@ -545,9 +545,18 @@
 
     <script>
       const PRICE_IDS = {
-        pro: "price_1SpAOPHvoxa2NZ5dMc6vbBMM", // Mensal / Iniciado
-        elite: "price_1SpAOQHvoxa2NZ5dF53uAU6W", // Anual / Mestre
-        radiestesia: "price_1SpAOQHvoxa2NZ5dgts3Mso4", // Curso Radiestesia
+        // Subscrições
+        pro: "price_1SpAOPHvoxa2NZ5dMc6vbBMM", // Círculo do Oráculo - €9.90/mês
+        elite: "price_1SpAOQHvoxa2NZ5dF53uAU6W", // Pack Completo Tarot - €97 (anual)
+        // Cursos individuais
+        radiestesia: "price_1SpAOQHvoxa2NZ5dgts3Mso4", // Mesa Radiónica - €120
+        // Módulos de Tarot (preços de exemplo - necessitam configurar no Stripe)
+        modulo1: "price_modulo1_placeholder", // Módulo 1 - €29
+        modulo2: "price_modulo2_placeholder", // Módulo 2 - €49
+        modulo3: "price_modulo3_placeholder", // Módulo 3 - €69
+        // Outros cursos (preços de exemplo - necessitam configurar no Stripe)
+        kundalini: "price_kundalini_placeholder", // Kundalini Reiki - €150
+        "terapia-multidimensional": "price_terapia_placeholder", // Terapia Multidimensional - €180
       };
 
       // Helper to get params

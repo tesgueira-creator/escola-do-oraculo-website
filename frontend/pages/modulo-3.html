@@ -344,10 +344,13 @@
         </p>
         <button
           class="cta-button"
-          onclick="window.location.href='mailto:contacto@rafaellakally.com?subject=Inscrição%20-%20Módulo%203:%20Profissionalização&body=Olá!%0A%0AGostaria%20de%20me%20inscrever%20no%20Módulo%203.%0A%0ANome:%0ACidade/País:%0AExperiência%20com%20tarot:%0A%0AObrigado!'"
+          onclick="window.location.href='checkout.html?plan=modulo3'"
         >
-          Inscrever Agora
+          🔒 Inscrever Agora com Pagamento Seguro
         </button>
+        <p style="font-size: 0.85rem; color: #888; margin-top: 10px">
+          💳 Stripe - Pagamento encriptado e seguro
+        </p>
       </div>
 
       <div class="card">
@@ -375,13 +378,41 @@
       <h3>Escola do Oráculo</h3>
       <p>Cursos de Tarot Online • Portugal + Brasil</p>
       <div>
-        <a href="../index.html#politica">Política de Privacidade</a>
-        <a href="../index.html#termos">Termos e Condições</a>
+        <a href="politica-privacidade.html">Política de Privacidade</a>
+        <a href="termos-condicoes.html">Termos e Condições</a>
       </div>
       <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8">
         © 2026 Escola do Oráculo por Rafaella Kally. Todos os direitos
         reservados.
       </p>
     </footer>
+
+    <!-- WHATSAPP FLOATING BUTTON -->
+    <a
+      href="https://wa.me/351912345678?text=Olá! Gostaria de saber mais sobre o Módulo 3 - Profissionalização."
+      target="_blank"
+      style="
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        background: #25d366;
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+        text-decoration: none;
+        transition: transform 0.3s;
+      "
+      onmouseover="this.style.transform='scale(1.1)'"
+      onmouseout="this.style.transform='scale(1)'"
+    >
+      💬
+    </a>
   </body>
 </html>
