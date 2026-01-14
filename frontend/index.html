@@ -76,28 +76,12 @@
       /* HERO SECTION */
       .hero {
         height: 90vh;
-        /* Synthwave sunset gradient (pure CSS, no image needed) */
-        background: 
-          linear-gradient(to bottom,
-            rgba(42, 10, 74, 0.85) 0%,
-            rgba(75, 0, 130, 0.7) 40%,
-            rgba(197, 160, 89, 0.3) 70%,
-            rgba(255, 140, 0, 0.4) 85%,
-            rgba(255, 69, 0, 0.5) 100%
+        /* Real synthwave sunset image with dark overlay for text readability */
+        background: linear-gradient(
+            rgba(42, 10, 74, 0.4),
+            rgba(42, 10, 74, 0.6)
           ),
-          radial-gradient(ellipse at center bottom,
-            #ff4500 0%,
-            #ff8c00 20%,
-            #ffa500 40%,
-            transparent 70%
-          ),
-          linear-gradient(to bottom,
-            #1a0033 0%,
-            #2a0a4a 30%,
-            #4b0082 50%,
-            #663399 70%,
-            #8b4789 100%
-          );
+          url("/assets/images/hero-sunset.png");
         background-size: cover;
         background-position: center;
         background-attachment: fixed; /* Parallax effect */
@@ -112,61 +96,29 @@
         position: relative;
         overflow: hidden;
       }
-      /* Animated horizon lines (synthwave style) */
+      /* Subtle glow effect */
       .hero::before {
         content: "";
         position: absolute;
-        bottom: 0;
+        top: 0;
         left: 0;
         right: 0;
-        height: 40%;
-        background: 
-          repeating-linear-gradient(
-            0deg,
-            rgba(255, 140, 0, 0.3) 0px,
-            transparent 2px,
-            transparent 20px,
-            rgba(255, 140, 0, 0.3) 22px
-          ),
-          repeating-linear-gradient(
-            90deg,
-            rgba(255, 105, 180, 0.2) 0px,
-            transparent 2px,
-            transparent 40px,
-            rgba(255, 105, 180, 0.2) 42px
-          );
-        transform: perspective(500px) rotateX(60deg);
-        transform-origin: bottom;
-        pointer-events: none;
-        opacity: 0.4;
-      }
-      /* Sun glow effect */
-      .hero::after {
-        content: "";
-        position: absolute;
-        bottom: 20%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle,
-          rgba(255, 140, 0, 0.6) 0%,
-          rgba(255, 69, 0, 0.4) 30%,
-          transparent 70%
+        bottom: 0;
+        background: radial-gradient(
+          circle at 50% 80%,
+          rgba(255, 140, 0, 0.1) 0%,
+          transparent 60%
         );
-        border-radius: 50%;
         pointer-events: none;
         animation: pulse 4s ease-in-out infinite;
       }
       @keyframes pulse {
         0%,
         100% {
-          opacity: 0.6;
-          transform: translateX(-50%) scale(1);
+          opacity: 0.5;
         }
         50% {
-          opacity: 0.9;
-          transform: translateX(-50%) scale(1.1);
+          opacity: 0.8;
         }
       }
       .hero h1 {
