@@ -66,8 +66,8 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
 app = FastAPI(title="Escola do Oraculo API", version="1.0.1")
 
 # Version info for debugging deployment
-API_VERSION = "1.0.3-client-area"
-DEPLOY_TIMESTAMP = "2026-01-14T18:30:00Z"
+API_VERSION = "1.0.4-debug-hash"
+DEPLOY_TIMESTAMP = "2026-01-14T19:00:00Z"
 
 
 @app.get("/version")
@@ -79,6 +79,45 @@ def get_version():
         "environment": ENVIRONMENT,
         "python_hashlib": "enabled",
     }
+
+
+@app.get("/debug/hash-test")
+def debug_hash_test():
+    """Test the password hashing to debug bcrypt issue"""
+    import sys
+
+    test_password = "Test123!"
+    try:
+        # Step 1: SHA256
+        sha256_hash = hashlib.sha256(test_password.encode("utf-8")).hexdigest()
+        logger.info(f"SHA256 hash: {sha256_hash} (len={len(sha256_hash)})")
+
+        # Step 2: bcrypt
+        bcrypt_hash = pwd_context.hash(sha256_hash)
+        logger.info(f"Bcrypt hash: {bcrypt_hash[:30]}...")
+
+        # Step 3: Verify
+        verified = pwd_context.verify(sha256_hash, bcrypt_hash)
+
+        return {
+            "success": True,
+            "sha256_length": len(sha256_hash),
+            "sha256_bytes": len(sha256_hash.encode("utf-8")),
+            "bcrypt_length": len(bcrypt_hash),
+            "verified": verified,
+            "python_version": sys.version,
+            "message": "Hash test passed!",
+        }
+    except Exception as e:
+        import traceback
+
+        return {
+            "success": False,
+            "error": str(e),
+            "error_type": type(e).__name__,
+            "traceback": traceback.format_exc(),
+            "python_version": sys.version,
+        }
 
 
 @app.get("/health")
