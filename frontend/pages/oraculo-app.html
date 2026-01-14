@@ -4202,7 +4202,7 @@
       }
 
       // Safely update moon phase and date on load; keep independent updates
-      window.addEventListener("load", () => {
+      function updateMoonPhase() {
         const moonPhaseEl = document.getElementById("moon-phase-display");
         const moonDateEl = document.getElementById("moon-date");
         try {
@@ -4221,9 +4221,19 @@
           }
         } catch (err) {
           console.error("Error updating moon phase/date:", err);
-          if (moonPhaseEl) moonPhaseEl.textContent = "Erro a carregar";
+          if (moonPhaseEl) moonPhaseEl.textContent = "🌙 Indisponível";
         }
-      });
+      }
+
+      // Update moon phase immediately and on DOMContentLoaded
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", updateMoonPhase);
+      } else {
+        updateMoonPhase();
+      }
+      
+      // Also update on window load
+      window.addEventListener("load", updateMoonPhase);
       // ===== CELTIC CROSS SPREAD =====
       function drawCelticCross() {
         const resultDiv = document.getElementById("celtic-result");
