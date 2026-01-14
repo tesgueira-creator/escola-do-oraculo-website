@@ -1,0 +1,8 @@
+STRIPE PRICE IDS - Escola do Oráculo
+==================================================
+
+modulo1: price_1SpVH4Hvoxa2NZ5dFcMeOE7S
+modulo2: price_1SpVH5Hvoxa2NZ5dj5yi8TCH
+modulo3: price_1SpVH6Hvoxa2NZ5dUjeO5b1W
+kundalini: price_1SpVH6Hvoxa2NZ5d6VPFgClM
+terapia-multidimensional: price_1SpVH7Hvoxa2NZ5dF8NMEjpo
