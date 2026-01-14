@@ -500,8 +500,8 @@ Projected Annual: €30,000-50,000 additional revenue
 Users:
 - 500+ active students (from 0)
 - 100+ community members in Círculo
-- 50+ tarot certificates issued
-- 20+ Reiki certified through partnership
+- 50+ certificados emitidos por Rafaella Kally — Escola do Oráculo
+- 20+ certificados de Reiki emitidos por Rafaella Kally — Escola do Oráculo
 
 Content:
 - 6 complete modules (core + 3 specialized)
