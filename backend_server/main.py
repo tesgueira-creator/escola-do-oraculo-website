@@ -146,6 +146,14 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == user.email).first()
     if not db_user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
+    
+    # Check if user was created via checkout without password
+    if db_user.hashed_password.startswith("NO_PASSWORD:"):
+        raise HTTPException(
+            status_code=401, 
+            detail="This account was created via checkout. Please reset your password first."
+        )
+    
     if not verify_password(user.password, db_user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
@@ -192,11 +200,12 @@ def create_checkout_session(request: CheckoutRequest, db: Session = Depends(get_
         if not user:
             # Auto-register user if they don't exist during checkout
             # User will set password later when they first login
-            # For now, use a placeholder (bcrypt hash of empty string to avoid 72-byte limit issues)
+            # Use a special marker instead of bcrypt to avoid 72-byte limit issues
+            # Format: "NO_PASSWORD:" indicates account created via checkout without password
             user = User(
                 email=request.user_email,
                 full_name=request.user_email.split("@")[0],
-                hashed_password=get_password_hash(""),  # Empty password initially
+                hashed_password="NO_PASSWORD:checkout_auto_created",  # Marker, not a real hash
                 is_active=True,
                 subscription_status="free",
             )
