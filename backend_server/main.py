@@ -66,8 +66,8 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:8000")
 app = FastAPI(title="Escola do Oraculo API", version="1.0.1")
 
 # Version info for debugging deployment
-API_VERSION = "1.0.1-bcrypt-fix"
-DEPLOY_TIMESTAMP = "2026-01-14T17:00:00Z"
+API_VERSION = "1.0.2-always-sha256"
+DEPLOY_TIMESTAMP = "2026-01-14T18:05:00Z"
 
 
 @app.get("/version")
@@ -134,7 +134,9 @@ def get_password_hash(password):
         f"get_password_hash called, password length: {len(password)}, bytes: {len(password.encode('utf-8'))}"
     )
     sha256_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
-    logger.debug(f"SHA256 pre-hash applied: {sha256_hash[:20]}... (length: {len(sha256_hash)})")
+    logger.debug(
+        f"SHA256 pre-hash applied: {sha256_hash[:20]}... (length: {len(sha256_hash)})"
+    )
     try:
         result = pwd_context.hash(sha256_hash)
         logger.debug(f"Password hashed successfully, result length: {len(result)}")
@@ -392,7 +394,9 @@ STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
 STRIPE_PRICE_IDS = {
     "pro": os.getenv("STRIPE_PRICE_PRO", "price_1RUXxf2KN7yNwNd99t9Y3uyT"),
     "elite": os.getenv("STRIPE_PRICE_ELITE", "price_1RUY2C2KN7yNwNd9L4fPiVkw"),
-    "radiestesia": os.getenv("STRIPE_PRICE_RADIESTESIA", "price_1RUY502KN7yNwNd9wMcW0m8E"),
+    "radiestesia": os.getenv(
+        "STRIPE_PRICE_RADIESTESIA", "price_1RUY502KN7yNwNd9wMcW0m8E"
+    ),
     "modulo1": os.getenv("STRIPE_PRICE_MODULO1", "price_1RUY8z2KN7yNwNd9pQE2YYxO"),
     "modulo2": os.getenv("STRIPE_PRICE_MODULO2", "price_1RUYAu2KN7yNwNd9oFFqFp2D"),
     "modulo3": os.getenv("STRIPE_PRICE_MODULO3", "price_1RUYCg2KN7yNwNd93xJwPwXv"),
