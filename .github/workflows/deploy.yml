@@ -1,21 +1,17 @@
 name: Deploy to GitHub Pages
-
 on:
   push:
     branches:
       - main
       - master
   workflow_dispatch:
-
 permissions:
   contents: read
   pages: write
   id-token: write
-
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,7 +21,6 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: frontend
-
   deploy:
     environment:
       name: github-pages
