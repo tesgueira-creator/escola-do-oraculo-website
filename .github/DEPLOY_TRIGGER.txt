@@ -1,3 +1,1 @@
-Deployment triggered: 2026-01-15T14:10:52.590891
-Base href fixes applied to all frontend pages.
-All asset paths now correctly resolve on GitHub Pages.
+Deployment triggered 2026-01-15T14:18:03.191167
