@@ -183,7 +183,9 @@ app.add_middleware(
 
 # --- STATIC FILES ---
 # Get absolute path to frontend folder
-STATIC_FRONTEND_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend")
+STATIC_FRONTEND_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend"
+)
 logger.info(f"📁 Static frontend path: {STATIC_FRONTEND_PATH}")
 
 # Try multiple possible paths for Railway compatibility
@@ -208,7 +210,7 @@ if mounted_frontend:
     js_path = os.path.join(mounted_frontend, "js")
     assets_path = os.path.join(mounted_frontend, "assets")
     pages_path = os.path.join(mounted_frontend, "pages")
-    
+
     if os.path.exists(css_path):
         app.mount("/css", StaticFiles(directory=css_path), name="css")
         logger.info(f"✅ Mounted /css")
@@ -313,7 +315,7 @@ def read_root():
             if os.path.exists(alt_path):
                 logger.info(f"📄 Found index.html at alternative path: {alt_path}")
                 return FileResponse(alt_path, media_type="text/html")
-        
+
         logger.warning(f"⚠️ index.html not found! Tried: {index_path} and {alt_paths}")
         return {"message": "Welcome to Escola do Oraculo API (Connected to SQLite)"}
 

@@ -3845,20 +3845,40 @@
         },
       };
 
-      // Helper: resolve card image from deck folder (/backend/art/<index>.webp)
+      // Helper: resolve card image - use emoji as visual since images may not exist
       function getCardImageFor(card) {
-        const majorIndex = tarotCards.majorArcana.indexOf(card);
-        if (majorIndex !== -1) return `/assets/images/cards/${majorIndex}.webp`;
+        // Return a styled emoji placeholder since card images may not be available
+        // This ensures the oracle works without external image dependencies
+        return null; // We'll use emoji display instead
+      }
 
-        const suitBases = { copas: 22, espadas: 36, paus: 50, ouros: 64 };
-        for (const [suitKey, base] of Object.entries(suitBases)) {
-          const arr = tarotCards.minorArcana[suitKey];
-          if (!arr) continue;
-          const idx = arr.indexOf(card);
-          if (idx !== -1) return `/assets/images/cards/${base + idx}.webp`;
-        }
+      // Get card emoji for display
+      function getCardEmoji(card) {
+        return card.emoji || "🎴";
+      }
 
-        return "https://via.placeholder.com/120x180?text=Carta+de+Tarot";
+      // Format card as visual element with emoji
+      function formatCardVisual(card, size = "large") {
+        const emoji = getCardEmoji(card);
+        const sizeStyles = {
+          large: "font-size: 4rem; width: 120px; height: 180px;",
+          medium: "font-size: 3rem; width: 80px; height: 120px;",
+          small: "font-size: 2rem; width: 60px; height: 90px;",
+        };
+        return `
+          <div style="
+            ${sizeStyles[size]}
+            background: linear-gradient(135deg, #4b0082, #7e2da0);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(75, 0, 130, 0.3);
+            border: 3px solid var(--color-gold);
+          ">
+            <span style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">${emoji}</span>
+          </div>
+        `;
       }
 
       // Shuffle helper and unique draw
@@ -3929,53 +3949,71 @@
       function formatCardDisplay(card, isReversed = false) {
         const reversed = isReversed ? " (Invertida)" : "";
         const reversedClass = isReversed ? "card-reversed" : "";
+        const emoji = getCardEmoji(card);
 
         if (card.number) {
-          // Major Arcana
+          // Major Arcana - with full details
           return `
-            <div class="card-info">
-              <div class="card-emoji"><img src="${getCardImageFor(
-                card
-              )}" alt="${
-            card.name
-          }" class="card-image-preview" onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"></div>
-              <div class="card-name">${card.name}${reversed}</div>
-              <div class="card-suit">Arcano Maior • ${card.number}</div>
-              <div class="card-element">Elemento: ${card.element}</div>
+            <div class="card-info" style="text-align: center; padding: 2rem;">
+              <div class="card-visual" style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+                ${formatCardVisual(card, "large")}
+              </div>
+              <div class="card-name" style="font-size: 1.8rem; font-weight: bold; color: var(--color-dark-purple); margin-bottom: 0.5rem;">${
+                card.name
+              }${reversed}</div>
+              <div class="card-suit" style="color: var(--color-gold); font-weight: 600; margin-bottom: 0.5rem;">Arcano Maior • ${
+                card.number
+              }</div>
+              <div class="card-element" style="color: var(--color-text-light); margin-bottom: 1rem;">🌟 Elemento: ${
+                card.element
+              }</div>
             </div>
-            <div class="card-meaning">
-              <div class="card-meaning-label">${
+            <div class="card-meaning" style="background: linear-gradient(135deg, rgba(75, 0, 130, 0.1), rgba(197, 160, 89, 0.1)); padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;">
+              <div class="card-meaning-label" style="font-weight: bold; color: var(--color-dark-purple); margin-bottom: 0.5rem;">${
                 isReversed
                   ? "🔄 Significado Invertido"
-                  : "✓ Significado Direito"
+                  : "✅ Significado Direito"
               }</div>
-              <div class="card-meaning-text">${
+              <div class="card-meaning-text" style="line-height: 1.7;">${
                 isReversed ? card.reversed : card.upright
               }</div>
             </div>
-            <div class="card-meaning ${reversedClass}">
-              <div class="card-meaning-label">💡 Interpretação</div>
-              <div class="card-meaning-text">${card.meaning}</div>
+            <div class="card-meaning ${reversedClass}" style="background: var(--color-accent); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--color-gold);">
+              <div class="card-meaning-label" style="font-weight: bold; color: var(--color-dark-purple); margin-bottom: 0.5rem;">💡 Mensagem para Ti</div>
+              <div class="card-meaning-text" style="line-height: 1.7; font-style: italic;">${
+                card.meaning
+              }</div>
+            </div>
+            <div class="card-action" style="text-align: center; margin-top: 1.5rem;">
+              <button class="cta-button" onclick="saveReading('daily')" style="margin-right: 0.5rem;">💾 Guardar</button>
+              <button class="cta-button secondary" onclick="drawCard('daily')" style="background: transparent; border: 2px solid var(--color-dark-purple); color: var(--color-dark-purple);">🔄 Nova Tiragem</button>
             </div>
           `;
         } else {
-          // Minor Arcana
+          // Minor Arcana - simplified display
           const suit = card.suit || "Arcano Menor";
+          const emoji = getCardEmoji(card);
           return `
-            <div class="card-info">
-              <div class="card-emoji"><img src="${getCardImageFor(
-                card
-              )}" alt="${
-            card.name
-          }" class="card-image-preview" onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"></div>
-              <div class="card-name">${card.name}${reversed}</div>
-              <div class="card-suit">${suit}</div>
+            <div class="card-info" style="text-align: center; padding: 2rem;">
+              <div class="card-visual" style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+                ${formatCardVisual(card, "large")}
+              </div>
+              <div class="card-name" style="font-size: 1.8rem; font-weight: bold; color: var(--color-dark-purple); margin-bottom: 0.5rem;">${
+                card.name
+              }${reversed}</div>
+              <div class="card-suit" style="color: var(--color-gold); font-weight: 600; margin-bottom: 1rem;">${suit}</div>
             </div>
-            <div class="card-meaning">
-              <div class="card-meaning-label">${
-                isReversed ? "🔄 Significado Invertido" : "✓ Significado"
+            <div class="card-meaning" style="background: linear-gradient(135deg, rgba(75, 0, 130, 0.1), rgba(197, 160, 89, 0.1)); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--color-gold);">
+              <div class="card-meaning-label" style="font-weight: bold; color: var(--color-dark-purple); margin-bottom: 0.5rem;">${
+                isReversed ? "🔄 Significado Invertido" : "✅ Significado"
               }</div>
-              <div class="card-meaning-text">${card.meaning}</div>
+              <div class="card-meaning-text" style="line-height: 1.7; font-style: italic;">${
+                card.meaning
+              }</div>
+            </div>
+            <div class="card-action" style="text-align: center; margin-top: 1.5rem;">
+              <button class="cta-button" onclick="saveReading('daily')" style="margin-right: 0.5rem;">💾 Guardar</button>
+              <button class="cta-button secondary" onclick="drawCard('daily')" style="background: transparent; border: 2px solid var(--color-dark-purple); color: var(--color-dark-purple);">🔄 Nova Tiragem</button>
             </div>
           `;
         }
@@ -4004,13 +4042,37 @@
       // ===== THREE CARD SPREAD =====
       function drawThreeCards() {
         const resultDiv = document.getElementById("three-result");
-        resultDiv.innerHTML =
-          '<div style="text-align: center; padding: 2rem;"><p>✨ Tirando 3 cartas...</p></div>';
+        resultDiv.innerHTML = `
+          <div style="text-align: center; padding: 2rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🔮</div>
+            <p style="color: var(--color-dark-purple);">✨ Preparando as energias e tirando 3 cartas...</p>
+            <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 1rem;">
+              <span style="animation: pulse 1s infinite;">🌙</span>
+              <span style="animation: pulse 1s infinite 0.3s;">⭐</span>
+              <span style="animation: pulse 1s infinite 0.6s;">✨</span>
+            </div>
+          </div>`;
         resultDiv.style.display = "block";
 
         setTimeout(() => {
           drawnCards.three = [];
-          const positions = ["Passado", "Presente", "Futuro"];
+          const positions = [
+            {
+              name: "Passado",
+              icon: "⏪",
+              desc: "Influências do passado que afetam a situação",
+            },
+            {
+              name: "Presente",
+              icon: "📍",
+              desc: "A situação atual e suas energias",
+            },
+            {
+              name: "Futuro",
+              icon: "⏩",
+              desc: "Tendências e possibilidades futuras",
+            },
+          ];
 
           // Draw 3 unique cards
           const cards = drawUniqueCards(3, "all");
@@ -4020,37 +4082,147 @@
             drawnCards.three.push({ card, isReversed, position: positions[i] });
           }
 
-          let html =
-            '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Tirada de 3 Cartas</h3>';
+          let html = `
+            <div style="text-align: center; margin-bottom: 2rem;">
+              <h3 style="color: var(--color-dark-purple); margin-bottom: 0.5rem;">
+                🌟 Tirada de 3 Cartas: Passado, Presente e Futuro
+              </h3>
+              <p style="color: var(--color-text-light); font-size: 0.9rem;">
+                Esta tirada revela a jornada temporal da sua questão
+              </p>
+            </div>
+          `;
           html += '<div class="three-cards-grid">';
 
           drawnCards.three.forEach((item, index) => {
+            const emoji = getCardEmoji(item.card);
+            const meaning = item.isReversed
+              ? item.card.reversed || "Energia bloqueada ou invertida"
+              : item.card.upright ||
+                item.card.meaning ||
+                "Significado profundo";
+
             html += `
-              <div class="three-card-item">
-                <div class="three-card-position">📍 ${item.position}</div>
-                <div style="text-align: center;">
-                  <div style="margin: 0.5rem 0;">
-                    <img src="${getCardImageFor(item.card)}" alt="${
-              item.card.name
-            }" style="width:64px;height:auto;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.08);" onerror="this.src='https://via.placeholder.com/120x180?text=Carta'">
-                  </div>
-                  <div style="font-weight: 600; color: var(--color-dark-purple); margin: 0.5rem 0;">
-                    ${item.card.name}${item.isReversed ? " (Invertida)" : ""}
-                  </div>
-                  <div style="font-size: 0.85rem; color: var(--color-text-light); margin-top: 0.5rem;">
-                    ${item.card.meaning || item.card.upright}
-                  </div>
+              <div class="three-card-item" style="
+                background: linear-gradient(145deg, #f8f4ff, #fff);
+                border: 2px solid rgba(75, 0, 130, 0.1);
+                border-radius: 16px;
+                padding: 1.5rem;
+                text-align: center;
+                transition: all 0.3s ease;
+              ">
+                <div style="
+                  background: linear-gradient(135deg, var(--color-dark-purple), #7e2da0);
+                  color: white;
+                  padding: 0.5rem 1rem;
+                  border-radius: 20px;
+                  margin-bottom: 1rem;
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                ">
+                  ${item.position.icon} ${item.position.name}
+                </div>
+                
+                <div style="
+                  font-size: 3.5rem;
+                  width: 100px;
+                  height: 150px;
+                  background: linear-gradient(135deg, #4b0082, #7e2da0);
+                  border-radius: 10px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  margin: 0 auto 1rem;
+                  box-shadow: 0 6px 20px rgba(75, 0, 130, 0.3);
+                  border: 2px solid var(--color-gold);
+                  ${item.isReversed ? "transform: rotate(180deg);" : ""}
+                ">
+                  <span>${emoji}</span>
+                </div>
+                
+                <div style="
+                  font-weight: 700;
+                  color: var(--color-dark-purple);
+                  font-size: 1.1rem;
+                  margin-bottom: 0.5rem;
+                ">
+                  ${item.card.name}
+                </div>
+                
+                ${
+                  item.isReversed
+                    ? `
+                  <span style="
+                    background: #ff6b6b;
+                    color: white;
+                    padding: 0.2rem 0.6rem;
+                    border-radius: 10px;
+                    font-size: 0.75rem;
+                    display: inline-block;
+                    margin-bottom: 0.5rem;
+                  ">↕️ Invertida</span>
+                `
+                    : ""
+                }
+                
+                <p style="
+                  font-size: 0.8rem;
+                  color: var(--color-text-light);
+                  margin-top: 0.5rem;
+                  font-style: italic;
+                ">
+                  ${item.position.desc}
+                </p>
+                
+                <div style="
+                  background: rgba(75, 0, 130, 0.05);
+                  padding: 0.75rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                ">
+                  <p style="font-size: 0.85rem; color: var(--color-dark-purple); margin: 0;">
+                    ${meaning}
+                  </p>
                 </div>
               </div>
             `;
           });
 
           html += "</div>";
-          html +=
-            '<button class="cta-button" style="margin-top: 2rem;" onclick="saveReading(\'three\')">💾 Guardar Esta Leitura</button>';
+
+          // Add interpretation guide
+          html += `
+            <div style="
+              background: linear-gradient(135deg, #f8f4ff, #fff);
+              border: 2px solid rgba(75, 0, 130, 0.1);
+              border-radius: 16px;
+              padding: 1.5rem;
+              margin-top: 2rem;
+            ">
+              <h4 style="color: var(--color-dark-purple); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                📖 Como Interpretar Esta Tirada
+              </h4>
+              <p style="color: var(--color-text-light); font-size: 0.9rem; line-height: 1.6;">
+                <strong>1. Passado:</strong> Representa as raízes da situação, experiências anteriores que moldaram o presente.<br>
+                <strong>2. Presente:</strong> Mostra onde você está agora, as energias atuais e desafios imediatos.<br>
+                <strong>3. Futuro:</strong> Indica tendências e possibilidades, não um destino fixo - você tem poder de escolha.
+              </p>
+              <p style="color: var(--color-gold); font-size: 0.85rem; margin-top: 1rem; font-style: italic;">
+                💡 Dica: Observe as conexões entre as cartas. A narrativa completa surge da relação entre elas.
+              </p>
+            </div>
+          `;
+
+          html += `
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
+              <button class="cta-button" onclick="saveReading('three')">💾 Guardar Leitura</button>
+              <button class="cta-button" style="background: linear-gradient(135deg, #7e2da0, #9b4dca);" onclick="drawThreeCards()">🔄 Nova Tirada</button>
+            </div>
+          `;
           resultDiv.innerHTML = html;
           saveReadingToHistory("three", drawnCards.three);
-        }, 800);
+        }, 1200);
       }
 
       // ===== CHAKRA SPREAD =====
@@ -4241,31 +4413,79 @@
       // ===== CELTIC CROSS SPREAD =====
       function drawCelticCross() {
         const resultDiv = document.getElementById("celtic-result");
-        resultDiv.innerHTML =
-          '<div style="text-align: center; padding: 2rem;"><p>✨ Constructing Cruz Celta...</p></div>';
+        resultDiv.innerHTML = `
+          <div style="text-align: center; padding: 2rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">✝️🔮</div>
+            <p style="color: var(--color-dark-purple);">✨ Invocando a sabedoria ancestral da Cruz Celta...</p>
+            <div style="margin-top: 1rem;">
+              <span style="animation: pulse 1.5s infinite;">🌟</span>
+            </div>
+          </div>`;
         resultDiv.style.display = "block";
 
         setTimeout(() => {
           drawnCards.celtic = [];
           const positions = [
-            { num: "1", name: "Significação", meaning: "O núcleo da questão" },
-            { num: "2", name: "Obstáculos", meaning: "O que vai contra" },
-            { num: "3", name: "Coroa", meaning: "Aspirações ocultas" },
-            { num: "4", name: "Raiz", meaning: "Influência oculta" },
-            { num: "5", name: "Passado Próximo", meaning: "Contexto recente" },
+            {
+              num: "1",
+              name: "Significação",
+              meaning: "O núcleo da questão",
+              icon: "🎯",
+            },
+            {
+              num: "2",
+              name: "Obstáculos",
+              meaning: "O que cruza ou bloqueia",
+              icon: "⚔️",
+            },
+            {
+              num: "3",
+              name: "Coroa",
+              meaning: "Aspirações e objetivos conscientes",
+              icon: "👑",
+            },
+            {
+              num: "4",
+              name: "Raiz",
+              meaning: "Base inconsciente da situação",
+              icon: "🌱",
+            },
+            {
+              num: "5",
+              name: "Passado Próximo",
+              meaning: "Influências recentes",
+              icon: "⏪",
+            },
             {
               num: "6",
               name: "Futuro Próximo",
-              meaning: "Desenvolvimento esperado",
+              meaning: "Próximos desenvolvimentos",
+              icon: "⏩",
             },
-            { num: "7", name: "Atitude", meaning: "Sua posição" },
-            { num: "8", name: "Ambiente", meaning: "Influências externas" },
+            {
+              num: "7",
+              name: "Atitude",
+              meaning: "Como você se posiciona",
+              icon: "🧘",
+            },
+            {
+              num: "8",
+              name: "Ambiente",
+              meaning: "Influências externas e pessoas",
+              icon: "🌍",
+            },
             {
               num: "9",
               name: "Esperança/Medo",
-              meaning: "O que espera ou teme",
+              meaning: "Expectativas e receios",
+              icon: "💫",
             },
-            { num: "10", name: "Resultado", meaning: "Desfecho provável" },
+            {
+              num: "10",
+              name: "Resultado",
+              meaning: "Desfecho mais provável",
+              icon: "🏆",
+            },
           ];
 
           // Draw 10 unique cards for the Celtic Cross
@@ -4280,40 +4500,162 @@
             });
           }
 
-          let html =
-            '<h3 style="text-align: center; margin-bottom: 2rem; color: var(--color-dark-purple);">Cruz Celta (10 Posições)</h3>';
+          let html = `
+            <div style="text-align: center; margin-bottom: 2rem;">
+              <h3 style="color: var(--color-dark-purple); margin-bottom: 0.5rem;">
+                ✝️ Cruz Celta - Leitura Profunda de 10 Cartas
+              </h3>
+              <p style="color: var(--color-text-light); font-size: 0.9rem;">
+                Uma das tiragens mais completas do tarot, revelando todos os aspectos da sua questão
+              </p>
+            </div>
+          `;
           html += '<div class="celtic-grid">';
 
           drawnCards.celtic.forEach((item) => {
+            const emoji = getCardEmoji(item.card);
+            const meaning = item.isReversed
+              ? item.card.reversed || "Energia invertida"
+              : item.card.upright || item.card.meaning || "Mensagem profunda";
+
             html += `
-              <div class="celtic-position">
-                <div class="celtic-position-number">Posição ${
-                  item.position.num
-                }</div>
-                <div class="celtic-position-name">${item.position.name}</div>
-                <div class="celtic-position-emoji"><img src="${getCardImageFor(
-                  item.card
-                )}" alt="${
-              item.card.name
-            }" style="width:48px;height:auto;border-radius:6px;" onerror="this.src='https://via.placeholder.com/120x180?text=Carta'"></div>
-                <div class="celtic-position-card">
-                  ${item.card.name}<br><small>${
-              item.isReversed ? "(Invertida)" : ""
-            }</small>
+              <div class="celtic-position" style="
+                background: linear-gradient(145deg, #f8f4ff, #fff);
+                border: 2px solid rgba(75, 0, 130, 0.15);
+                border-radius: 12px;
+                padding: 1rem;
+                text-align: center;
+                transition: all 0.3s ease;
+              ">
+                <div style="
+                  background: linear-gradient(135deg, var(--color-dark-purple), #7e2da0);
+                  color: white;
+                  padding: 0.3rem 0.8rem;
+                  border-radius: 15px;
+                  font-size: 0.75rem;
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 0.3rem;
+                  margin-bottom: 0.5rem;
+                ">
+                  ${item.position.icon} Posição ${item.position.num}
                 </div>
-                <div style="font-size: 0.8rem; color: var(--color-text-light); margin-top: 0.5rem;">
-                  <em>${item.position.meaning}</em>
+                
+                <div style="
+                  font-weight: 600;
+                  color: var(--color-dark-purple);
+                  font-size: 0.9rem;
+                  margin-bottom: 0.5rem;
+                ">
+                  ${item.position.name}
+                </div>
+                
+                <div style="
+                  font-size: 2.5rem;
+                  width: 70px;
+                  height: 100px;
+                  background: linear-gradient(135deg, #4b0082, #7e2da0);
+                  border-radius: 8px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  margin: 0.5rem auto;
+                  box-shadow: 0 4px 12px rgba(75, 0, 130, 0.3);
+                  border: 2px solid var(--color-gold);
+                  ${item.isReversed ? "transform: rotate(180deg);" : ""}
+                ">
+                  <span>${emoji}</span>
+                </div>
+                
+                <div style="
+                  font-weight: 600;
+                  color: var(--color-dark-purple);
+                  font-size: 0.85rem;
+                  margin: 0.5rem 0;
+                ">
+                  ${item.card.name}
+                </div>
+                
+                ${
+                  item.isReversed
+                    ? `
+                  <span style="
+                    background: #ff6b6b;
+                    color: white;
+                    padding: 0.15rem 0.4rem;
+                    border-radius: 8px;
+                    font-size: 0.65rem;
+                    display: inline-block;
+                    margin-bottom: 0.3rem;
+                  ">↕️ Invertida</span>
+                `
+                    : ""
+                }
+                
+                <div style="
+                  font-size: 0.75rem;
+                  color: var(--color-text-light);
+                  font-style: italic;
+                  margin-top: 0.3rem;
+                ">
+                  ${item.position.meaning}
                 </div>
               </div>
             `;
           });
 
           html += "</div>";
-          html +=
-            '<button class="cta-button" style="margin-top: 2rem;" onclick="saveReading(\'celtic\')">💾 Guardar Esta Leitura</button>';
+
+          // Add interpretation guide for Celtic Cross
+          html += `
+            <div style="
+              background: linear-gradient(135deg, #f8f4ff, #fff);
+              border: 2px solid rgba(75, 0, 130, 0.1);
+              border-radius: 16px;
+              padding: 1.5rem;
+              margin-top: 2rem;
+            ">
+              <h4 style="color: var(--color-dark-purple); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                📖 Guia de Interpretação da Cruz Celta
+              </h4>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div style="background: rgba(75, 0, 130, 0.05); padding: 0.75rem; border-radius: 8px;">
+                  <strong style="color: var(--color-dark-purple);">🎯 Cruz Central (1-2):</strong>
+                  <p style="font-size: 0.85rem; color: var(--color-text-light); margin: 0.5rem 0 0;">
+                    O tema principal e o que o atravessa ou desafia.
+                  </p>
+                </div>
+                <div style="background: rgba(75, 0, 130, 0.05); padding: 0.75rem; border-radius: 8px;">
+                  <strong style="color: var(--color-dark-purple);">👑🌱 Eixo Vertical (3-4):</strong>
+                  <p style="font-size: 0.85rem; color: var(--color-text-light); margin: 0.5rem 0 0;">
+                    Aspirações conscientes e raízes inconscientes.
+                  </p>
+                </div>
+                <div style="background: rgba(75, 0, 130, 0.05); padding: 0.75rem; border-radius: 8px;">
+                  <strong style="color: var(--color-dark-purple);">⏪⏩ Eixo Temporal (5-6):</strong>
+                  <p style="font-size: 0.85rem; color: var(--color-text-light); margin: 0.5rem 0 0;">
+                    Passado recente e futuro próximo.
+                  </p>
+                </div>
+                <div style="background: rgba(75, 0, 130, 0.05); padding: 0.75rem; border-radius: 8px;">
+                  <strong style="color: var(--color-dark-purple);">🏆 Pilar Final (7-10):</strong>
+                  <p style="font-size: 0.85rem; color: var(--color-text-light); margin: 0.5rem 0 0;">
+                    Você, o ambiente, esperanças/medos e o resultado.
+                  </p>
+                </div>
+              </div>
+            </div>
+          `;
+
+          html += `
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
+              <button class="cta-button" onclick="saveReading('celtic')">💾 Guardar Leitura</button>
+              <button class="cta-button" style="background: linear-gradient(135deg, #7e2da0, #9b4dca);" onclick="drawCelticCross()">🔄 Nova Tirada</button>
+            </div>
+          `;
           resultDiv.innerHTML = html;
           saveReadingToHistory("celtic", drawnCards.celtic);
-        }, 1000);
+        }, 1500);
       }
 
       // ===== EXISTING FUNCTIONS =====
