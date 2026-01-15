@@ -1,1 +1,7 @@
-Deployment triggered 2026-01-15T14:18:03.191167
+Deployment triggered 2026-01-15T14:25:48.917110+00:00
+
+Changes:
+- Email service added
+- Stripe price IDs aligned
+- Auth storage fixed
+- Mobile CSS polish
